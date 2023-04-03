@@ -1,0 +1,6 @@
+*.exe
+*.tr2
+*.pdf
+dlls/*
+tools_from_fasm/*
+source_from_fasm/*
