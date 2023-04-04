@@ -5,63 +5,70 @@ entry start
 
 section '.data' data readable writeable
 
-    source  db  7Dh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Eh, 00h, 00h, 01h, 7Fh, 00h, 02h, 00h, 7Fh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Fh, 00h, 01h, 00h, 7Fh, 00h, 00h, 01h
-    result_size equ  08h
-    result  db  result_size dup(0)
-    Writed  dd  21
+    source db 7Dh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Eh, 00h, 00h, 01h, 7Fh, 00h, 02h, 00h, 7Fh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Fh, 00h, 01h, 00h, 7Fh, 00h, 00h, 01h
+    sourceSize dd 32
+    resultPtr dd ?
+    resultSize dd ?
     ; path  db  'C:\projects\fasm\st2.uni', 0
-; TODO добавить размер входного массива, т.к. в конце идут значения амплитуды, а не количество отсчётов
-macro getNumOfAmps sourceArr, resultArr, resultSize
-{
-    УпрятатьРегистры eax, ebx, ecx, edx, ebp, esi, edi
-    add esi, 2 ; пропускаем первые два байта
-@@loop:
-    cmp edi, resultSize
-    je @getNumEnd
-    movzx eax, [sourceArr + esi]
-    movzx ebx, [sourceArr + esi + 1]
-    ; TODO проверка на два нуля
-    add eax, ebx
-    mov [resultArr + edi], al
-    inc edi
-    add esi, 4
-jmp @@loop
 
-@getNumEnd:
+macro getCountOfAmps srcArr, resArr, srcSize, resSize
+{
+        УпрятатьРегистры eax, ebx, ecx, edx, ebp, esi, edi
+        xor edi, edi
+        xor esi, esi
+
+        ; определяем размер и выделяем память на результирующий массив
+        mov eax, [srcSize]
+        shr eax, 2 ; эквивалентно делению на 4
+        mov [resSize], eax
+        invoke VirtualAlloc, 0, [resSize], MEM_COMMIT, PAGE_READWRITE
+        mov [resArr], eax
+        mov edx, eax
+        add esi, 2 ; сразу пропускаем первые два байта, т.к. там значение первой амплитуды
+@countLoop:
+        cmp edi, [resSize]
+    je @countEnd
+        ; TODO проверка на два нуля в складываемых байтах
+        movzx eax, [srcArr + esi]
+        movzx ebx, [srcArr + esi + 1]
+        add eax, ebx
+        mov byte [edx + edi], al
+        inc edi
+        add esi, 4
+    jmp @countLoop
+
+@countEnd:
     ВостановитьРегистры eax, ebx, ecx, edx, ebp, esi, edi
 }
 
-macro printResult result, resultSize
+macro printResult res, size
 {
-    УпрятатьРегистры eax, edi
-@@outLoop:
-    cmp edi, resultSize
-    je @print
-    movzx eax, [result + edi]
-    add eax, 30h
-    mov [result + edi], al
-    inc edi
-jmp @@outLoop
+    УпрятатьРегистры eax, edx, edi
+    xor edi, edi
+    mov edx, [res]
 
+@prepareDataLoop: ; цикл для преобразования бинарных данных в числовые
+        cmp edi, [size]
+    je @print
+        add byte [edx + edi], 30h
+        inc edi
+    jmp @prepareDataLoop
 
 @print:
-    ВостановитьРегистры eax, edi
-    invoke GetStdHandle, STD_OUTPUT_HANDLE
-    invoke  WriteConsole,eax,result,8,Writed,0
+    invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
+    invoke WriteConsole, eax, [res], [size] ; два опицональных аргумента не указаны
+
+    ВостановитьРегистры eax, edx, edi
 }
 
 section '.code' code readable writeable executable
 
 start:
-    ; Обнуление индесных регистров
-    xor esi, esi
-    xor edi, edi
+    getCountOfAmps source, resultPtr, sourceSize, resultSize
+    printResult resultPtr, resultSize
 
-    getNumOfAmps source, result, result_size
-
-    printResult result, result_size
-
-    ret
+    invoke ExitProcess, 0
 
 section '.import' import readable
+
 include '.\BIBLMCN\DLLALL.inc'
