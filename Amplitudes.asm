@@ -11,7 +11,14 @@ section '.data' data readable writeable
     resultSize dd ?
     ; path  db  'C:\projects\fasm\st2.uni', 0
 
-macro getCountOfAmps srcArr, resArr, srcSize, resSize
+macro !getCountOfAmps arg {
+    common match source sourceSize resultPtr resultSize ,arg
+    \{
+        getCountOfAmps source, sourceSize, resultPtr, resultSize
+    \}
+}
+
+macro getCountOfAmps srcArr, srcSize, resArr, resSize
 {
         УпрятатьРегистры eax, ebx, ecx, edx, ebp, esi, edi
         xor edi, edi
@@ -28,7 +35,7 @@ macro getCountOfAmps srcArr, resArr, srcSize, resSize
 @countLoop:
         cmp edi, [resSize]
     je @countEnd
-        ; TODO проверка на два нуля в складываемых байтах
+        ; TODO проверка на два нуля в складываемых байтах, возвращать код ошибки и номер элемента, на котором сломались
         movzx eax, [srcArr + esi]
         movzx ebx, [srcArr + esi + 1]
         add eax, ebx
@@ -64,7 +71,9 @@ macro printResult res, size
 section '.code' code readable writeable executable
 
 start:
-    getCountOfAmps source, resultPtr, sourceSize, resultSize
+    ; getCountOfAmps source, resultPtr, sourceSize, resultSize
+
+    !getCountOfAmps source sourceSize resultPtr resultSize
     printResult resultPtr, resultSize
 
     invoke ExitProcess, 0
