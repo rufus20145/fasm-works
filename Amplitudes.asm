@@ -1,7 +1,7 @@
 include '.\MZERO.inc'
 
 format PE CONSOLE
-entry start
+entry @start
 
 section '.data' data readable writeable
 
@@ -70,7 +70,7 @@ macro printResult res, size
 
 section '.code' code readable writeable executable
 
-start:
+@start:
     ; getCountOfAmps source, resultPtr, sourceSize, resultSize
 
     !getCountOfAmps source sourceSize resultPtr resultSize
