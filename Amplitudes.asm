@@ -29,6 +29,8 @@ macro getCountOfAmps srcArr, srcSize, resArr, resSize
         shr eax, 2 ; эквивалентно делению на 4
         mov [resSize], eax
         invoke VirtualAlloc, 0, [resSize], MEM_COMMIT, PAGE_READWRITE
+        cmp eax, 0
+    je @error
         mov [resArr], eax
         mov edx, eax
         add esi, 2 ; сразу пропускаем первые два байта, т.к. там значение первой амплитуды
@@ -77,6 +79,10 @@ section '.code' code readable writeable executable
     printResult resultPtr, resultSize
 
     invoke ExitProcess, 0
+
+@error:
+    invoke GetLastError
+    invoke ExitProcess, eax
 
 section '.import' import readable
 
