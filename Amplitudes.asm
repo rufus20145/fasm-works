@@ -4,7 +4,7 @@ format PE CONSOLE
 entry @start
 
 section '.data' data readable writeable
-    fileName db 'C:\\projects\\fasm\\ST1.uni',0
+    fileName db '.\\data\\amplitudes\\ST1.uni',0
     fileHandle dd ?
     source dd ?
     sourceSize dd ?
