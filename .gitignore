@@ -1,5 +1,7 @@
 *.exe
+!fasm.exe
+!td32.exe
+
 *.tr2
-*.pdf
 dlls/*
 tdconfig.td2
