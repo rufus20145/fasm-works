@@ -11,6 +11,15 @@ section '.data' data readable writeable
     resultSize dd ?
     ; path  db  'C:\projects\fasm\st2.uni', 0
 
+; список аргументов:
+; source - исходный массив
+; sourceSize - размер исходного массива
+; resultPtr - ячейка, в которую будет помещен указатель на выходной массив
+; resultSize - ячейка, в которую будет помещен размер выходного массива
+;
+; пример обращения:
+; !getCountOfAmps исходный_массив размер_исходного будущий_указатель_на_выходной_массив будущий_размер_результата
+;
 macro !getCountOfAmps arg {
     common match source sourceSize resultPtr resultSize ,arg
     \{
@@ -65,6 +74,8 @@ macro printResult res, size
 
 @print:
     invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
+    cmp eax, INVALID_HANDLE_VALUE
+je @error
     invoke WriteConsole, eax, [res], [size] ; два опицональных аргумента не указаны
 
     ВостановитьРегистры eax, edx, edi
@@ -73,8 +84,6 @@ macro printResult res, size
 section '.code' code readable writeable executable
 
 @start:
-    ; getCountOfAmps source, resultPtr, sourceSize, resultSize
-
     !getCountOfAmps source sourceSize resultPtr resultSize
     printResult resultPtr, resultSize
 
