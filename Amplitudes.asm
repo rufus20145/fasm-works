@@ -4,12 +4,36 @@ format PE CONSOLE
 entry @start
 
 section '.data' data readable writeable
-
-    source db 7Dh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Eh, 00h, 00h, 01h, 7Fh, 00h, 02h, 00h, 7Fh, 00h, 00h, 01h, 80h, 00h, 00h, 01h, 7Fh, 00h, 01h, 00h, 7Fh, 00h, 00h, 01h
-    sourceSize dd 32
+    fileName db 'C:\\projects\\fasm\\ST1.uni',0
+    fileHandle dd ?
+    source dd ?
+    sourceSize dd ?
     resultPtr dd ?
     resultSize dd ?
-    ; path  db  'C:\projects\fasm\st2.uni', 0
+
+macro readFileData source, sourceSize
+{
+
+invoke CreateFile, fileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
+    cmp eax, INVALID_HANDLE_VALUE
+je @error
+    mov [fileHandle], eax
+
+    invoke GetFileSize, [fileHandle], 0
+    cmp eax, 0xffffffff ; это INVALID_FILE_SIZE, который у нас отсутствует в виде константы
+je @error
+    mov [sourceSize], eax
+
+    invoke VirtualAlloc, 0, [sourceSize], MEM_COMMIT, PAGE_READWRITE
+    cmp eax, 0
+je @error
+    mov [source], eax
+
+    invoke ReadFile, [fileHandle], [source], [sourceSize], 0, 0
+    cmp eax, 0
+je @error
+
+}
 
 ; список аргументов:
 ; source - исходный массив
@@ -29,7 +53,6 @@ macro !getCountOfAmps arg {
 
 macro getCountOfAmps srcArr, srcSize, resArr, resSize
 {
-        УпрятатьРегистры eax, ebx, ecx, edx, esi, edi
         xor edi, edi
         xor esi, esi
 
@@ -46,22 +69,31 @@ macro getCountOfAmps srcArr, srcSize, resArr, resSize
 @countLoop:
         cmp edi, [resSize]
     je @countEnd
-        ; TODO проверка на два нуля в складываемых байтах, возвращать код ошибки и номер элемента, на котором сломались
-        movzx eax, [srcArr + esi]
-        movzx ebx, [srcArr + esi + 1]
-        add eax, ebx
+        mov ecx, [srcArr]
+        mov al, [ecx + esi]
+        mov bl, [ecx + esi + 1]
+        add al, bl
+        cmp al, 0
+    je @errorZeroes
+        cmp al, 0xFF
+    jae @errorAbove
         mov byte [edx + edi], al
         inc edi
         add esi, 4
     jmp @countLoop
 
+; TODO возвращать код ошибки и номер элемента, на котором сломались, а не завершать программу
+@errorZeroes:
+    invoke ExitProcess, 0x17
+
+@errorAbove:
+    invoke ExitProcess, 0x18
+
 @countEnd:
-    ВостановитьРегистры eax, ebx, ecx, edx, esi, edi
 }
 
 macro printResult res, size
 {
-    УпрятатьРегистры eax, edx, edi
     xor edi, edi
     mov edx, [res]
 
@@ -76,17 +108,20 @@ macro printResult res, size
     invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
     cmp eax, INVALID_HANDLE_VALUE
 je @error
-    invoke WriteConsole, eax, [res], [size] ; два опицональных аргумента не указаны
-
-    ВостановитьРегистры eax, edx, edi
+    invoke WriteConsole, eax, [res], [size], 0, 0
 }
 
 section '.code' code readable writeable executable
 
 @start:
+    mov ebx, @countLoop
+
+    readFileData source, sourceSize
+
     !getCountOfAmps source sourceSize resultPtr resultSize
     printResult resultPtr, resultSize
 
+    invoke CloseHandle, [fileHandle]
     invoke ExitProcess, 0
 
 @error:
