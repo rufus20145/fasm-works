@@ -29,7 +29,7 @@ macro !getCountOfAmps arg {
 
 macro getCountOfAmps srcArr, srcSize, resArr, resSize
 {
-        УпрятатьРегистры eax, ebx, ecx, edx, ebp, esi, edi
+        УпрятатьРегистры eax, ebx, ecx, edx, esi, edi
         xor edi, edi
         xor esi, esi
 
@@ -56,7 +56,7 @@ macro getCountOfAmps srcArr, srcSize, resArr, resSize
     jmp @countLoop
 
 @countEnd:
-    ВостановитьРегистры eax, ebx, ecx, edx, ebp, esi, edi
+    ВостановитьРегистры eax, ebx, ecx, edx, esi, edi
 }
 
 macro printResult res, size
