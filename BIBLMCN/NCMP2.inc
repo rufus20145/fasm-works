@@ -1,5 +1,5 @@
 ;********************************************************************
-;	Числовое сравнение целых без знака по всем разрядам 2-х(> < =) Операндов 
+;	Числовое сравнение целых без знака по всем разрядам 2-х(> < =) Операндов
 ;********************************************************************
 ;в файле NCMP2.inc
 ;1	N!bCMPabJm	GA,GB,Pr,—Ѕќ…				переходы для байтовых размеров
@@ -14,15 +14,15 @@
 ;10 N!CMPaxbxPr								сравнение слов и вылача признака
 ;11 N!CMPABwPr								функциональная форма Обращение через A =>BX B=> CX
 ;12 Сравнил_Слова_Выдал						синтаксическа¤ форма ~ 12
-;в файле NCMPabPr.inc			
+;в файле NCMPabPr.inc
 ;10 N!bCMPabPrJm							признак и переход
 ;11	СучетомОтношенийb_Датьпризнак_Перейти	синтаксическа¤ форма ~ 9
 ;12	N!bCMPabPRiJm							признак и переход
 ;13	СучетомОтношенийb_ДатьПризнаки_Перейти	синтаксическая форма ~ 11
 ;********************************************************************
-;C!MPABop  RGA,RGB,Pr0,Pr1,Pr2,MISTEK		(Определение размерности операндов)	
+;C!MPABop  RGA,RGB,Pr0,Pr1,Pr2,MISTEK		(Определение размерности операндов)
 ;eA?eBJmp  EGA,EGB,Pr0,Pr1,Pr2		для 32 разрядных
-;xA?xBJmp  GA,GB,Pr0,Pr1,Pr2			для 16 разрядных		
+;xA?xBJmp  GA,GB,Pr0,Pr1,Pr2			для 16 разрядных
 ;N!bCMPabJm	GA,GB,Pr0,Pr1,Pr2,MISTEK		для 8 разрядных
 ;************************************
 ;if A=B then Pr0 v if A>B then Pr1  v if A<B then Pr2;  if Pri(i=0,1,2) then go MEXI
@@ -31,7 +31,7 @@
 ;4.C!MPabJm	al,bl,,,Pr2		if A=B then MEXI  v	if A<B 		 then MEXI
 ;5.C!MPabJm	al,bl,Pr0,,		if A=B then Pr0   v	if A<B v A<B then MEXI     равно не равно 0
 ;*****************  1 ******* N!CMPabJm****************  для AL  и  BL укороченный
-	MACRO	N!bCMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, < 
+	MACRO	N!bCMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 		УпряталиРегистры	EAX,EBX
 			mov	BL,GB				;2-й операнд
@@ -41,12 +41,12 @@
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  Основная часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделения маски A
@@ -58,7 +58,7 @@
 ;**************************			;Остались операнды только с единичками в разных разрядах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -67,7 +67,7 @@
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -82,12 +82,12 @@
 	if   ~\ar eq
 	jmp	-4							;31
 	else
-	jmp	\ar							;31 
+	jmp	\ar							;31
 	end if
 	\}
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********Общий ВЫХОД*************;B=0 A=1  =>A>B
 JgJ:
 	ВосстановилиРегистры	EAX,EBX
@@ -96,7 +96,7 @@ JgJ:
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 	ВосстановилиРегистры	EAX,EBX
 			if   ~T1 eq
 	JMP	T1								;–авны A=B
@@ -121,7 +121,7 @@ MEXI:									;продолжение после блока
 ;		N!CMPabJm	al,bl,ah,0		самый короткий вариант
 ;		N!CMPabJm	cl,dl,[Priznak],SBOY
 ;+++++++++++++++++++++++++++++++++++++++++++++++
-	MACRO	СучетомОтношенийПерейти arg	
+	MACRO	СучетомОтношенийПерейти arg
 {		Print!afall "No ERROR   here   all   Pr0 & Pr1 & Pr2"
 common  	match	OP1 =?  OP2   ==Pr0 =>Pr1  =< Pr2 PUS==>Er,arg
 		\{\N!bCMPabJm  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er
@@ -170,20 +170,20 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 ;*******************
  	if  RGA   in  <AX,BX,CX,DX,BP,SI,DI>
 		xA?xBJmp  RGA,RGB,Pr0,Pr1,Pr2
-	else	
+	else
 		 if  RGB   in  <AX,BX,CX,DX,BP,SI,DI>
 			xA?xBJmp RGA,RGB,Pr0,Pr1,Pr2
-		else	
+		else
 		end if
 	end if
 ;*******************
 	if  RGA   in  <EAX,EBX,ECX,EDX,EBP,ESI,EDI>
 		eA?eBJmp  RGA,RGB,Pr0,Pr1,Pr2
-	else	
+	else
 		if  RGB   in  <EAX,EBX,ECX,EDX,EBP,ESI,EDI>
 			eA?eBJmp RGA,RGB,Pr0,Pr1,Pr2
 		else
-			
+
 		end if
 	end if
 }
@@ -198,7 +198,7 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 	MACRO	СучетомОтношений_RА?RВ_Перейти	arg
 {Print!afall   arg
 common  	match	OP1 =? OP2   ==Pr0 =>Pr1  =<Pr2 PUS==>Er,arg
-		\{			
+		\{
 			Print!afall   "No ERROR   here   all   Pr0 & Pr1 & Pr2"
 			\C!MPABop  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er
  		\}
@@ -231,14 +231,14 @@ common  	match	OP1  =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 {	LOCAL	MEXI,JmJ,JgJ,JeJ,NBloc0,NBl
 	УпряталиРегистры	EAX,EBX
 		mov AX,GA						;1-й операнд
-		mov BX,GB						;2-й операнд	
+		mov BX,GB						;2-й операнд
 ;**************************
 		and	ah,0FFh
 	jne	@F
 		and	bh,0FFh
 	jne	JmJ								;A=0 B#0 => A<B закончили
 	jmp	NBl								;Ah=0  Bh=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bh,0FFh
 	je	JgJ								;A#0 B=0 A>B
 		shl	EAX,8						;временно
@@ -248,7 +248,7 @@ common  	match	OP1  =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 	je	@F 								; Если равны то будем сравнивать мл.байты
 		ror	AX,8						;по старшим разрядам 9-16 они перейдут в мл.рр
 		ror	BX,8						;вернулм младшие на место
-	jmp	NBl	
+	jmp	NBl
 ;******
 @@:
 		and	AL,0FFh
@@ -256,13 +256,13 @@ common  	match	OP1  =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 NBl:
 ;*********  Основная часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в AH маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделения маски A
@@ -274,7 +274,7 @@ NBl:
 ;**************************			;Остались операнды только с единичками в разных разрядах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -283,7 +283,7 @@ NBl:
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -293,10 +293,10 @@ NBl:
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	$-4							;Такого не должно быть только сбой компьюьера 
+	jmp	$-4							;Такого не должно быть только сбой компьюьера
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********Общий ВЫХОД*************;B=0 A=1  =>A>B
 ;************************ конец    AX   BX
 JgJ:
@@ -306,7 +306,7 @@ JgJ:
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 	ВосстановилиРегистры	EAX,EBX
 			if   ~Pr0 eq
 	JMP	Pr0								;–авны A=B
@@ -343,7 +343,7 @@ MEXI:									;продолжение после блока
 		and	BX,0FFFFh
 	jne	JmJ					;A=0 B#0 => A<B закончили
 	jmp	NBloc2				;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	BX,0FFFFh
 	je	JgJ				;A#0 B=0 A>B
 		push	ecx
@@ -407,24 +407,24 @@ end if
 		and	BL,0FFh					;3
 	jne	JmJ							;4A=0 B#0 => A<B закончили
 	jmp	JeJ							;5A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh					;6
-	je	JgJ							;7	
+	je	JgJ							;7
 ;*********  Основная часть    **************
 		mov	BH,AL  					;8чтобы  BX= A(AL)  B(BL) были в одной строке
-		mov	AH,AL					;9  	    AX = AL    AL			
+		mov	AH,AL					;9  	    AX = AL    AL
 		xor	AH,BL					;10 в 		AH = AL xor BL  маска
 	je	JeJ							;11 оба операнда A=B ==> нет отличающихся разрядов
 		and	BL,AH					;B 12после выделения маской отличающиеся разряды B
 	jne	@F							;13 B маскированное пересекаетсZ с B  маскированное
-	jmp	JgJ 						;14  in B(bl)=0 A>B [5*] 
+	jmp	JgJ 						;14  in B(bl)=0 A>B [5*]
 @@:
 		and	BH,AH					;15 A после выделения маской отличающиеся разряды A(bh)
 	je	JmJ							;16 in   A(bh)=0	A<B
 ;**************************			;17 остались операнды только с единичками в разных разр¤дах
 			mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -433,7 +433,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -450,21 +450,21 @@ end if
 	end if
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;32 A=1 B=0  => A<B  else A>B   BL=?
-	jne	JmJ							;33 B=1 A=0  =>A<B	
+	jne	JmJ							;33 B=1 A=0  =>A<B
 ;***********   Общий блок **********;B=0 A=1  =>A>B
 JgJ:								;********************************
 				POP		EBX
-		mov Pr,2					;34  A>B	Pr может быть регистром		
+		mov Pr,2					;34  A>B	Pr может быть регистром
 	JMP	MEXI						;35
 ;+++++++++++++++++++++++
-JeJ:								;********************************	
+JeJ:								;********************************
 				POP		EBX
 		mov Pr,0					;34  A=B	if Pr in 	<cl,ch,dl,dh.bl.bh,al>
 	JMP	MEXI						;35				shl Pr,2  or Pr,00b else end if
 ;++++++++++++++
 JmJ:								;********************************
 				POP		EBX
-		mov Pr,1					;34  A>B		
+		mov Pr,1					;34  A>B
 MEXI:								;продолжение после блока
 }
 ;**********************   8 СравнитьA_B_Дать_признак ******************
@@ -529,7 +529,7 @@ end if
 		and	bl,0FFh
 	jne	JmJ								;A=0 B#0 => A<B закончили
 	jmp	NBloc0							;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bl,0FFh
 	je	JgJ								;A#0 B=0 A>B
 		push	CX
@@ -548,24 +548,24 @@ end if
 		and	BL,0FFh					;3
 	jne	JmJ							;4A=0 B#0 => A<B закончили
 	jmp	JeJ							;5A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh					;6
-	je	JgJ							;7	
+	je	JgJ							;7
 ;*********  Основная часть    **************
 		mov	BH,AL  					;8чтобы  BX= A(AL)  B(BL) были в одной строке
-		mov	AH,AL					;9  	    AX = AL    AL			
+		mov	AH,AL					;9  	    AX = AL    AL
 		xor	AH,BL					;10 в 		AH = AL xor BL  маска
 	je	JeJ							;можно убрать 11 оба операнда A=B ==> нет отличающихся разрядов
 		and	BL,AH					;12после выделения маской отличающиеся разряды B
 	jne	@F							;13 B маскированное пересекаетсZ с B  маскированное
-	jmp	JgJ 						;14  in B(bl)=0 A>B [5*] 
+	jmp	JgJ 						;14  in B(bl)=0 A>B [5*]
 @@:
 		and	BH,AH					;15 после выделения маской отличающиеся разряды A(bh)
 	je	JmJ							;16 in   A(bh)=0	A<B
 ;**************************			;17 остались операнды только с единичками в разных разр¤дах
 			mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -574,7 +574,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -591,7 +591,7 @@ end if
 	end if
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;32 A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;33 B=1 A=0  =>A<B	
+	jne	JmJ							;33 B=1 A=0  =>A<B
 ;***********   Общий блок **********;B=0 A=1  =>A>B
 JgJ:								;********************************
 if	~GA  in  <al>
@@ -600,29 +600,29 @@ if	~GA  in  <al>
 				POP		EBX
 				else
 				end if
-else				
+else
 			if  ~GB  in  <bl>
 				POP		EBX
 			else
 			end if
 	end if
-		mov Pr,2					;34  A>B	Pr может быть регистром		
+		mov Pr,2					;34  A>B	Pr может быть регистром
 	JMP	MEXI						;35
 ;+++++++++++++++++++++++
-JeJ:								;********************************	
+JeJ:								;********************************
 if	~GA  in  <al>
 	POP		EAX
 				if  ~GB  in  <bl>
 				POP		EBX
 				else
 				end if
-else				
+else
 			if  ~GB  in  <bl>
 				POP		EBX
 			else
 			end if
 	end if
-		mov Pr,0					;34  A=B		
+		mov Pr,0					;34  A=B
 	JMP	MEXI						;35
 ;++++++++++++++
 JmJ:								;********************************
@@ -632,13 +632,13 @@ if	~GA  in  <al>
 				POP		EBX
 				else
 				end if
-else				
+else
 			if  ~GB  in  <bl>
 				POP		EBX
 			else
 			end if
 	end if
-		mov Pr,1					;34  A>B		
+		mov Pr,1					;34  A>B
 MEXI:								;продолжение после блока
 }
 
@@ -665,31 +665,31 @@ end if
 	jne	JmJ							;4 B#0 => A<B закончили
 	jmp	JeJ							;5A=0  B=0   A=B
 @@:		and	CX,0FFFFh					;6
-	je	JgJ							;7	
+	je	JgJ							;7
 ;*********  Основная часть    **************
 		shl	ECX,16  				;16 чтобы  ECX= И(ECXст.рр)  B(BL) были в одной строке
 		or	EBX,ECX					;   EBX= B  A
-		mov	ECX,EBX					;9  	    AX = AL    AL			
-		ror	ECX,16					;10 ECX= A  B 
-		xor	ECX,EBX					;маска   M  M	
+		mov	ECX,EBX					;9  	    AX = AL    AL
+		ror	ECX,16					;10 ECX= A  B
+		xor	ECX,EBX					;маска   M  M
 		and	EBX,ECX					;EBX=   B&M  A&M
 	je	JeJ							;11 оба операнда A=B ==> нет отличающихся разрядов
 		and	BX,-1					; BX=  A&M выделения маской отличающиеся разряды B
 	jne	@F							;13 B маскированное пересекаетсZ с B  маскированное
-	jmp	JmJ 						;14  in A(bl)=0 A<B [5*] 
+	jmp	JmJ 						;14  in A(bl)=0 A<B [5*]
 @@:		ror	EBX,16					;EBX= A&M B&M
 		and	BX,-1					;15 B после выделения маской отличающиеся разряды B
 	je	JgJ							;16 in   B(bh)=0	A>B
 ;**************************			;17 остались операнды только с единичками в разных разр¤дах
 			mov	ECX,080008000h		;рр 32&16
 @@:		test	EBX,ECX					;EBX= A&M B&M
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	ECX,1
 	jmp	@B
 @@:		and	EBX,ECX
 		xor	EBX,ECX					;обр.0 у кого ст.ед
 		and	BX,-1					;32 EBX= (A&M cm.рр) B&M&(0FFFF)
-	jne	JgJ							;33	B=1 A=0  =>A>B 	
+	jne	JgJ							;33	B=1 A=0  =>A>B
 ;***********   Общий блок 				B=1 A=0  => A<B
 JmJ:					 ;********************************
 		ВосстановилиРегистры	EBX,ECX
@@ -710,7 +710,7 @@ JgJ:					;********************************
 	end if
 	JMP	MEXI						;35
 ;+++++++++++++++++++++++
-JeJ:					;********************************	
+JeJ:					;********************************
 		ВосстановилиРегистры	EBX,ECX
 	if Pr in 	<al,cl,ch,dl,dh,bl,bh>
 		shl Pr,2
@@ -721,7 +721,7 @@ JeJ:					;********************************
 ;++++++++++++++
 MEXI:								;продолжение после блока
 }
-;+++++++++++++++++++++++++++++++++++++ 
+;+++++++++++++++++++++++++++++++++++++
 ;			Словное сравнение
 ;+++++++++++++++++++++++++++++  12    ++++++++++++++++++++++++++++
 MACRO	Сравнил_Слова_Выдал		arg

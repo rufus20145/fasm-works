@@ -5,7 +5,7 @@
 ; last update 4.07.2010
 
 
-; macro for static UNICODE_STRING definition 
+; macro for static UNICODE_STRING definition
 macro UNICODE_STRING_define name,string
 {
     _us_#name du #string

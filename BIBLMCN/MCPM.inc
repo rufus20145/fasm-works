@@ -37,30 +37,30 @@ M!CMPbJm  \GA,\GB,\Kd,\PS,\ka,\kb,\m1,\m2,\m3,\P1,\P2,\P3,\P4,\P5,\P6,\P7,\P8,\P
 ;Кd  	00 00 ЧислоЕдиницA ЧислоЕдиницB
 ;Kd+4	m1 m2     m3		 0
 ;Kd+8	[A (B	  b) 		a]
-;Ps	_Vi c учетом адреса перехода	
+;Ps	_Vi c учетом адреса перехода
 MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 {
    LOCAL	P6BA,Pr8,Pr7,Pr6,Pr5,Pr4,Pr3,Pr2,Pr1,Pr0,P8BA
 	УпряталиРегистры	EAX,EBX,ECX,EDX,EBP
 			movzx	EBX,GB		;2-й операнд
 			movzx	EAX,GA		;1-й операнд
-	;Операция: Число_единиц_в (EAX,ECX)	AL\ 		?(A)  
+	;Операция: Число_единиц_в (EAX,ECX)	AL\ 		?(A)
 		NEDinB	al,DH		;=> DH	=kA
-	; Операция:  Число_единиц_в	BL\		?(B)  
-		NEDinB	BL,DL		;=> DL	kB		
+	; Операция:  Число_единиц_в	BL\		?(B)
+		NEDinB	BL,DL		;=> DL	kB
 		mov	[Kd],EDX		;DX=kA,kB
 		and	al,0FFh			;A&E
 	jne	@F
 		and	bl,0FFh			;B&E
 	jne	Pr1				;JmJ	A=0 B#0 => A<B закончили
 	jmp	Pr0				;JeJ  	A=0  B=0   A=B
-@@:			
+@@:
 		and	bl,0FFh
 	je	Pr2				;JgJ	A#0 B=0 => A>B закончили
 ;*********
 						;mov	BH,AL  	чтобы A(bh)  B(bl) были в одной строке
-		mov	CL,AL			
-		xor	CL,BL		;в CL маска 
+		mov	CL,AL
+		xor	CL,BL		;в CL маска
 					;AxorB=>N1-получим несовпадающие б. в A,B
 	je	Pr3				;JeJ  	оба операнда A=B ==>
 ;**************Далее нетривиальные ситуации**********
@@ -78,8 +78,8 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 		shl	EBP,16
 		NEDinB	DL,DH		;=> DH
 		mov	BP,Dx		;m3
-		and	BP,0FF00h  
-		mov	[Kd+4],EBP		;EDX= m1, m2, m3, 0  
+		and	BP,0FF00h
+		mov	[Kd+4],EBP		;EDX= m1, m2, m3, 0
 		and	BL,CL		;после выделения маски A
 	jne	@F			;A маскир. пересекается с маскированное
 					;А либо  погружено и нет  1, либо они не зависимы
@@ -99,13 +99,13 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 
 		bsr	CX,AX		;A	старшие разряды
 		shl	CX,8
- 		bsr	DX,BX		; старшие	А  В 
+ 		bsr	DX,BX		; старшие	А  В
 		or	CX,DX
 		mov	DX,CX		;DX  старшие	А  В
 		shl	ECX,16
 		mov	CX,BP
 		mov	[Kd+8],ECX		;==  границы [A(B b)a]
-		cmp	dl,dh		;B  A номера старших единичек  
+		cmp	dl,dh		;B  A номера старших единичек
 	JG	P8BA			;B=1 A=0  =>A<B верхняя B больше A  (B [A
 					;B=0 A=1  =>A>B
 ;*************  Pr7
@@ -115,7 +115,7 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	jmp	P11			;[A (B b) a]	A>B
 ;***  Координаты границ в Koordint
-;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a] 
+;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a]
 ;*******************  			[A     (B	 a]	 b)
 @@:
 					;[A(B b)a]
@@ -126,7 +126,7 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 ;*************  Pr8
 ;***************** комб.  P8BA **********
 P8BA:
-						;границы (B [A 
+						;границы (B [A
 		cmp	cl,ch			;номера младших единичек
 	jl	@F				;(B [A a] b)
 						;(B [A b)a]
@@ -134,7 +134,7 @@ P8BA:
 		mov	PS,_V13			;
 	jmp	P13				;(B [A b)a]	A>B
 ;***  Координаты границ в Koordint
-;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a] 
+;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a]
 ;*******************  			[A     (B	 a]	 b)
 @@:						;
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
@@ -143,21 +143,21 @@ P8BA:
 ;************************************
 ;******************************************************
 Pr0:				;JeJ  	;A=0  B=0   A=B
-		mov	[Kd+4],0		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],0		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],0		;[A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,V1 		;[PrSovm],V1 - признак
 	JMP	P1			;A=B
 ;*****************************
 Pr1:				;JmJ	;A=0 B#0 => A<B
-		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;+  [A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS, V2 		;[PrSovm],V2   A<B закончили		признак
 	JMP	P2			; A<B
 ;******************
 Pr2:				;JgJ	;A#0 B=0 => A>B
-		mov	[Kd+3],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+3],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;:=   [A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,_V3 		;[PrSovm],V3 - признак
@@ -168,7 +168,7 @@ Pr3:				;JeJ  	;оба операнда A=B ==>
 		shl	CX,8
 		bsf	DX,BX			;B
 		or	CX,DX
-		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;$$$[A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,_V4		; [PrSovm],V4 -признак
@@ -181,7 +181,7 @@ Pr4:
 		shl	CX,8
 		bsr	DX,BX			;B
 		or	CX,DX
-		shl	ECX,16		
+		shl	ECX,16
 		bsf	CX,AX			;A
 		shl	CX,8
 		bsf	DX,BX			;B
@@ -198,7 +198,7 @@ Pr5:
 		shl	CX,8
 		bsr	DX,BX			;B
 		or	CX,DX
-		shl	ECX,16		
+		shl	ECX,16
 		bsf	CX,AX			;A
 		shl	CX,8
 		bsf	DX,BX			;B
@@ -217,19 +217,19 @@ Pr6:
 
 		bsr	CX,AX		;A	старшие разряды
 		shl	CX,8
- 		bsr	DX,BX		; старшие	А  В 
+ 		bsr	DX,BX		; старшие	А  В
 		or	CX,DX
 		mov	DX,CX		;DX  старшие	А  В
 		shl	ECX,16
 		mov	CX,BP
 		mov	[Kd+8],ECX	;]]границы [A(B b)a]
 		cmp	dl,dh		;dl=>B  dh=>A номера старших единичек
-	JG	P6BA			;B=1 A=0  =>A<B верхняя B больше A (B [A 
+	JG	P6BA			;B=1 A=0  =>A<B верхняя B больше A (B [A
 					;B=0 A=1  =>A>B
 		cmp	cl,ch		;номера младших единичек  [A (B
 	jL	@F			;номера младших единичек [(   a] b)
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
-		mov	PS,_V7 		;	
+		mov	PS,_V7 		;
 	jmp	P7			;  	[(  b) a]
 @@:
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP

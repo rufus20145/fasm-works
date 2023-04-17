@@ -617,7 +617,7 @@ import user32,\
        wsprintfW,'wsprintfW',\
        wvsprintfA,'wvsprintfA',\
        wvsprintfW,'wvsprintfW'
-       
+
 api AppendMenu,\
     BroadcastSystemMessage,\
     CallMsgFilter,\

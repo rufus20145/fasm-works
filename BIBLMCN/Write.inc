@@ -9,21 +9,21 @@
 ;7	ReadOne		7*	'C:\FASM\BIBLMCN\Write.inc'
 ;++++++++++++++++++++++++++++++
 ;********************************* 1 *****************************
-;Записал в ОП из регистра	Записал[ADRMEM]:=ECX  
-;1  Записал		[FlDli]=cl         -- пример только байтовые регистры	
+;Записал в ОП из регистра	Записал[ADRMEM]:=ECX
+;1  Записал		[FlDli]=cl         -- пример только байтовые регистры
 ; 				[FlDli]:+3	это	[FlDli]:=[FlDli]+3	inc [FlDli]  3 раза
 ;**************************************************************
-	MACRO	Записал	arg	
+	MACRO	Записал	arg
 {
 repeat 1
 	common match dest == =$ src,arg			 ;Пустой оператор
-	\{	
+	\{
 	break
 	\}
   repeat 1
 	common match dest =: =+ src,arg			;УВЕЛИЧЕНИЕ НА 1
 	\{
-		R!inc	\dest,\src	
+		R!inc	\dest,\src
 										;\Print!afall   \dest
 										;display 13,10
 	break									;выход за repeat 1 не надо
@@ -33,21 +33,21 @@ repeat 1
 	\{		if  \dest \src eqtype [0] [0]		;[FlSizN]:=[FlDli]
 				push	\src				;
 				pop		\dest	 			;
-			else		
+			else
 				if  \dest eqtype [0]
 				 mov \dest,\src				;[FlSizN]:= непосредственные данные
 				else
 									Print!Rfall   "Ошибка, должно быть[ ]:=x"
 									display 13,10
-				end if  
+				end if
 			end if
-	break									;выход за repeat 1 не надо  Записал	\T@1	
+	break									;выход за repeat 1 не надо  Записал	\T@1
 	\}
 ;******************
 		common  match	 dest == src,arg	;для байтных размерностей1
 	\{
 
-IF  \dest \src eqtype [0] [0] 				;Только  присвоение байта[adr1]=[adr2] 
+IF  \dest \src eqtype [0] [0] 				;Только  присвоение байта[adr1]=[adr2]
 					common  match	=[ adr =],dest
 					\\{
 					\\T!YPEM \dest,\src,\\adr
@@ -71,7 +71,7 @@ ELSE
 						mov   \dest,\src
 									Print!Rfall   "Ошибка2, должно быть[ ]:=x  "
 									Print!afall	\dest
-									display 13,10		
+									display 13,10
 					else
 					\\T!YPE \dest,\src,\\adr
 					end if
@@ -79,11 +79,11 @@ ELSE
 				end if
 		END IF
    end if
-  else											
+  else
 						Print!Rfall   "В макро-Записал -Ошибка?, должно быть[ ]:=x  "
 						Print!afall	\dest
-						display 13,10		
-  end if				
+						display 13,10
+  end if
 END IF
 	\}
 ;**************************************************************
@@ -97,7 +97,7 @@ end repeat
 				PUSH	EAX
 				mov	AL,src
 				mov	dest,AL				;для байтного типа когда [adr1],[adr2]
-				POP	EAX	
+				POP	EAX
 		else
 					if adr#_r=2
 					PUSH	EAX
@@ -125,7 +125,7 @@ end repeat
 ;++++++++++++++++++++++++++
 	MACRO T!YPE dest,src,adr
 {	If adr#_r=1
-				mov  byte dest,src	
+				mov  byte dest,src
 		else
 					if adr#_r=2
 										;Print!Rfall   "Бываем1 в  macro Записал	arg"
@@ -255,9 +255,9 @@ MACRO	Записали arg
 {
 repeat 1
 	common match dest == =$ src,arg			 ;Пустой оператор
-	\{	
+	\{
 	break
-	\}	
+	\}
  	repeat 1
 			common match dest== =: src,arg
 	\{
@@ -269,29 +269,29 @@ repeat 1
 		if  \dest \src eqtype AX [0]		;[FlSizN]=:[FlDli]
 				mov \dest,\src				;
 					Print!Rfall   "Бываем1 в  macro Считал	arg"
-					display 13,10	
+					display 13,10
 		else
 			if  \dest \src eqtype AL [0]
 				 mov \dest,\src				;EAX =:непосредственные данные
 			else
    			Print!Rfall   "Ошибка, должно быть REG=:"
  			display 13,10
-			end if 
-		end if 
+			end if
+		end if
   	end if
-	break									;выход за repeat 1 не надо  Записал	\T@1	
+	break									;выход за repeat 1 не надо  Записал	\T@1
 	\}
 	common  	match	dest == src,arg		;для байтных размерностей1
 	\{
  		if  \dest \src eqtype  EAX [0]		;[FlSizN]=[FlDli] v  [FlSizN]=EAX
-			
+
    				mov \dest,\src				;это байты
   		else
 			if  \dest \src eqtype  AX [0]
 			mov \dest,\src				;это слова
 			else
 				if  \dest \src eqtype  AL [0]
-				mov \dest,\src	
+				mov \dest,\src
 				else
 				Print!Rfall   "Ошибка: macro Считал	arg"
 				Print!afall	\src
@@ -299,7 +299,7 @@ repeat 1
 				end if
 			end if
   		end if
-		if  \dest \src eqtype  [0] EAX  
+		if  \dest \src eqtype  [0] EAX
 		Print!Rfall   "Ошибка: Записать в REG, а не [0]=REG"
 		display 13,10
 		else
@@ -308,7 +308,7 @@ repeat 1
 			display 13,10
 			else
 			end if
-		end if	
+		end if
 	\}
     end repeat
 end repeat
@@ -317,7 +317,7 @@ end repeat
 ;************************************* 4 ***********************************
 	MACRO	Считали  arg
 {		common match	=(T@1=)  =(T@2=),arg
-		\{	\arg1	equ	\`T@1#\`T@2	
+		\{	\arg1	equ	\`T@1#\`T@2
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -327,7 +327,7 @@ end repeat
 		end if
 		\}
 		common match	=(T@1=)  =(T@2=) =(T@3=),arg
-		\{	\arg1	equ	\`T@1#\`T@2\`T@3	
+		\{	\arg1	equ	\`T@1#\`T@2\`T@3
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если естьхотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -338,7 +338,7 @@ end repeat
 		end if
 		\}
 		common match	=(T@1=)  =(T@2=) =(T@3=) =(T@4=),arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}
@@ -350,7 +350,7 @@ end repeat
 		end if
 		\}
 		common match	=(T@1=)  =(T@2=) =(T@3=) =(T@4=) =(T@5=),arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}
@@ -363,7 +363,7 @@ end repeat
 		end if
 		\}
 		common match	=(T@1=)  =(T@2=) =(T@3=) =(T@4=) =(T@5=) =(T@6=),arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5\`T@6	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5\`T@6
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}
@@ -377,7 +377,7 @@ end repeat
 		end if
 		\}
 		common match	=(T@1=)  =(T@2=) =(T@3=) =(T@4=) =(T@5=) =(T@6=) =(T@7=),arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5\`T@6\`T@7	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5\`T@6\`T@7
 		   \MRT	equ	1
 			match aww=(ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}

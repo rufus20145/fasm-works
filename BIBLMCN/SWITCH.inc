@@ -1,9 +1,9 @@
 ;********************************************
 ;			Оглавление  переключателей
-;1 S!WITC						с проверкой на кол-во меток с индексом переключателя	
+;1 S!WITC						с проверкой на кол-во меток с индексом переключателя
 ;2 S!WITCH						самый короткий переключатель по индексу
 ;2R Перейти_по_переключателю 	Эквивалентно 2
-;3 S!WITCA 						парсинг 
+;3 S!WITCA 						парсинг
 ;		Парсинги
 ; в файле SWITCH\PARS.inc
 ;4 S!WITCL							Эквивалентно 5	переключение по любому регистру
@@ -13,55 +13,55 @@
 ;*********************************
 ;*******************************  1 ***************
 ;   S!WITC	- переключатель с проверкой на количество меток
-;+++++++++++++++++++++++++	
+;+++++++++++++++++++++++++
 	MACRO	S!WITC	NMR,Sboy,[string]
      {     common
-	 local	Rsw,SJMP			;label  
+	 local	Rsw,SJMP			;label
 		cmp	NMR,[Rsw]			;[RSWT] Проверка на не выход за пределы меток переключения
-	JGE	Sboy						;нет ошибок 
+	JGE	Sboy						;нет ошибок
 		shl	NMR,2				;EBX,2  через 4 байта адрес
-		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес	
+		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес
 	jmp	NMR
 ;**************
-Rswtch = 0						;Счетчик числа переходов	
+Rswtch = 0						;Счетчик числа переходов
 label	SJMP	dword			;name dword для32 разрядного адреса, для 64 pp адр. pword
 	forward						; здесь выборка string по кол-ву параметров
 Rswtch = Rswtch+1   			;local label В зависимости от кол-ва переменных накапл.счетчик
 	dd	string					;Формирование адресных констант для 32 разрядного адреса
      common
-Rsw	dd	Rswtch	 
+Rsw	dd	Rswtch
     }
 ;******************************** 2 *********************************
 	MACRO	S!WITCH	NMR,[string]
      {common
-	 local	SJMP				;label  
+	 local	SJMP				;label
 		shl	NMR,2				;EBX,2  через 4 байта адрес
-		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес	
+		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес
 	jmp	NMR
-;+++++++++++++++++	
+;+++++++++++++++++
 label	SJMP	dword		;name dword дл¤32 разр¤дного адреса, дл¤ 64 pp адр. pword
 	forward					; здесь выборка string по кол-ву параметров
 	dd	string				;формирование адресных констант для 32 разр¤дного адреса
-     common					
+     common
     }
 ;*************************************************************************
 ;			Перейти_по_переключателю\
 ;							$Регистра=EAX\
 ;=>P1 =>P2 =>P3 =>P4 =>P5 =>P6 =>P7 =>P8 =>P9 =>P10 =>P11 =>P12 =>P13 =>P14 =>P15 =>P16
-;			
+;
 ;++++++++++++++++++++++++++++++++++   2R +++++++++++++++++++++++++++++++++++++++
 
 	MACRO	Перейти_по_переключателю NMR,[string]   ;NNNN
 {
-	 local	SJMP				;label  
+	 local	SJMP				;label
 		shl	NMR,2				;EBX,2  через 4 байта адрес
-		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес	
+		MOV	NMR,[CS:SJMP+NMR]	;EBX,[CS:SJMP+EBX] к адр.конст. + сдвиг на соотв.адрес
 	jmp	NMR
-;+++++++++++++++++	
+;+++++++++++++++++
 label	SJMP	dword		;name dword дл¤32 разр¤дного адреса, дл¤ 64 pp адр. pword
 	forward					; здесь выборка string по кол-ву параметров
 	dd	string				;формирование адресных констант для 32 разр¤дного адреса
-     common					
+     common
     }
 ;*************************************************************************
 ;******************************* 3 **********парсинг******************************
@@ -71,10 +71,10 @@ label	SJMP	dword		;name dword дл¤32 разр¤дного адреса, дл¤
 	forward							; здесь выборка string по кол-ву параметров
 		mov	ah,str1
 		xor	ah,al					;совпал символ
-	je	str2				
+	je	str2
 	common
 			if   ~FEND eq
-	JMP	FEND			
+	JMP	FEND
 			else
 			end if
     }
@@ -115,11 +115,11 @@ label	SJMP	dword		;name dword дл¤32 разр¤дного адреса, дл¤
 			\\{	\\MRT	equ	0 \\}
 										;\Print!afall   "MRT2="				;
 										;\Print!afall   \MRT
-										;display 10	
+										;display 10
 		if	\MRT	eq	1
 				S!WITC	NMR,P0,P1,P2,P3
 		else
-		Print!afall   "ERROR now only 16 argument Write in macro S!tosData_From"	
+		Print!afall   "ERROR now only 16 argument Write in macro S!tosData_From"
 		end if
 		\}
 		POP	EAX

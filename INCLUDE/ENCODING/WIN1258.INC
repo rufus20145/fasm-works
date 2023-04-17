@@ -5,7 +5,7 @@ rept 1 { local ..encoding
 	 __encoding equ ..encoding }
 
 virtual at 0
-  __encoding::	    
+  __encoding::
     times 80h dw %-1
     dw 20ACh,?,201Ah,192h,201Eh,2026h,2020h,2021h,2C6h,2030h,?,2039h,152h,?,?,?
     dw ?,2018h,2019h,201Ch,201Dh,2022h,2013h,2014h,2DCh,2122h,?,203Ah,153h,?,?,178h

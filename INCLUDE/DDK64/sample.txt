@@ -221,7 +221,7 @@ struc	IO_STACK_LOCATION
 .Flags				rb	1	; 02h
 .Control			rb	1	; 03h
 				rd	1	; padding
-				
+
 .Parameters.Create.SecurityContext	rq	1	; 08h PTR IO_SECURITY_CONTEXT
 .Parameters.Create.Options		rd	1	; 10h
 					rd	1	; padding

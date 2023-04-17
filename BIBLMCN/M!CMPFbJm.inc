@@ -1,6 +1,6 @@
 ;			M!CMPFbJm	-полная(F) максимальная проверка отношений двух байт
 ;	ВсяИнфаОтношенийБайтМножествПереходы
-;Проверка работы макроса     C:\FASM\BIBLMCN\TEST\M!CMPFbJm.asm 
+;Проверка работы макроса     C:\FASM\BIBLMCN\TEST\M!CMPFbJm.asm
 ;**************************************************
    MACRO M!CMPFbJm  GA,GB, Kd,PS,ka,kb,m1,m2,m3,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 {
@@ -18,13 +18,13 @@
 		and	bl,0FFh			;B&E
 	jne	Pr1					;JmJ	A=0 B#0 => A<B закончили
 	jmp	Pr0					;JeJ  	A=0  B=0   A=B
-@@:			
+@@:
 		and	bl,0FFh
 	je	Pr2					;JgJ	A#0 B=0 => A>B закончили
 ;*********
 		mov	BH,al  			;чтобы A(bh)  B(bl) были в одной строке
-		mov	CL,AL			
-		xor	CL,BL			;в CL маска 
+		mov	CL,AL
+		xor	CL,BL			;в CL маска
 							;AxorB=>N1-получим несовпадающие б. в A,B
 	je	Pr3					;JeJ  	оба операнда A=B ==>
 ;**************Далее нетривиальные ситуации**********
@@ -52,20 +52,20 @@
 	jz	Pr6					; III направление: нет пересекающихся разрядов
 ;******************************IV направление*************************
 ;Если есть совпадающие и не совпадающие, то имеет смысл рассмотреть только общую совпадающую часть,
-; т.е. та, которая включается в другую, а это N2  = A&B 
+; т.е. та, которая включается в другую, а это N2  = A&B
 ;***Есть совпадающие ************** Pr7	  +  	Pr8   И то и другое
 	mov	BP,08080h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  XNOR рр TEMP[0-7] 
+	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  XNOR рр TEMP[0-7]
 		shr	BP,1			;	if PF=0  		JNP  METKA
 	loop	@B				;
 	JMP	M!ISTEK
 @@:							;A(ah)  B(al)
 		and	AL,0FFh			;A=0 B#0  => A<B  else A>B   BL=?
-	jne	P8BA				;B=1 A=0  =>A<B верхняя B больше A  
+	jne	P8BA				;B=1 A=0  =>A<B верхняя B больше A
 							;B=0 A=1  =>A>B
 ;*************  Pr7
 		push	ECX			; vA=?(A) - номер ст. единички в [A >B
@@ -75,8 +75,8 @@
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  
-P7AB: 
+	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF
+P7AB:
 		shr	BP,1			;		if PF=0
 	loop	@B				;
 	JMP	M!ISTEK
@@ -84,13 +84,13 @@ P7AB:
 			push	ECX		; vB=?(B) - номер ст. единички в (B => [A(B
 ;***********************  Проверяем нижнюю грань
  	mov	BP,0101h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   
+	jne	@F					; ZF=1 if 0
 		shl	BP,1			;
-	loop	@B			
+	loop	@B
 	JMP	M!ISTEK
 @@:
 		and	AL,0FFh			;A=0 B#0  => A<B  else A>B   BL=?
@@ -105,22 +105,22 @@ P7AB:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-D7ba: 
-		shl	BP,1			;	if PF=0  
-	loop	@B			
+D7ba:
+		shl	BP,1			;	if PF=0
+	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX
-			push	EAX		; nb=?(B) - номер младшей единички b)  
-		xor	EAX,EAX	
-			pop	EDX			; nb 
+			push	EAX		; nb=?(B) - номер младшей единички b)
+		xor	EAX,EAX
+			pop	EDX			; nb
 			pop	ECX			; na
 			pop	EBX			; vB
 			pop	EAX			; vA
 		shl	EAX,24
-		shl	EBX,16			; vA vB 
+		shl	EBX,16			; vA vB
 		or	EAX,EBX			; vA vB
 		shl	EDX,8			; vA vB nb
 		or	EAX,EDX
@@ -133,8 +133,8 @@ D7ba:
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	jmp	P11					; P81 A>B Пересекающиеся проверять отдельно A&B
 ;***  Координаты границ в Kd=Koordint =>  [A     (B	 a]	 b)
-;*** Закончили с комб.  пересечение до [A , после до (B, после до b) и до a] 
-;*******************  			
+;*** Закончили с комб.  пересечение до [A , после до (B, после до b) и до a]
+;*******************
 ;***************************************************************************
 P7ABab:
 ;******************* 			 [A    (B        b)	a]
@@ -148,17 +148,17 @@ P7ABab:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-D7ab: 
-		shl	BP,1			;if PF=0  
+D7ab:
+		shl	BP,1			;if PF=0
 	loop	@B				;
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; na=?(A) - номер младшей единички a]  
-		xor	EAX,EAX	
-			pop	EDX			; na 
+			push	EAX		; na=?(A) - номер младшей единички a]
+		xor	EAX,EAX
+			pop	EDX			; na
 			pop	ECX			; nb
 			pop	EBX			; vB
 			pop	EAX			; vA
@@ -177,14 +177,14 @@ D7ab:
 ;*************  Pr8
 ;***************** комб.  P8BA   -  верхняя грань B  больше верхней грани  A**********
 P8BA:
-		push	ECX		 	; vB=?(B) - номер ст. единички  в (B 
+		push	ECX		 	; vB=?(B) - номер ст. единички  в (B
 		and	BP,0FF00h		;убираем младшие разряды чтобы щупать A
 	jmp	R8BA
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  
-R8BA: 
+	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF
+R8BA:
 		shr	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
@@ -192,11 +192,11 @@ R8BA:
 		push	ECX			; vA=?(A) номер старшей единички в [A => (B [A
 ;***********************  Проверяем нижнюю грань
  	mov	BP,0101h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   
+	jne	@F					; ZF=1 if 0
 		shl	BP,1			;
 	loop	@B
 	JMP	M!ISTEK
@@ -213,28 +213,28 @@ R8BA:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-R8BAba: 
-		shl	BP,1			;if PF=0 
+R8BAba:
+		shl	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; nb=?(B) - номер младшей единички b)  
-		xor	EAX,EAX	
-			pop	EDX			; nb 
+			push	EAX		; nb=?(B) - номер младшей единички b)
+		xor	EAX,EAX
+			pop	EDX			; nb
 			pop	ECX			; na
 			pop	EBX			; vA
 			pop	EAX			; vB
 		shl	EBX,24			;  vB
 		shl	EAX,16			; vB   vA
-		or	EAX,EBX			; vB   vA 
+		or	EAX,EBX			; vB   vA
 		shl	EDX,8
-		or	EAX,EDX			;vB   vA   nb 
-		or	EAX,ECX			;vB   vA   nb   na 
+		or	EAX,EDX			;vB   vA   nb
+		or	EAX,ECX			;vB   vA   nb   na
 			mov	Kd,EAX		;(B[A    b)  a]
-			mov	PS, V13 
+			mov	PS, V13
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 							;[PrSovm],PrBAba	EQU  V13
 	jmp	P13					;P83      A<B Пересекающиеся проверять отдельно A&B
@@ -249,17 +249,17 @@ P8BAab:						; (B[A a] b)
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-O8BAab: 
-		shl	BP,1			;	if PF=0  
+O8BAab:
+		shl	BP,1			;	if PF=0
 	loop	@B				;
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; na=?(A) - номер младшей единички a]  
-		xor	EAX,EAX	
-			pop	EDX			; na 
+			push	EAX		; na=?(A) - номер младшей единички a]
+		xor	EAX,EAX
+			pop	EDX			; na
 			pop	ECX			; nb
 			pop	EBX			; vB
 			pop	EAX			; vA
@@ -295,7 +295,7 @@ Pr1:						;A=0 B#0 => A<B
 		mov	al,cl			; номер не больше 7
 		BSR	cx,bx			; номер старшей единички в  B
 		mov	ah,cl
-		and	EAX,0FFFFh		
+		and	EAX,0FFFFh
 			mov	Kd,EAX
 			mov	PS, V2 		;[V2   A<B закончили		признак
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
@@ -327,20 +327,20 @@ Pr3:						;оба операнда A=B ==>
 		BSR	cx,bx			; номер старшей единички в  A
 		mov	ah,cl
 		and	EAX,0FFFFh
-			mov	Kd,EAX		;число всех и в А  и в B 
+			mov	Kd,EAX		;число всех и в А  и в B
 			mov	PS, V4
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	JMP	P4				;A=B
 ;************************   Поглощение *******  A  включает в себя   B     P5 *******
 Pr4:
-		K!ACHinB		bh,m3		;в А   m3 =KACH (в A); 
+		K!ACHinB		bh,m3		;в А   m3 =KACH (в A);
 							; ka-kb=непересек=m1;  m2 = kb  m3=ka   =KACH в A
 		ror	bx,8			;сохраняем младшие разряды
 		BSF	cx,bx			; номер младшей единички в A
 		mov	al,cl			; номер не больше 7
 		BSR	cx,bx			; номер старшей единички в  А
 		mov	ah,cl
-		rol	bx,8			;B 
+		rol	bx,8			;B
 		BSR	cx,bx			; номер старшей единички B
 		shl	EAX,16			;<=
 		mov	ah,cl			; номер не больше 7  старшей единички B
@@ -352,8 +352,8 @@ Pr4:
 	JMP	P5					;	in B=0 A>B
 
 ;************************ Поглощение *B  включает в себя   A *********  P6 *********************
-Pr5:						; B  включает в себя   A 
-		K!ACHinB		bl,m3		;в B     m3 =KACH в B 
+Pr5:						; B  включает в себя   A
+		K!ACHinB		bl,m3		;в B     m3 =KACH в B
 							; kb-ka=непересек=m1;  m2 = ka  m3=kb
 		ror	bx,8
 		BSF	cx,bx			; номер младшей единички A
@@ -375,31 +375,31 @@ Pr5:						; B  включает в себя   A
 	JMP	P6					;in A=0 A<B
 ;************************************ P6 ********************************
 ;*********** нет пересекающихся разрядов ***P7-P10 *Множества не пересекаются *************************
-Pr6:	
+Pr6:
 ;***************************[ (     ) ]  v [ (    ]  )& { [ ] ( ) } v (  [   ] ) v (  [  ) ] & { () [ ]}
-;			
+;
 	mov	BP,08080h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX			;BH = A  BL=B  одновременно провер.ст.ед
-	jne	@F					; ZF=1 if 0    
-		shr	BP,1		
+	jne	@F					; ZF=1 if 0
+		shr	BP,1
 	loop	@B				;
 	JMP	M!ISTEK
 ;************
 @@:							;A(ah)  B(al)
 		and	AL,0FFh			;A=0 B#0  => A<B  else A>B   BL=?
 	jne	P6BA				;JmJ	;B=1 A=0  =>A<B верхняя B больше A
-		push	ECX			; vA=?(A) - номер ст. единички в [A 
+		push	ECX			; vA=?(A) - номер ст. единички в [A
 ;************************** верхняя грань А  больше верхней грани  B
 		and	BP,0FFh	;убираем старшие разряды чтобы щупать B 	A>B
 	jmp	OAB
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  
-OAB: 
+	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF
+OAB:
 		shr	BP,1			;		if PF=0
 	loop	@B				;
 	JMP	M!ISTEK
@@ -407,11 +407,11 @@ OAB:
 		push	ECX			; vB=?(B) - номер ст. единички в (B => [A(B
 ;***********************  Проверяем нижнюю грань
  	mov	BP,0101h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,8	      		;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   
+	jne	@F					; ZF=1 if 0
 		shl	BP,1			;
 	loop	@B				;]
 	JMP	M!ISTEK
@@ -428,22 +428,22 @@ OAB:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-Rba: 
-		shl	BP,1			;if PF=0  
+Rba:
+		shl	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; nb=?(B) - номер младшей единички b)  
-		xor	EAX,EAX	
-			pop	EDX			; nb 
+			push	EAX		; nb=?(B) - номер младшей единички b)
+		xor	EAX,EAX
+			pop	EDX			; nb
 			pop	ECX			; na
 			pop	EBX			; vB
 			pop	EAX			; vA
 		shl	EAX,24
-		shl	EBX,16			; vA vB 
+		shl	EBX,16			; vA vB
 		or	EAX,EBX			; vA vB
 		shl	EDX,8			; vA vB nb
 		or	EAX,EDX
@@ -455,7 +455,7 @@ Rba:
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	jmp	P7					;  	A>B
 ;***  Координаты границ в Koordint
-;*** Закончили с комб. P6ABba и пересечение до [A , после до (B, после до b) и до a] 
+;*** Закончили с комб. P6ABba и пересечение до [A , после до (B, после до b) и до a]
 ;*******************  			[A     (B	 a]	 b)
 P6ABab:
 ;******************* 			 [A    (B        b)	a]
@@ -468,17 +468,17 @@ P6ABab:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-Dab: 
-		shl	BP,1			;	if PF=0  
+Dab:
+		shl	BP,1			;	if PF=0
 	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; na=?(A) - номер младшей единички a]  
-		xor	EAX,EAX	
-			pop	EDX			; na 
+			push	EAX		; na=?(A) - номер младшей единички a]
+		xor	EAX,EAX
+			pop	EDX			; na
 			pop	ECX			; nb
 			pop	EBX			; vB
 			pop	EAX			; vA
@@ -495,15 +495,15 @@ Dab:
 ;******************** Закончили с комб. P6AB ********
 ;***************** комб.  PrBA **********
 P6BA:
-		push	ECX		 	; vB=?(B) - номер ст. единички  в (B 
+		push	ECX		 	; vB=?(B) - номер ст. единички  в (B
 ;************************** верхняя грань B  больше верхней грани  A     A<B
 		and	BP,0FF00h		;убираем младшие разряды чтобы щупать A
 	jmp	OBA
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF  
-OBA: 
+	jne	@F					; ZF=1 if 0   на выx. смотреть флаг PF
+OBA:
 		shr	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
@@ -511,11 +511,11 @@ OBA:
 		push	ECX			; vA=?(A) номер старшей единички в [A => (B [A
 ;***********************  Проверяем нижнюю грань
  	mov	BP,0101h			;Остались операнды с единичками в разных разр-ах
-	mov	ECX,8	      		;рр 9&1;10&2;11&3; 12&4; 13&5; 14&6; 15&7р ;16&8-исключ. 
+	mov	ECX,8	      		;рр 9&1;10&2;11&3; 12&4; 13&5; 14&6; 15&7р ;16&8-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX
-	jne	@F					; ZF=1 if 0   
+	jne	@F					; ZF=1 if 0
 		shl	BP,1			;
 	loop	@B
 	JMP	M!ISTEK
@@ -532,8 +532,8 @@ OBA:
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-DBAba: 
-		shl	BP,1			;if PF=0 
+DBAba:
+		shl	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
@@ -541,16 +541,16 @@ DBAba:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
 			push	EAX		; na=?(A) - номер младшей единички a]
-		xor	EAX,EAX	
-			pop	EDX			; nb 
+		xor	EAX,EAX
+			pop	EDX			; nb
 			pop	ECX			; na
 			pop	EBX			; vA
 			pop	EAX			; vB
 		shl	EBX,24			;  vB
 		shl	EAX,16			; vB   vA
-		or	EAX,EBX			; vB   vA 
+		or	EAX,EBX			; vB   vA
 		shl	EDX,8
-		or	EAX,EDX			;vB   vA   nb 
+		or	EAX,EDX			;vB   vA   nb
 		or	EAX,ECX			;vB   vA   nb   na
  		mov	PS, V9 			;[PrSovm],PrBAba
 		mov	Kd,EAX			; [Koordint],EAX = (B[A   b)   a]
@@ -567,17 +567,17 @@ PBAab:						; (B[A a] b)
 		mov	AX,BP
 		and	AX,BX
 	jne	@F					; ZF=1 if 0
-DBAab: 
-		shl	BP,1			;if PF=0  
+DBAab:
+		shl	BP,1			;if PF=0
 	loop	@B
 	JMP	M!ISTEK
 ;***********************  Проверяем нижнюю грань
 @@:
 		mov	EAX,9
 		sub	EAX,ECX			;7 - 0  6  - 1  5 - 2  4- 3  3 - 4  2 - 5   1 -6  0 -  7
-			push	EAX		; na=?(A) - номер младшей единички a]  
+			push	EAX		; na=?(A) - номер младшей единички a]
 		xor	EAX,EAX
-			pop	EDX			; na 
+			pop	EDX			; na
 			pop	ECX			; nb
 			pop	EBX			; vB
 			pop	EAX			; vA
@@ -588,15 +588,15 @@ DBAab:
 		or	EAX,EDX			; vB vA na
 		or	EAX,ECX			; vB vA na nb
 		mov	PS, V11 		;[PrSovm],PrBAab	; V10
-		mov	Kd,EAX 			;[Koordint],EAX	= (B[A a] b)		
+		mov	Kd,EAX 			;[Koordint],EAX	= (B[A a] b)
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	jmp	P10					;P74	A<B
 ;********************* Закончили с комб.  Pr6BA **************
 ;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через
-M! : 
+M! :
 M!ISTEK:
 	P!rAdrStop   =BalakirevNE ERROR  in_macro C!MPMbJm
-MEXI:		 				;продолжение после блока	
+MEXI:		 				;продолжение после блока
 }
 ;********************************************************************************
 	MACRO	ВсяИнфаОтношенийБайтМножествПереходы arg

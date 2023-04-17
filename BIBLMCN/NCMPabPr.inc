@@ -2,7 +2,7 @@
 ;2	N!CMPabJm							переход
 ;3	N!CMPabPrJm							признак и переход
 ;4	—равнитьA_B_ƒать_признак			~1
-;***********************************************************			
+;***********************************************************
 
 ;*****************A?BPr ****************  дл¤ AL  и  BL
 	MACRO	N!CMPabPr  GA,GB,Pr,SBOY		;=,<  ,  >
@@ -18,12 +18,12 @@ end if
 		and	AL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  ќсновна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -35,7 +35,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -44,7 +44,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -54,36 +54,36 @@ end if
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я 
+	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********ќбщий ¬џ’ќƒ*************;B=0 A=1  =>A>B
 JgJ:
 if  GA & GB  in  <al,bl>
 else
 	ВосстановилиРегистры	EAX,EBX
 end if
-		mov Pr,2					;A>B	Pr может быть регистром		
+		mov Pr,2					;A>B	Pr может быть регистром
 	JMP	MEXI
-JeJ:	
+JeJ:
 if  GA & GB  in  <al,bl>
 else
 	ВосстановилиРегистры	EAX,EBX
 end if
-		mov Pr,0					;A=B		
+		mov Pr,0					;A=B
 	JMP	MEXI						;
 JmJ:
 if  GA & GB  in  <al,bl>
 else
 	ВосстановилиРегистры	EAX,EBX
 end if
-		mov Pr,1					;A>B		
+		mov Pr,1					;A>B
 MEXI:								;продолжение после блока
 }
 ;*****************************************************************
 ;*****************N!CMPabJm****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, < 
+	MACRO	N!CMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -96,12 +96,12 @@ end if
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  ќсновна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -113,7 +113,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -122,7 +122,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -132,10 +132,10 @@ end if
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я 
+	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********ќбщий ¬џ’ќƒ*************;B=0 A=1  =>A>B
 JgJ:
 if  GA & GB  in  <al,bl>
@@ -147,7 +147,7 @@ end if
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 if  GA & GB  in  <al,bl>
 else
 ВосстановилиРегистры	EAX,EBX		;[7] [40]
@@ -170,7 +170,7 @@ MEXI:									;продолжение после блока
 }
 ;*****************************************************************
 ;*****************  N!CMPabPrJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, < 
+	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -183,12 +183,12 @@ end if
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  ќсновна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -200,7 +200,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -209,7 +209,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -219,10 +219,10 @@ end if
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я 
+	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********ќбщий ¬џ’ќƒ*************;B=0 A=1  =>A>B
 JgJ:
  if  GA & GB  in  <al,bl>
@@ -235,7 +235,7 @@ end if
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 if  GA & GB  in  <al,bl>
 else
 ВосстановилиРегистры	EAX,EBX		;[7] [40]
@@ -328,7 +328,7 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 ;			ѕри—бое=>M!ISTEK
 
 ;*****************  N!CMPabPrJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, < 
+	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -341,12 +341,12 @@ end if
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  ќсновна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -358,7 +358,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -367,7 +367,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -377,24 +377,24 @@ end if
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я 
+	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********ќбщий ¬џ’ќƒ*************;B=0 A=1  =>A>B
 JgJ:
 if  GA & GB  in  <al,bl>
 else
 ВосстановилиРегистры	EAX,EBX		;[7] [40]
 end if
- 
+
 		mov PR2,P2						;2
 			if   ~T2 eq
 	JMP	T2								;A<B
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
  if  GA & GB  in  <al,bl>
 else
 ВосстановилиРегистры	EAX,EBX		;[7] [40]
@@ -465,8 +465,8 @@ common  	match	OP1 =?  OP2 PRi=:==P0 PRi=:==P1 PRi=:==P2  == =>  =<  ==Er,arg			
 ;	P!rAdrStop	=BalarirevNE	MACRO	C!abcPr	ERROR
 if   ~\Pr0 eq
 		if   ~\Pr1 eq
-				if   ~\Pr2 eq	
-				\N!CMPabJm  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er	
+				if   ~\Pr2 eq
+				\N!CMPabJm  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er
 				else
 				\N!CMPabJm  \OP1,\OP2,\Pr0,\Pr1,,\Er
 				end if
@@ -475,18 +475,18 @@ if   ~\Pr0 eq
 				\N!CMPabJm  \OP1,\OP2,\Pr0,,\Pr2,\Er
 				else
 				\N!CMPabJm  \OP1,\OP2,\Pr0,,,\Er
-				end if				
+				end if
 		end if
 	else
 		if   ~\Pr1 eq
 				if   ~\Pr2 eq
-				\N!CMPabJm  \OP1,\OP2,,\Pr1,\Pr2,\Er	
+				\N!CMPabJm  \OP1,\OP2,,\Pr1,\Pr2,\Er
 				else
 				\N!CMPabJm  \OP1,\OP2,,\Pr1,,\Er
 				end if
 		else
 				if   ~\Pr2 eq
-				\N!CMPabJm  \OP1,\OP2,,,\Pr2,\Er	
+				\N!CMPabJm  \OP1,\OP2,,,\Pr2,\Er
 				else
 				\N!CMPabJm  \OP1,\OP2,,,,\Er			;ќш-ка «ачем провер¤ли
 				end if

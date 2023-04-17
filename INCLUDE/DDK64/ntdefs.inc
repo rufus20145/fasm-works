@@ -19,7 +19,7 @@ EXCEPTION_IN_PAGE_ERROR equ STATUS_IN_PAGE_ERROR
 ExceptionContinueExecution equ 0
 ExceptionContinueSearch    equ 1
 ExceptionNestedException   equ 2
-ExceptionCollidedUnwind    equ 3     
+ExceptionCollidedUnwind    equ 3
 
 EH_NONCONTINUABLE   equ 0x01
 EH_UNWINDING        equ 0x02
@@ -41,14 +41,14 @@ struc LIST_ENTRY
     .Blink dq ?
  }
 
-struc SERVICE_STATUS 
+struc SERVICE_STATUS
  {
   .dwServiceType	 	dd ?
-  .dwCurrentState        	dd ? 
-  .dwControlsAccepted    	dd ?  
-  .dwWin32ExitCode       	dd ?  
-  .dwServiceSpecificExitCode 	dd ?  
-  .dwCheckPoint	       		dd ? 
+  .dwCurrentState        	dd ?
+  .dwControlsAccepted    	dd ?
+  .dwWin32ExitCode       	dd ?
+  .dwServiceSpecificExitCode 	dd ?
+  .dwCheckPoint	       		dd ?
   .dwWaitHint	       		dd ?
  }
 

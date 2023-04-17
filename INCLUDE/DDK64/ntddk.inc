@@ -1011,7 +1011,7 @@ struc IO_STATUS_BLOCK
 
 
 ;
-;   don't 
+;   don't
 ;
 struc KAPC		      ; size 83
  {
@@ -1054,12 +1054,12 @@ struc __TAIL
        .Overlay.Thread dq ?				 ; 8
        .Overlay.AuxiliaryBuffer dq ?			 ; 8
 
-       .___ db 24 dup (?)                                ;24 
+       .___ db 24 dup (?)                                ;24
 	virtual at .___
 	  .Overlay.ListEntry LIST_ENTRY       ; 16
 	  .Overlay.CurrentStackLocation dq ?  ;8
 	  label .Overlay.PacketType dword at .Overlay.CurrentStackLocation
-	end virtual                                    
+	end virtual
        .OriginalFileObject dq ?                          ; 8
      end virtual
 
@@ -1101,7 +1101,7 @@ struc IRP
     .CancelIrql db ?
 
     .ApcEnvironment db ?
-    
+
     .AllocationFlags db ?
 
     .UserIosb dq ?
@@ -1122,7 +1122,7 @@ struc IRP
     .UserBuffer dq ?
 
     ;union
-    .Tail __TAIL   
+    .Tail __TAIL
 
  }  ; IRP
 
@@ -1135,10 +1135,10 @@ struc __IO_STACK_LOCATION_PARAMS
 	virtual at .__params
 	    .Create.SecurityContext dq ?
 	    .Create.Options	     dd ?
-                                          .padding_raw1 dd ?  
+                                          .padding_raw1 dd ?
 	    .Create.FileAttributes  dw ?
 	    .Create.ShareAccess     dw ?
-                                          .padding_raw2 dd ? 
+                                          .padding_raw2 dd ?
 	    .Create.EaLength	     dq ?
 	end virtual
 	;
@@ -1146,7 +1146,7 @@ struc __IO_STACK_LOCATION_PARAMS
 	;
 	virtual at .__params
 	    .Read.Length	     dd ?
-                                          .padding_raw3 dd ?       
+                                          .padding_raw3 dd ?
 	    .Read.Key	     dq ?
 	    .Read.ByteOffset      LARGE_INTEGER
 	end virtual

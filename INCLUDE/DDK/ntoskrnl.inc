@@ -1476,4 +1476,4 @@ import ntoskrnl,\
        wcsstr,'wcsstr',\
        wcstombs,'wcstombs',\
        wctomb,'wctomb'\
- 
+

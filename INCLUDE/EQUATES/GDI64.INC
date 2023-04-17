@@ -151,12 +151,12 @@ struct PIXELFORMATDESCRIPTOR
 ends
 
 struct TRIVERTEX
-  x	dd ? 
-  y	dd ? 
-  Red	dw ? 
-  Green dw ? 
-  Blue	dw ? 
-  Alpha dw ? 
+  x	dd ?
+  y	dd ?
+  Red	dw ?
+  Green dw ?
+  Blue	dw ?
+  Alpha dw ?
 ends
 
 ; General constants

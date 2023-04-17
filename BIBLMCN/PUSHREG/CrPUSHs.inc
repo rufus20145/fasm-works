@@ -2,7 +2,7 @@
 ;*********************7 ***PUSHе ******
 ;				Маркировочное упрятывание. ПРИМЕР:  PUSHе  EBP,1
 ;					           Появляется константа EBP1
-;				Можно PUSHе  EBP,one  ==> константа EBPone  
+;				Можно PUSHе  EBP,one  ==> константа EBPone
  	MACRO	PUSHе	 RE,t_t1	;упрятывание регистра и формирование константы под именем REt_t1
 {	push	RE
 RE#t_t1	equ	t_t1				;Появление константы
@@ -37,14 +37,14 @@ MACRO	CrPOPs	[string]
 	reverse
 Rpushpop = Rpushpop-1
 	POP	string
-    common	
+    common
 }
 ;************************	11  CrPUSHе ******
 ;				Маркировочное упрятывание. ПРИМЕР:  CrPUSHе  1,EBP
 ;					           Появляется константа 1EBP
 ;				Можно CrPUSHе  one,EBP  ==> константа oneEBP
 ;SpisokSteka	equ
-;**********************************************************  
+;**********************************************************
  	MACRO	CrPUSHе	prefix,[RE]	;упрятывание регистра и формирование константы под именем REt_t1
 {common
  	PutSpisok	SpisokSteka,prefix#RE	;Запись упрятывающая уникальное имя регистра
@@ -53,7 +53,7 @@ Rpushpop = Rpushpop+1  		;local label
 	push	RE
 }
 ;*****************************************
-;********************** 12  **	CrPOPe	 t_t1,EAX  t_t1EAX 
+;********************** 12  **	CrPOPe	 t_t1,EAX  t_t1EAX
 ;				Маркировочное восстановление из стека
  	MACRO	CrPOPe	prefix, [RE]			;упрятали указатель на стек под именем t_t1
 {
@@ -66,7 +66,7 @@ reverse
 common
 Restore	prefix#RE
 	end if
-Rpushpop = Rpushpop-1  
+Rpushpop = Rpushpop-1
 	pop	RE
   }
 ;*******************************************

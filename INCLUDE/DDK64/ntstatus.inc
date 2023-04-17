@@ -859,7 +859,7 @@ STATUS_MP_PROCESSOR_MISMATCH	 = 0x40000029
 ;
 ;  The system was put into hibernation.
 ;
-STATUS_HIBERNATED		 = 0x4000002A	 
+STATUS_HIBERNATED		 = 0x4000002A
 
 ;
 ; MessageId: STATUS_RESUME_HIBERNATION
@@ -868,7 +868,7 @@ STATUS_HIBERNATED		 = 0x4000002A
 ;
 ;  The system was resumed from hibernation.
 ;
-STATUS_RESUME_HIBERNATION	 = 0x4000002B	 
+STATUS_RESUME_HIBERNATION	 = 0x4000002B
 
 ;
 ; MessageId: DBG_REPLY_LATER
@@ -6808,7 +6808,7 @@ STATUS_CORRUPT_SYSTEM_FILE	 = 0xC00002C4
 ;  Alignment Error
 ;  A datatype misalignment error was detected in a load or store instruction.
 ;
-STATUS_DATATYPE_MISALIGNMENT_ERROR = 0xC00002C5    
+STATUS_DATATYPE_MISALIGNMENT_ERROR = 0xC00002C5
 
 ;
 ; MessageId: STATUS_WMI_READ_ONLY

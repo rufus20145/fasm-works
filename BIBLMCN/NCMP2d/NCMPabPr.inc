@@ -9,17 +9,17 @@
 ;7	N!bCMPabPr	GA,GB,Pr,SBOY				короткая форма = 0 > =1 < =2
 ;8	СравнитьA_B_b_Дать_признак				синтаксическа¤ форма ~ 7
 ;9	Сравнил_Дал								синтаксическа¤ форма ~ 7
-;					в файле NCMPabPr.inc			
+;					в файле NCMPabPr.inc
 ;10 N!bCMPabPrJm							признак и переход
 ;11	СучетомОтношенийb_Датьпризнак_Перейти	синтаксическа¤ форма ~ 9
 ;12	N!bCMPabPRiJm							признак и переход
 ;13	СучетомОтношенийb_ДатьПризнаки_Перейти	синтаксическая форма ~ 11
-;********************************************************************			
+;********************************************************************
 
 
 ; 0 = | 1 > | 2<
 ;***************** 10  N!CMPabPrJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, < 
+	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA  in  <al,bl>
 				if  GB  in  <al,bl>
@@ -38,12 +38,12 @@ end if
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  Основна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в AH маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -55,7 +55,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -64,7 +64,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -81,7 +81,7 @@ end if
 	end if
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********Общий блок *************;B=0 A=1  =>A>B
 JgJ:
 if  GA  in  <al,bl>
@@ -98,7 +98,7 @@ end if
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 if  GA  in  <al,bl>
 else
 	if  GB  in  <al,bl>
@@ -171,7 +171,7 @@ common  	match	OP1 =?  OP2 Pusto==:PRi  == =>  =<  ==Er,arg			;0 0 0
  }
 ;*******************************************************
 ;***********  12 N!CMPabPRiJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, < 
+	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA  in  <al,bl>
 				if  GB  in  <al,bl>
@@ -190,12 +190,12 @@ end if
 		and	BL,0FFh
 	jne	JmJ							;A=0 B#0 => A<B закончили
 	jmp	JeJ							;A=0  B=0   A=B
-@@:			
+@@:
 		and	BL,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********  ќсновна¤ часть    **************
 		mov	BH,AL  					;чтобы A(bh)  B(bl) были в одной строке
-		mov	AH,AL			
+		mov	AH,AL
 		xor	AH,BL					;в CL маска
 	je	JeJ							;оба операнда A=B ==>
 		and	BL,AH					;после выделени¤ маски A
@@ -207,7 +207,7 @@ end if
 ;**************************			;ќстались операнды только с единичками в разных разр¤дах
 		mov	AX,08080h				;рр 16&8	1
 		and	AX,BX					;
-	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7] 
+	jne	@F							; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разр¤ды TEMP[0-7]
 		mov	AX,04040h				;15&7		2
 		and	AX,BX					;
 	jne	@F
@@ -216,7 +216,7 @@ end if
 	jne	@F
 		mov	AX,01010h				; 13&5		4
 		and	AX,BX					;
-	jne	@F	
+	jne	@F
 		mov	AX,0808h				; 12&4		5
 		and	AX,BX					;
 	jne	@F
@@ -226,10 +226,10 @@ end if
 		mov	AX,0202h				; ;10&2		7
 		and	AX,BX					;
 	jne	@F
-	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я 
+	jmp	SBOY						;невозможна¤ —»“”ј÷»я :ѕ≈„ј“№ через P!rAdrStop—ќќЅў≈Ќ»я
 @@:									;A(ah)  B(al)
 		and	AL,0FFh					;A=0 B#0  => A<B  else A>B   BL=?
-	jne	JmJ							;B=1 A=0  =>A<B	
+	jne	JmJ							;B=1 A=0  =>A<B
 ;***********   Общий выход  *************;B=0 A=1  =>A>B
 JgJ:
 if  GA  in  <al,bl>
@@ -246,7 +246,7 @@ end if
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
  if  GA  in  <al,bl>
 else
 	if  GB  in  <al,bl>

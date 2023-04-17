@@ -5,12 +5,12 @@
 macro m!s arg
 {
 common match a,arg
-\{					\arg1	equ	\`a	
+\{					\arg1	equ	\`a
 \NMRuu	equ	1
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-					;Print!afall   \NMRuu 
+					;Print!afall   \NMRuu
 		db	a,0,0,0		; xor 0FFh		;одно поле
 end if
 \}
@@ -21,7 +21,7 @@ common match a=+b,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-					;Print!afall   \NMRuu 
+					;Print!afall   \NMRuu
 	 	db	a shl 2 or b,0,0,0		; xor 0FFh				;2 поле
 end if
      \}
@@ -32,7 +32,7 @@ common match a=+b=+c,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-							;Print!afall   \NMRuu 
+							;Print!afall   \NMRuu
  	 	db	a shl 4 or b shl 2 or c,0,0,0 		;xor 0FFh		;3 поля
 end if
      \}
@@ -43,7 +43,7 @@ match a=+b=+c=+d,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-							;Print!afall   \NMRuu 
+							;Print!afall   \NMRuu
 	 	db	a shl 6 or b shl 4 or c shl 2 or d,0,0,0	 ;xor 0FFh	;4 поля
 end if
      \}
@@ -57,8 +57,8 @@ if	\NMRuu	eq	1
 							;Print!afall   \NMRuu
     db	b shl 6 or c shl 4 or d shl 2 or e,\
 	a,\
-	0,0				; xor 0FFh	;5 
-end if 
+	0,0				; xor 0FFh	;5
+end if
      \}
 ;**************************
 match a=+b=+c=+d=+ e=+f,arg
@@ -70,7 +70,7 @@ if	\NMRuu	eq	1
    db	c shl 6 or d shl 4 or e shl 2 or f,\
 	a shl 2 or b	,\
 	0,0		;6
-end if   
+end if
      \}
 ;**************************
 match a=+b=+c=+d=+ e=+f=+g,arg
@@ -79,11 +79,11 @@ match a=+b=+c=+d=+ e=+f=+g,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
    db	d shl 6 or e shl 4 or f shl 2 or g,\
-	a shl 4 or b shl 2 or c,\	
+	a shl 4 or b shl 2 or c,\
 	0,0				;7
-end if   
+end if
      \}
 ;***********************
 match a=+b=+c=+d=+ e=+f=+g=+ h,arg
@@ -92,10 +92,10 @@ match a=+b=+c=+d=+ e=+f=+g=+ h,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
 	 	db	e shl 6 or f shl 4 or g shl 2 or h,\
 			a shl 6 or b shl 4 or c shl 2 or d,0,0	;8
-end if   
+end if
      \}
 ;***********************
 match a=+b=+c=+d=+ e=+f=+g=+ h=+i,arg
@@ -108,7 +108,7 @@ if	\NMRuu	eq	1
 	b shl 6 or c shl 4 or d shl 2 or e,\
 	a,\
 	0		;9
-end if   
+end if
      \}
 ;***********************
 match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j,arg
@@ -117,12 +117,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
    db	g shl 6 or h shl 4 or i shl 2 or j,\
 	c shl 6 or d shl 4 or e shl 2 or f,\
 	a shl 2 or b	,\
 	0		;10
-end if   
+end if
      \}
 ;****************************
 ;***********************
@@ -132,12 +132,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
  db	h shl 6 or i shl 4 or j shl 2 or k,\
 	d shl 6 or e shl 4 or f shl 2 or g,\
 	a shl 4 or b shl 2 or c,\
 	0			;11
-end if   
+end if
      \}
 ;****************************
 ;***********************
@@ -147,12 +147,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
  db	i shl 6 or j shl 4 or k shl 2 or l,\
 	e shl 6 or f shl 4 or g shl 2 or h,\
 	a shl 6 or b shl 4 or c shl 2 or d,\
 	0			;12
-end if   
+end if
      \}
 ;****************************
 ;***********************
@@ -162,12 +162,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
  db	j shl 6 or k shl 4 or l shl 2 or m,\
 	f shl 6 or g shl 4 or h shl 2 or i,\
 	b shl 6 or c shl 4 or d shl 2 or e,\
 	a			; shl 6 or b shl 4 or c shl 2 or d		;13
-end if   
+end if
      \}
 ;****************************
 match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n,arg
@@ -176,12 +176,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
  db	k shl 6 or l shl 4 or m shl 2 or n,\
 	g shl 6 or h shl 4 or i shl 2 or j,\
 	c shl 6 or d shl 4 or e shl 2 or f,\
 	a shl 2 or b			;14
-end if   
+end if
      \}
 ;****************************
 match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n=+ o,arg
@@ -190,12 +190,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n=+ o,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
  db	l shl 6 or m shl 4 or n shl 2 or o,\
 	h shl 6 or i shl 4 or j shl 2 or k,\
 	d shl 6 or e shl 4 or f shl 2 or g,\
 	a shl 4 or b shl 2 or c				;15
-end if   
+end if
      \}
 ;****************************
 match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n=+ o=+ p,arg
@@ -204,12 +204,12 @@ match a=+b=+c=+d=+ e=+f=+g=+ h=+i=+ j=+ k=+ l=+ m=+ n=+ o=+ p,arg
 match aww=+ww,\arg1
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-									;Print!afall   \NMRuu 
+									;Print!afall   \NMRuu
      db  	m shl 6 or n shl 4 or o shl 2 or p,\
 	i shl 6 or j shl 4 or k shl 2 or l,\
 	e shl 6 or f shl 4 or g shl 2 or h,\
 	a shl 6 or b shl 4 or c shl 2 or d 				;16
-end if   
+end if
      \}
 }
 ;******************для 32 разрядов и 16 полей*****m!s**
@@ -228,7 +228,7 @@ end if
 ;		            	             3
 ;		РЕЗУЛЬТАТ:
 ;		NICK	dd  ????????
-;			. . . . . 	
+;			. . . . .
 ;			dd   ?
 ;		NICK.pole	db  N	- кол-во строк
 ;		NICK.dlina=число занятых байт
@@ -236,7 +236,7 @@ end if
 macro m!sd metms,[arg]	;получение массива с меткой
  { common
 Rswtch=0				;'0'  для печати   счетчик по числу строк
-metms	db	'N'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)	
+metms	db	'N'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)
 forward
 Rswtch = Rswtch+1   				;В зависимости от кол-ва переменных(строк) накапл.счетчик
 	m!s arg
@@ -256,7 +256,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;************КОНЕЦ	m!sd  массив двойное слово  ***********
 ;		МАКРОС  3  - формирование массива (матрицы) отношений, используя МАКРОС  1
 ;			но возможно записать 17 отношений для 18 точек, мнимая диагональ начинается <
-;			после массива байт длины массива (кол-во строк)+ "<"shl 6 
+;			после массива байт длины массива (кол-во строк)+ "<"shl 6
 ;***
 ;		ОБРАЩЕНИЕ:
 ;	m!sd1 NICK,3+3+3+2+1+0+3+3,\
@@ -269,7 +269,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;		            	             3
 ;		РЕЗУЛЬТАТ:
 ;		NICK	dd  ????????
-;			. . . . . 	
+;			. . . . .
 ;			dd   ?
 ;		NICK.pole	db  N	- кол-во строк +2 shl 6
 ;		NICK.dlina=число занятых байт
@@ -277,7 +277,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 macro m!sd1 metms,[arg]		;получение массива с меткой
  { common
 Rswtch=0				;'0'  для печати   счетчик по числу строк
-metms	db	'O'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)	
+metms	db	'O'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)
 forward
 Rswtch = Rswtch+1   				;В зависимости от кол-ва переменных накапл.счетчик
 	m!s arg
@@ -298,7 +298,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;************m!sd2 массив двойное слово******
 ;		МАКРОС  4  - формирование массива (матрицы) отношений c меткой , используя МАКРОС  1
 ;			но возможно записать 17 отношений для 18 точек, мнимая диагональ начинается >
-;			после массива байт длины массива (кол-во строк)+ ">"shl 6 
+;			после массива байт длины массива (кол-во строк)+ ">"shl 6
 ;***
 ;		ОБРАЩЕНИЕ:
 ;	m!sd2 NICK,3+3+3+2+1+0+3+3,\
@@ -310,7 +310,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;		                           2+1,\
 ;		            	             3
 ;		РЕЗУЛЬТАТ:
-;NICK	db	'D'	скобка  закрывающая	
+;NICK	db	'D'	скобка  закрывающая
 ;			dd  ????????	|		  1
 ;			. . . . . 		|  матрица отношений  i
 ;			dd   	  ?	|		   N - размерность матрицы
@@ -318,7 +318,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;	db	K		;количество точек, для которых устанавл. отношения K=N+1
 ;	dw	JJ		;порядковый номер в группе из 16 элементов
 ;		NICK.dlina=число занятых байт
-;NICK.kon	db	'D'	скобка  закрывающая	
+;NICK.kon	db	'D'	скобка  закрывающая
 ;NICK.dlina=1(0 байт)+N+1(NICK.pole)+1(K)+2(JJ)+1(NICK.kon)
 ;***********************************
 	MACRO	ТреугольнаяМатрица	[arg]
@@ -327,7 +327,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 macro m!sd2 metms,[arg]		;получение массива с меткой
  { common
 Rswtch=0				;'0'  для печати   счетчик по числу строк
-metms	db	'D'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)	
+metms	db	'D'		;скобка N - обычный, D - 2-ая диагональ с > (2), O -2-ая диагональ с < (1)
 forward
 Rswtch = Rswtch+1   			;В зависимости от кол-ва переменных накапл.счетчик
 	m!s arg

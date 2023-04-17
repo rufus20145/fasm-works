@@ -6,26 +6,26 @@
 ;9 Relation!Write!Go	arg													;736
 ;10 C!abcRoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,PR1,PR2,PR3,PR4,PR5,PR6,PR7,PR8,PR9,PR10,PR11,PR12,PR13
 ;11 C!MPabcKo  RGa,RGb,RGc,Ko
-;12 J!mA?B  RGA,RGB,Pr0,Pr1,Pr2	
+;12 J!mA?B  RGA,RGB,Pr0,Pr1,Pr2
 ;*МАКРОС Команды C!abcJmp RGa,RGb,RGc,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
-	MACRO	C!abcJmp  P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,Sboy		
-{ 
+	MACRO	C!abcJmp  P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,Sboy
+{
 ;*** 1
  УпряталиРегистры	EBX,ECX,EDX
 ;*** 2
 ;ПеренеслиB	(al=:Ga) (bl=:Gb) (cl=:Gc)			;входные параметры
 					mov	al,Ga
 					mov	cl,Gcmov	bl,Gb
-;*** 3					
+;*** 3
 ;Продублировал		dh=bl
 					mov	dh,bl
-;*** 4					
+;*** 4
 		Сравнил_A_B_Дал\
 			  al=bl\
 				$Признак_0_1_2_в=:dl\
 						$ПриСбое=>Sboy						;Sboy
 ;*** 5										;Восстановил по дубликату al=dl
-					mov al,dl			
+					mov al,dl
 					mov	bl,cl
 ;*** 6
 		Сравнил_A_B_Дал\
@@ -40,7 +40,7 @@
 ;*** 9			Перешли_по_переключателю
 ;								$Регистра=EAX\
 ;=>P1 =>P2 =>P3 =>P4 =>P5 =>P6 =>P7 =>P8 =>P9 =>P10 =>P11 =>P12 =>P13 =>P14 =>P15 =>P16
-;***					
+;***
 			S!WITCH	EAX,Ga,Gb,Gc,P3,P6,P5,Sboy,P7,P1,Pmin,Sboy,P4,Pmax,P2,Sboy
 ;*** 10
 Pmin:
@@ -49,12 +49,12 @@ Pmin:
 						=P11 >P12  < P13\
 								$ПриСбое=>M!ISTEK
 ;*** 11
-Pmax:	
+Pmax:
 			СучетомОтношенийbПерейти\
 					al=?cl\
 							=P8 >P9  < P10\
 									$ПриСбое=>M!ISTEK
-;*** Всего 11 шагов									
+;*** Всего 11 шагов
 }
 ;*****************************************************
 ;	СучетомОтношений!Получить!Перейти		AX ? BX ? CX =>\
@@ -84,7 +84,7 @@ Pmax:
 ;		ВостановилиРегистры	EAX,EBX,ECX.....
 ;		C!abcJm  RGa,RGb,RGc,Ko
 ;***************Установление отношения (A?B?C) с кодом ответа Ko  и переход по 13 направлениям******************
-	MACRO	C!abcKoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13		
+	MACRO	C!abcKoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
 {
 	ОпределитьКонстанты   PR@,(a=1),(e=2),(o=3),(x=4),(y=5),(i=6),(j=7),(h=9),(g=10),(k=11),(c=12),(s=13),(z=14)
 LOCAL	MISTEK,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,PRxj,PRch,RE@F,CMNE
@@ -124,7 +124,7 @@ LOCAL	MISTEK,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,PRxj,PR
 	JNE	@F				;все не равны  ____
 		mov	EBX,P3			;адрес переключателя
 		mov	ah,PR@o			;  примитив	O
-	jmp	CMNE				; ++++>1 выход  PRo  
+	jmp	CMNE				; ++++>1 выход  PRo
 @@:
 	jmp	PRyi				;__/   	```\  al=A=B=bl  ESI =0  С A  B  cl=C
 ;*********************************************ПОВТОР от JNE	RE@F до*@@:*******
@@ -139,7 +139,7 @@ RE@F:
 @@:
 		mov	dh,dl
 		shl	EDX,8
-		mov	dl,dh			
+		mov	dl,dh
 		and	EDX,0FFFFFFh		;Маска общих значащих разрядов для 3-х переменных
 						;1.   	EDX=ABCor,ABCor,ABCor  кроме 3-х встреч.
 		mov	ch,cl
@@ -157,26 +157,26 @@ RE@F:
 		mov	al,ah			;AX=[Mac] [Mac]
 	JNE	@F
 	jmp	PRch				; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  DX = [A  B]
-   @@:		
+   @@:
 		xchg	EDX,ESI			;ESI =>	0  С A  B  	EDX=[Mabc]
 		and	EDX,ESI			; выделили не повторяющиеся 3 раза разряды
 		mov	EBP,EDX			;?Далее только не равные значения
 						;	EDX = [0  С A  B]  & [Mabc]
-		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]   
+		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]
 						;	BX= [X]    [X]      [Mab] [Mab]
-		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb] 
+		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb]
 					;Встречаются только парные  единички для маски ABC
 ;******************************  предварительная проверка на 0 значения A B      B  C  AC=????
 	mov	EAX,0808080h		;Остались операнды только с единичками в разных разрядах
 	mov	EBP,EAX
-	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		and	EAX,EDX		;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	EBP,1		;		if PF=0  		JNP  METKA
 		mov	EAX,EBP
 	loop	@B			;     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*************************************************** A=0 B=0 C=0 не должно быть
 @@:					;смотрим по выделенным разрядам
@@ -189,7 +189,7 @@ RE@F:
 		jmp	CeBe010			; +Ce=0     Ae=1	Be=0	 A> B  A>C
 @@:	and	al,0FFh			; Ce =1	Ae=	Be=?
 	JNE 	CeBe101			;+ Ce =1   Ae=	Be=1=>  Ae=0   A<B   A<C только 2 единички A С
-		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 => 
+		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 =>
 	JE 	AeBe100		    	; Ce =1    Ae=0	Be=0		C>A   C>B
 	jmp 	minCeAe110		; Ce =1    Ae=1	Be=0   =>	A>B  B<C      \/
 ;*******************************+*
@@ -201,14 +201,14 @@ CeBe010:					;	Ce=0     Ae=1	Be=0	 A> B  A>C
 		and	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************+**
-@@:		
+@@:
 		mov	ah,PR@a
 		mov	EBX,P1
-		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C	
-	jne	CMNE			;++++>  5  Ce=0  Ae=1 B=1  B>C  => A>B> C    вниз 
+		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C
+	jne	CMNE			;++++>  5  Ce=0  Ae=1 B=1  B>C  => A>B> C    вниз
 		mov	ah,PR@s
 		mov	EBX,P12
 	jmp	CMNE			;++++>  6   B=0    A>B<C  C=1    => A>B<C   A >C   `\/
@@ -221,7 +221,7 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 		AND	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************************+*
 @@:						; Ce =   Ae=0	Be=?	A<B  A<C
@@ -235,13 +235,13 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 ;*******************************************+*
 AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	DX,BX			;Mab  значащие и один раз встречаются единички
-@@:		
+@@:
 		shr	BP,1
 		mov	AX,BP
 		AND	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;******************************************+**
 @@:
@@ -261,10 +261,10 @@ AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*****************************************+**
-@@:		
+@@:
 		mov	ah,PR@e
 		mov	EBX,P2
 		and	al,0FFh			;Ce =1 B=? => A=    C>B  C>A
@@ -282,13 +282,13 @@ maxCeAe001:					; Ce=0     Ae=0   B =1=> max 	 /\
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************************+**
 @@:						; Ce=0     Ae=0   B =1=> max 	 /\
 		mov	ah,PR@g
 		mov	EBX,P9
-		and	al,0FFh			;A=?	
+		and	al,0FFh			;A=?
 	jne	CMNE				;+>  11 A=1 C<A  => A<B> C  A>C  /\.
 		mov	EBX,P10
 		mov	ah,PR@k
@@ -303,7 +303,7 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************+**
 @@:
@@ -317,14 +317,14 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 	;}
 ;*************************************************al=A=B=bl  ESI =0  С A  B  cl=C
 PRyi:					;__/   	```\   надо проверять B C
-		mov	DH,AL		
-		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B 
+		mov	DH,AL
+		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B
 		xor	al,cl		;Mca
 		mov	ah,al		;AX=Mac Mac
 		and	DX,AX  		;and	CX,AX	      [C  A]  & [Mac Mac]
 		and	DH,0FFh			;A=? после выделения маски С & (BC)
 	jne	@F				;они не зависимы и надо продолжать
-		mov	ah,PR@y			;A=0  Y	(A=B) & (A=B<C)   __/ 
+		mov	ah,PR@y			;A=0  Y	(A=B) & (A=B<C)   __/
 		mov	EBX,P5
 	jmp	CMNE				; 2 выход  PRy
 @@:
@@ -335,32 +335,32 @@ PRyi:					;__/   	```\   надо проверять B C
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,DX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;		if PF=0  		JNP  METKA
 	loop	@B			;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************
 @@:
 		mov	ah,PR@y		;A=0 Y	(A=B) & (B<C)   __/ т.к. bl=B=0
 		mov	EBX,P5
-		and	al,0FFh		; 
+		and	al,0FFh		;
 	jne	CMNE			;A=1  A>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C
-		mov	EBX,P6 
+		mov	EBX,P6
 		mov	ah,PR@i		;C=0 	(A=B) & (B=A>C)  ```\
 	jmp	CMNE
 ;***********************************
 ;*************************************************	;B=C   A?B   BX= [Mab] [Mab]  SI= [A] [B]
-PRxj:						;/```   \__    C=B  пр-ка  A ? B   
+PRxj:						;/```   \__    C=B  пр-ка  A ? B
 		and	BX,SI
 		and	BH,0FFh			;A=?   после выделения маски  (A B)
 	jne	@F				;A=1    A>B
 		mov	EBX,P4
-		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /``` 
+		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /```
 	jmp	CMNE				;  2 выход  PRy
 @@:
 		and	BL,0FFh			;B=?
@@ -370,22 +370,22 @@ PRxj:						;/```   \__    C=B  пр-ка  A ? B
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
-@@:						; B>C   
+@@:						; B>C
 		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /``` т.к. bl=B=0
 		mov	EBX,P4
 		and	AL,0FFh			;BL=?
 	jne	CMNE				;BL=1 A=0  =>A<B
-		mov	EBX,P7	
+		mov	EBX,P7
 		mov	ah,PR@j			;A=1   	(A>B) & (B=C)  ```\
 	jmp	CMNE
 ;***********************************; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  SI = [A  B]
@@ -395,7 +395,7 @@ PRch:						; A=C	\/	/\
 	jne	@F				;	B=1 переход
 		mov	EBX,P11
 		mov	ah,PR@c			;B=0 	(A>B) & (A=C) \/    т.к. bl=B=0
-	jmp	CMNE				;  
+	jmp	CMNE				;
 @@:
 		and	BH,0FFh			;A=?
 	jne	@F				;	надо продолжать
@@ -404,26 +404,26 @@ PRch:						; A=C	\/	/\
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
-		mov	AX,BP	
+		mov	AX,BP
 		AND	AX,BX			;
-	jne	@F				; 
+	jne	@F				;
 		shr	BP,1			;
 	loop	@B				;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 @@:
 		mov	ah,PR@h			;B=0 	(B<A) & (A=C) \/    т.к. bl=B=0
 		mov	EBX,P8
 		and	AL,0FFh			;BL=B
 	jne	CMNE				;BL=1 A=0  =>A<B  /\   PR@h
-		mov	EBX,P11		
-		mov	ah,PR@c			;A=0 ```\	(A>B) & (A=C)  
-	jmp	CMNE			; 
+		mov	EBX,P11
+		mov	ah,PR@c			;A=0 ```\	(A>B) & (A=C)
+	jmp	CMNE			;
 ;***********************************
 
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 	
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
 	P!rAdrStop	=BalarirevNE	MACRO	C!MPabcJm	ERROR
 ;******************		Общий ВЫХОД
@@ -485,7 +485,7 @@ LOCAL	MISTEK,CMNEXI,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,
 		and	dl,ah			; все общие единички без той которая встреч. 3 раза
 	JNE	@F				;все не равны  ____
 		mov	ah,PR@o			;  примитив	O
-	jmp	CMNEXI				; ++++>1 выход  PRo  
+	jmp	CMNEXI				; ++++>1 выход  PRo
 @@:
 	jmp	PRyi				;__/   	```\  al=A=B=bl  ESI =0  С A  B  cl=C
 ;*********************************************ПОВТОР от JNE	RE@F до*@@:*******
@@ -500,7 +500,7 @@ RE@F:
 @@:
 		mov	dh,dl
 		shl	EDX,8
-		mov	dl,dh			
+		mov	dl,dh
 		and	EDX,0FFFFFFh		;Маска общих значащих разрядов для 3-х переменных
 						;1.   	EDX=ABCor,ABCor,ABCor  кроме 3-х встреч.
 		mov	ch,cl
@@ -518,26 +518,26 @@ RE@F:
 		mov	al,ah			;AX=[Mac] [Mac]
 	JNE	@F
 	jmp	PRch				; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  DX = [A  B]
-   @@:		
+   @@:
 		xchg	EDX,ESI			;ESI =>	0  С A  B  	EDX=[Mabc]
 		and	EDX,ESI			; выделили не повторяющиеся 3 раза разряды
 		mov	EBP,EDX			;?Далее только не равные значения
 						;	EDX = [0  С A  B]  & [Mabc]
-		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]   
+		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]
 						;	BX= [X]    [X]      [Mab] [Mab]
-		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb] 
+		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb]
 					;Встречаются только парные  единички для маски ABC
 ;******************************  предварительная проверка на 0 значения A B      B  C  AC=????
 	mov	EAX,0808080h		;Остались операнды только с единичками в разных разрядах
 	mov	EBP,EAX
-	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		and	EAX,EDX		;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	EBP,1		;		if PF=0  		JNP  METKA
 		mov	EAX,EBP
 	loop	@B			;     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*************************************************** A=0 B=0 C=0 не должно быть
 @@:					;смотрим по выделенным разрядам
@@ -550,7 +550,7 @@ RE@F:
 		jmp	CeBe010			; +Ce=0     Ae=1	Be=0	 A> B  A>C
 @@:	and	al,0FFh			; Ce =1	Ae=	Be=?
 	JNE 	CeBe101			;+ Ce =1   Ae=	Be=1=>  Ae=0   A<B   A<C только 2 единички A С
-		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 => 
+		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 =>
 	JE 	AeBe100		    	; Ce =1    Ae=0	Be=0		C>A   C>B
 	jmp 	minCeAe110		; Ce =1    Ae=1	Be=0   =>	A>B  B<C      \/
 ;*******************************+*
@@ -562,12 +562,12 @@ CeBe010:					;	Ce=0     Ae=1	Be=0	 A> B  A>C
 		and	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************+**
-@@:		
+@@:
 		mov	ah,PR@a
-		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C	
+		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C
 	jne	CMNEXI			;++++>  5  Ce=0  Ae=1 B=1  B>C  => A>B> C    \
 		mov	ah,PR@s
 	jmp	CMNEXI			;++++>  6   B=0    A>B<C  C=1    => A>B<C   A >C   `\/
@@ -580,7 +580,7 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 		AND	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************************+*
 @@:						; Ce =   Ae=0	Be=?	A<B  A<C
@@ -592,13 +592,13 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 ;*******************************************+*
 AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	DX,BX			;Mab  значащие и один раз встречаются единички
-@@:		
+@@:
 		shr	BP,1
 		mov	AX,BP
 		AND	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;******************************************+**
 @@:
@@ -616,10 +616,10 @@ AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*****************************************+**
-@@:		
+@@:
 		mov	ah,PR@e
 		and	al,0FFh			;Ce =1 B=? => A=    C>B  C>A
 	jne	CMNEXI				;+>  9   A<B  B=1    B>A  => C>B>A  A<B<C   /
@@ -635,12 +635,12 @@ maxCeAe001:					; Ce=0     Ae=0   B =1=> max 	 /\
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************************+**
 @@:						; Ce=0     Ae=0   B =1=> max 	 /\
 		mov	ah,PR@g
-		and	al,0FFh			;A=?	
+		and	al,0FFh			;A=?
 	jne	CMNEXI				;+>  11 A=1 C<A  => A<B> C  A>C  /\.
 		mov	ah,PR@k
 	jmp	CMNEXI				;+>  12  A=0   C>A  => A<B>C    A<C	./\
@@ -654,7 +654,7 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************+**
 @@:
@@ -666,14 +666,14 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 	;}
 ;*************************************************al=A=B=bl  ESI =0  С A  B  cl=C
 PRyi:					;__/   	```\   надо проверять B C
-		mov	DH,AL		
-		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B 
+		mov	DH,AL
+		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B
 		xor	al,cl		;Mca
 		mov	ah,al		;AX=Mac Mac
 		and	DX,AX  		;and	CX,AX	      [C  A]  & [Mac Mac]
 		and	DH,0FFh			;A=? после выделения маски С & (BC)
 	jne	@F				;они не зависимы и надо продолжать
-		mov	ah,PR@y			;A=0  Y	(A=B) & (A=B<C)   __/ 
+		mov	ah,PR@y			;A=0  Y	(A=B) & (A=B<C)   __/
 	jmp	CMNEXI				; 2 выход  PRy
 @@:
 		and	DL,0FFh			;C=?
@@ -682,29 +682,29 @@ PRyi:					;__/   	```\   надо проверять B C
 	jmp	CMNEXI				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,DX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;		if PF=0  		JNP  METKA
 	loop	@B			;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************
 @@:
 		mov	ah,PR@y		;A=0 Y	(A=B) & (B<C)   __/ т.к. bl=B=0
-		and	al,0FFh		; 
-	jne	CMNEXI			;A=1  A>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C 
+		and	al,0FFh		;
+	jne	CMNEXI			;A=1  A>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C
 		mov	ah,PR@i		;C=0 	(A=B) & (B=A>C)  ```\
 	jmp	CMNEXI
 ;***********************************
 ;*************************************************	;B=C   A?B   BX= [Mab] [Mab]  SI= [A] [B]
-PRxj:						;/```   \__    C=B  пр-ка  A ? B   
+PRxj:						;/```   \__    C=B  пр-ка  A ? B
 		and	BX,SI
 		and	BH,0FFh			;A=?   после выделения маски  (A B)
 	jne	@F				;A=1    A>B
-		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /``` 
+		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /```
 	jmp	CMNEXI				;  2 выход  PRy
 @@:
 		and	BL,0FFh			;B=?
@@ -713,20 +713,20 @@ PRxj:						;/```   \__    C=B  пр-ка  A ? B
 	jmp	CMNEXI				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
-@@:						; B>C   
+@@:						; B>C
 		mov	ah,PR@x			;A=0 	(A<B) & (B=C)  /``` т.к. bl=B=0
 		and	AL,0FFh			;BL=?
-	jne	CMNEXI				;BL=1 A=0  =>A<B	
+	jne	CMNEXI				;BL=1 A=0  =>A<B
 		mov	ah,PR@j			;A=1   	(A>B) & (B=C)  ```\
 	jmp	CMNEXI
 ;***********************************; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  SI = [A  B]
@@ -735,7 +735,7 @@ PRch:						; A=C	\/	/\
 		and	BL,0FFh			;B=?   после выделения маски  (A B)
 	jne	@F				;	B=1 переход
 		mov	ah,PR@c			;B=0 	(A>B) & (A=C) \/    т.к. bl=B=0
-	jmp	CMNEXI				;  
+	jmp	CMNEXI				;
 @@:
 		and	BH,0FFh			;A=?
 	jne	@F				;	надо продолжать
@@ -743,24 +743,24 @@ PRch:						; A=C	\/	/\
 	jmp	CMNEXI				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
-		mov	AX,BP	
+		mov	AX,BP
 		AND	AX,BX			;
-	jne	@F				; 
+	jne	@F				;
 		shr	BP,1			;
 	loop	@B				;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 @@:
 		mov	ah,PR@h			;B=0 	(B<A) & (A=C) \/    т.к. bl=B=0
 		and	AL,0FFh			;BL=B
-	jne	CMNEXI				;BL=1 A=0  =>A<B  /\   PR@h		
-		mov	ah,PR@c			;A=0 ```\	(A>B) & (A=C)  
-	jmp	CMNEXI			; 
+	jne	CMNEXI				;BL=1 A=0  =>A<B  /\   PR@h
+		mov	ah,PR@c			;A=0 ```\	(A>B) & (A=C)
+	jmp	CMNEXI			;
 ;***********************************
 
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 	
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
 	P!rAdrStop	=BalarirevNE	MACRO	C!abcPr	ERROR
 ;******************		Общий ВЫХОД
@@ -775,7 +775,7 @@ CMNEXI:				;нормальное завершение
 ;********************1 *********СучетомОтношений!Получить!Перейти*****вариант 2***********
 ;	СучетомОтношений!Получить!Перейти		AX ? BX ? CX =>\
 ;			Сравнили!Присвоили!Перешли AX?BX?CX? =>\
-;(rg=PRA=>P1) (rg=PRE=>P2)  (rg=PRO =>P3)   (rg=PRX =>P4)  (rg=PRY=>P5) (rg=PRI =>P6) (rg=PRJ=>P7) (rg=PRH=>P8)\ 
+;(rg=PRA=>P1) (rg=PRE=>P2)  (rg=PRO =>P3)   (rg=PRX =>P4)  (rg=PRY=>P5) (rg=PRI =>P6) (rg=PRJ=>P7) (rg=PRH=>P8)\
 ; (rg=PRG=>P9) (rg=PRK=>P10)   (rg=PRC=>P11)  (rg=PRS=>P12)   (rg=PRZ=>P13)
 ;*************************СучетомОтношений!Получить!Перейти ************************************************
 	MACRO СучетомОтношений!Получить!Перейти arg
@@ -783,14 +783,14 @@ CMNEXI:				;нормальное завершение
 		Relation!Write!Go	arg
 }
 ;*******************Relation!Write!Go********************************************************************
- 	MACRO  Relation!Write!Go	arg		;СучетомОтношений!Получить!Перейти 
+ 	MACRO  Relation!Write!Go	arg		;СучетомОтношений!Получить!Перейти
 {		Print!afall   arg
 		;display10
   common match A_=? B_ =? C_==> (r_1 ==_A==> P1)   (r_2==_E==> P2)  (r_3==_O==>P3)   (r_4==_X==>P4)   (r_5==_Y==>P5) (r_6==_I==>P6)  (r_7==_J==>P7)  (r_8 ==_H==>P8)  (r_9==_G==>P9)  (r_10==_K==>P10) (r_11==_C==>P11)  (r_12==_S==>P12)   (r_13 ==_Z==>P13),arg
 		\{
 		\Print!afall   _C
 		;\display10
-		
+
  \C!abcRoJmp  \A_,\B_,\C_,\r_1,\P1,\P2,\P3,\P4,\P5,\P6,\P7,\P8,\P9,\P10,\P11,\P12,\P13,\_A,\_E,\_O,\_X,\_Y,\_I,\_J,\_H,\_G,\_K,\_C,\_S,\_Z
 		 \}
 ;display10
@@ -839,7 +839,7 @@ LOCAL	MISTEK,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,PRxj,PR
 	JNE	@F				;не общих единичек нет => все не равны  ____
 		mov	EBX,P3			;адрес переключателя на точку выхода
 		mov	Ko,PR3			;параметр например для  примитива O   PR3=3
-	jmp	CMNE				; ++++>1 выход  PRo  
+	jmp	CMNE				; ++++>1 выход  PRo
 @@:
 	jmp	PRyi				;__/   	```\  al=A=B=bl  ESI =0  С A  B  cl=C
 ;*********************************************ПОВТОР от JNE	RE@F до*@@:*******
@@ -854,7 +854,7 @@ RE@F:
 @@:
 		mov	dh,dl
 		shl	EDX,8
-		mov	dl,dh			
+		mov	dl,dh
 		and	EDX,0FFFFFFh		;Маска общих значащих разрядов для 3-х переменных
 						;1.   	EDX=ABCor,ABCor,ABCor  кроме 3-х встреч.
 		mov	ch,cl
@@ -872,26 +872,26 @@ RE@F:
 		mov	al,ah			;AX=[Mac] [Mac]
 	JNE	@F
 	jmp	PRch				; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  DX = [A  B]
-   @@:		
+   @@:
 		xchg	EDX,ESI			;ESI =>	0  С A  B  	EDX=[Mabc]
 		and	EDX,ESI			; выделили не повторяющиеся 3 раза разряды
 		mov	EBP,EDX			;?Далее только не равные значения
 						;	EDX = [0  С A  B]  & [Mabc]
-		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]   
+		mov	DI,AX			;	AX= [0]   [Mca]   [Mca]
 						;	BX= [X]    [X]      [Mab] [Mab]
-		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb] 
+		mov	ESI,ECX			;	ECX= [0]  [Mcb]      [0]    [Mcb]
 					;Встречаются только парные  единички для маски ABC
 ;******************************  предварительная проверка на 0 значения A B      B  C  AC=????
 	mov	EAX,0808080h		;Остались операнды только с единичками в разных разрядах
 	mov	EBP,EAX			;EDX = [0  С A  B]  & [Mabc]
-	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7			;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		and	EAX,EDX		;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	EBP,1		;		if PF=0  		JNP  METKA
 		mov	EAX,EBP
 	loop	@B			;     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*************************************************** A=0 B=0 C=0 не должно быть
 @@:					;смотрим по выделенным разрядам
@@ -904,7 +904,7 @@ RE@F:
 		jmp	CeBe010			; +Ce=0     Ae=1	Be=0	 A> B  A>C
 @@:	and	al,0FFh			; Ce =1	Ae=	Be=?
 	JNE 	CeBe101			;+ Ce =1   Ae=	Be=1=>  Ae=0   A<B   A<C только 2 единички A С
-		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 => 
+		test	AX,0FF00h	; Ce =1   Ae=?	Be=0 =>
 	JE 	AeBe100		    	; Ce =1    Ae=0	Be=0		C>A   C>B
 	jmp 	minCeAe110		; Ce =1    Ae=1	Be=0   =>	A>B  B<C      \/
 ;*******************************+*
@@ -916,14 +916,14 @@ CeBe010:					;	Ce=0     Ae=1	Be=0	 A> B  A>C
 		and	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************+**
-@@:		
+@@:
 		mov	Ko,PR1			;параметр например для  примитива O   PR3=3
 		mov	EBX,P1
-		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C	
-	jne	CMNE			;++++>  5  Ce=0  Ae=1 B=1  B>C  => A>B> C    вниз 
+		and	al,0FFh		; Ce =     Ae=1	Be=?	A>B  A>C
+	jne	CMNE			;++++>  5  Ce=0  Ae=1 B=1  B>C  => A>B> C    вниз
 		mov	Ko,PR12			;параметр например для  примитива O   PR3=3
 		mov	EBX,P12
 	jmp	CMNE			;++++>  6   B=0    A>B<C  C=1    => A>B<C   A >C   `\/
@@ -936,7 +936,7 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 		AND	EAX,EDX		;С  В    теперь повторяющихся единичек нет
 	jne	@F			; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************************+*
 @@:						; Ce =   Ae=0	Be=?	A<B  A<C
@@ -950,13 +950,13 @@ CeBe101:					; Ce =1   Ae=0	Be=1=>Ae=0 A<B   A<C
 ;*******************************************+*
 AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	DX,BX			;Mab  значащие и один раз встречаются единички
-@@:		
+@@:
 		shr	BP,1
 		mov	AX,BP
 		AND	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;******************************************+**
 @@:
@@ -976,10 +976,10 @@ AeBe011:						; Ce=0     Ae=1	Be=1		C<A  C<B
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;*****************************************+**
-@@:		
+@@:
 		mov	Ko,PR2			;параметр например для  примитива O   PR3=3
 		mov	EBX,P2
 		and	al,0FFh			;Ce =1 B=? => A=    C>B  C>A
@@ -997,13 +997,13 @@ maxCeAe001:					; Ce=0     Ae=0   B =1=> max 	 /\
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;**********************************************+**
 @@:						; Ce=0     Ae=0   B =1=> max 	 /\
 		mov	Ko,PR9			;параметр например для  примитива O   PR3=3
 		mov	EBX,P9
-		and	al,0FFh			;A=?	
+		and	al,0FFh			;A=?
 	jne	CMNE				;+>  11 A=1 C<A  => A<B> C  A>C  /\.
 		mov	EBX,P10
 		mov	Ko,PR10			;параметр например для  примитива O   PR3=3
@@ -1018,7 +1018,7 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 		and	AX,DX
 	jne	@F				; ZF=1 if 0
 	loop	@B
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************+**
 @@:
@@ -1032,14 +1032,14 @@ minCeAe110:					; Ce =1    Ae=1	Be=0   =>	A>B  B<C   \/
 	;}
 ;*************************************************al=A=B=bl  ESI =0  С A  B  cl=C
 PRyi:					;__/   	```\   надо проверять B C
-		mov	DH,AL		
-		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B 
+		mov	DH,AL
+		mov	DL,CL		; CX =[A] [C]     C ? A   ~  C? B   одинаково  т.к. A=B
 		xor	al,cl		;Mca
 		mov	ah,al		;AX=Mac Mac
 		and	DX,AX  		;and	CX,AX	      [C  A]  & [Mac Mac]
 		and	DH,0FFh			;A=? после выделения маски С & (BC)
 	jne	@F				;они не зависимы и надо продолжать
-		mov	Ko,PR5		;параметр   PR3=5	;A=0  Y	(A=B) & (A=B<C)   __/ 
+		mov	Ko,PR5		;параметр   PR3=5	;A=0  Y	(A=B) & (A=B<C)   __/
 		mov	EBX,P5
 	jmp	CMNE				; 2 выход  PRy
 @@:
@@ -1050,32 +1050,32 @@ PRyi:					;__/   	```\   надо проверять B C
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,DX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;		if PF=0  		JNP  METKA
 	loop	@B			;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************
 @@:
 		mov	Ko,PR5		;параметр    PR5=5;A=0 Y	(A=B) & (B<C)   __/ т.к. bl=B=0
 		mov	EBX,P5
-		and	al,0FFh		; 
+		and	al,0FFh		;
 	jne	CMNE			;A=1  A>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C
-		mov	EBX,P6 
+		mov	EBX,P6
 		mov	Ko,PR6		;параметр   PR3=6		;C=0 	(A=B) & (B=A>C)  ```\
 	jmp	CMNE
 ;***********************************
 ;*************************************************	;B=C   A?B   BX= [Mab] [Mab]  SI= [A] [B]
-PRxj:						;/```   \__    C=B  пр-ка  A ? B   
+PRxj:						;/```   \__    C=B  пр-ка  A ? B
 		and	BX,SI
 		and	BH,0FFh			;A=?   после выделения маски  (A B)
 	jne	@F				;A=1    A>B
 		mov	EBX,P4
-		mov	Ko,PR4			;параметр    PR3=4	A=0 	(A<B) & (B=C)  /``` 
+		mov	Ko,PR4			;параметр    PR3=4	A=0 	(A<B) & (B=C)  /```
 	jmp	CMNE				;  2 выход  PRy
 @@:
 		and	BL,0FFh			;B=?
@@ -1085,22 +1085,22 @@ PRxj:						;/```   \__    C=B  пр-ка  A ? B
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		mov	AX,BP
 		and	AX,BX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	BP,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
-@@:						; B>C   
+@@:						; B>C
 		mov	Ko,PR4			;параметр    PR4=4	A=0 	(A<B) & (B=C)  /``` т.к. bl=B=0
 		mov	EBX,P4
 		and	AL,0FFh			;BL=?
 	jne	CMNE				;BL=1 A=0  =>A<B
-		mov	EBX,P7	
+		mov	EBX,P7
 		mov	Ko,PR7			;параметр   PR7=7	A=1   	(A>B) & (B=C)  ```\
 	jmp	CMNE
 ;***********************************; \/ v  /\  A=C    A?B   BX= [Mab] [Mab]  SI = [A  B]
@@ -1110,7 +1110,7 @@ PRch:						; A=C	\/	/\
 	jne	@F				;	B=1 переход
 		mov	EBX,P11
 		mov	Ko,PR11			;параметр    PR11=11   B=0 	(A>B) & (A=C) \/    т.к. bl=B=0
-	jmp	CMNE				;  
+	jmp	CMNE				;
 @@:
 		and	BH,0FFh			;A=?
 	jne	@F				;	надо продолжать
@@ -1119,25 +1119,25 @@ PRch:						; A=C	\/	/\
 	jmp	CMNE				;  3 выход  PRi
 @@:
 	mov	BP,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
-		mov	AX,BP	
+		mov	AX,BP
 		AND	AX,BX			;
-	jne	@F				; 
+	jne	@F				;
 		shr	BP,1			;
 	loop	@B				;
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 @@:
 		mov	Ko,PR8			;параметр    PR3=3	B=0 	(B<A) & (A=C) \/    т.к. bl=B=0
 		mov	EBX,P8
 		and	AL,0FFh			;BL=B
 	jne	CMNE				;BL=1 A=0  =>A<B  /\   PR@h
-		mov	EBX,P11		
-		mov	Ko,PR11			;параметр    PR3=3		A=0 ```\	(A>B) & (A=C)  
-	jmp	CMNE			; 
+		mov	EBX,P11
+		mov	Ko,PR11			;параметр    PR3=3		A=0 ```\	(A>B) & (A=C)
+	jmp	CMNE			;
 ;***********************************
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 	
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
 	P!rAdrStop	=BalarirevNE	MACRO	C!MPabcJm	ERROR
 ;******************		Общий ВЫХОД
@@ -1183,7 +1183,7 @@ CMNE:				;результат сравнения
 						;       B        A         C
 						;   (ACB)  (CBA)  (BAC)
 		xor	EBP,EBX			;			маска (ABC)
-			
+
 	JNE	@F				;все равны  ____
 		mov	al,PRo			;  примитив	O
 	jmp	CMNEXI				;  1 выход  PRo
@@ -1191,7 +1191,7 @@ CMNE:				;результат сравнения
 			mov	EBP,EAX		;   EBP =>      B A C         BP=>AC
 						;EAX =>	>16 (CA)  ah=(BC)  al=(AB)
 		test	EAX,0FFh			; маска  al = (AB)      маска ah = (BC)
-	JE	@F				;A=B				   
+	JE	@F				;A=B
 	JMP	PRODL				; A не = B
 @@:						;EBX =>      B A C   bh=A    bl=C
 						;EDX =>	С B  A   >16 C  dh=B dl =A
@@ -1206,29 +1206,29 @@ JmJ:		mov	al,PRy			;Y	(A=B) & (B<C)   __/ т.к. bl=B=0
 	jmp	CMNEXI				;  2 выход  PRy
 @@:
 		and	BH,AH			;bh=C
-		
+
 	jne	@F				;	надо продолжать
 JgJ:		mov	al,PRi			;I 	(A=B) & (B>C)  ```\
 	jmp	CMNEXI				;  3 выход  PRi
 @@:
 	mov	AX,08080h				;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ. 
+	mov	ECX,7				;рр 16&8 ;15&7; 14&6; 13&5; 12&4;11&3;10&2; 9&1-исключ.
 @@:
 		test	BX,AX			;
-	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+	jne	@F			; ZF=1 if 0   на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
-	jnp	JgJ			;FP=0  B>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C 
+	jnp	JgJ			;FP=0  B>C   по флагу  if FP=1, который вырабат. если bl=0, т.е. B<C
 	jmp	JmJ			;FP=1  B<C
 ;***********************************
 PRODL:						;A не = B
 						;ah=(BC)
 	test	EAX,0FF00h			;       маска ah = (BC)
-	JE	@F				;B=C				
+	JE	@F				;B=C
 	JMP	PRODL1				; B не = C
 @@:						;EBX =>      B A C   bh=A    bl=C
 						;EDX =>	С B  A   >16 C  dh=B dl =A
@@ -1236,11 +1236,11 @@ PRODL:						;A не = B
 		mov	bh,dh			;bh=B  B=C   и   A не = B     A?B  if  dh=B dl =A
 		mov	bl,dl			;bl=A =>	B ? A  in BX
 						;mov	DL,BL
-						;xor	DL,BH	;в DL маска  
+						;xor	DL,BH	;в DL маска
 						;je	MISTEK	;оба операнда B=C ==>
 		and	BL,AL			;bl=A после выделения маски
 	jne	@F				;они не зависимы и надо продолжать
-JmJ1:		mov	al,PRx			;X	(A<B) & (B=C)   /```  
+JmJ1:		mov	al,PRx			;X	(A<B) & (B=C)   /```
 	jmp	CMNEXI				;  4 выход  PRx  они не зависимы и надо продолжать
 @@:
 		and	BH,AL			;	bh=B
@@ -1249,48 +1249,48 @@ JgJ1:		mov	al,PRj			;J 	(A>B) & (B=C)      \__
 	jmp	CMNEXI
 @@:
 	mov	AX,08080h			;Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			; рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			; рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		; 
-	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;
+	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;		if PF=0  		JNP  METKA
 	loop	@B			;     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
-	jnp	JgJ1			;FP=0  A>B  по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B 
+	jnp	JgJ1			;FP=0  A>B  по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B
 	jmp	JmJ1			;FP=1  A<B
 ;************************************************
 ; не A  не =  B       B не =  C   		 (AB)не 0    (BC) не 0
 PRODL1:						;EBX =>      B A C   bh=A    bl=C
 						;EDX =>	С B  A   >16 C  dh=B dl =A
 						;EAX =>	>16 (CA)  ah=(BC)  al=(AB)
-		mov	bh,dh			;bh=B  
+		mov	bh,dh			;bh=B
 		mov	bl,dl			;bl=A =>	B ? A  in BX
 
 		and	BL,AL			;bl= A    после выделения маски
 	jne	@F				;[7]
-JmJ2:		mov	dl,4h			;признак 	(A>B) 1000 0000     A<B  0100 0000  
+JmJ2:		mov	dl,4h			;признак 	(A>B) 1000 0000     A<B  0100 0000
 	jmp	PROVDAL			;  надо продолжать
 @@:
 		and	BH,AL			;[8 ]	bl
-	jne	@F				;	
-JgJ2:		mov	dl,8h			; 	(A>B) 
+	jne	@F				;
+JgJ2:		mov	dl,8h			; 	(A>B)
 	jmp	PROVDAL
 @@:
 	mov	AX,08080h			;[10]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
-	jnp	JgJ2			;FP=0  A>B   [42] по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B 
+	jnp	JgJ2			;FP=0  A>B   [42] по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B
 	jmp	JmJ2			;FP=1  A<B
 ;***********************************************************
 PROVDAL:	mov	EAX,EBP			;EBX =>      B A C   bh=A    bl=C
@@ -1298,10 +1298,10 @@ PROVDAL:	mov	EAX,EBP			;EBX =>      B A C   bh=A    bl=C
 						;EAX =>	>16 (CA)  ah=(BC)  al=(AB)
  		mov	bh,bl			;bh=C
 		mov	bl,dh			;bl=B =>	C ? B  in BX
-		
+
 		and	BL,AH			;после выделения маски
 	jne	@F				;A маскированное пересекается с B  маскированное
-JmJ3:		or	dl,1h			;	 (B<C)  
+JmJ3:		or	dl,1h			;	 (B<C)
 	jmp	PROVDAL1			; они не зависимы и надо продолжать
 @@:
 		and	BH,AH			;bh=?
@@ -1310,22 +1310,22 @@ JgJ3:		or	dl,2h			; 	(B>C)
 	jmp	PROVDAL1
 @@:
 	mov	AX,08080h			;[10]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
-	jnp	JgJ3			;FP=0  B>C   [42] по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B 
+	jnp	JgJ3			;FP=0  B>C   [42] по флагу  if FP=1, который вырабат. если bl=0, т.е. A<B
 	jmp	JmJ3			;FP=1  B<C
 ;***********************************
 ;   ПРОВЕРКА если нужно А   и   С
 ; Комбинации в  DL
-;10 A>B  10 B>C  => 1 01 0  		A>B>C     A = PRA=1	  	1  	ST2  
+;10 A>B  10 B>C  => 1 01 0  		A>B>C     A = PRA=1	  	1  	ST2
 ;10 A>B  01 B<C =>  1 00 1 		A>B<C	\/    C S Z	 \/	0 	ST1
 ;01 A<B  10 B>C =>  0 11 0 		A<B>C	/\  H G K		3	ST4
 ;01 A<B  01 B<C =>  0 10 1 		A<B<C	B=PRB=2		2	ST3
@@ -1335,10 +1335,10 @@ PROVDAL1:
 	S!WITCH EAX,JgJ4 ;Переключатель по 4 вышеуказанным комбинациям
 STTT2:
 		mov	al,PRa
-	jmp	CMNEXI	
+	jmp	CMNEXI
 ;**********************************
 ;10 A>B  01 B<C =>  1 00 1 		A>B<C	\/    C S Z	 \/	0 	ST1
-;**********************************	
+;**********************************
 STTT1:		;mov	EAX,EBP			;EBX =>      B A C   bh=A    bl=C
 						;EDX =>	С B  A   >16 C  dh=B dl =xxx
 						;EAX =>	>16 (CA)  ah=(BC)  al=(AB)
@@ -1350,8 +1350,8 @@ STTT1:		;mov	EAX,EBP			;EBX =>      B A C   bh=A    bl=C
 @@:
 		and	BL,AL			;bl=Cпосле выделения маски
 	jne	@F				;A маскированное пересекается с B  маскированное
-JmJ4:		mov	al,PRS			;A>C	 (C<A)  
-	jmp	CMNEXI				; 
+JmJ4:		mov	al,PRS			;A>C	 (C<A)
+	jmp	CMNEXI				;
 @@:
 		and	BH,AL			;bh=A
 	jne	@F				;
@@ -1360,13 +1360,13 @@ JgJ4:
 	jmp	CMNEXI
 @@:
 	mov	AX,08080h			;[10]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;***********************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
@@ -1375,17 +1375,17 @@ JgJ4:
 ;*******************************************************************************
 ;01 A<B  10 B>C =>  0 11 0 		A<B>C	/\  H G K		3	ST4
 ;	A<B>C	/\  H G K
-;********************************************************************************	
+;********************************************************************************
 STTT4:					;EBX =>      B A C   bh=A    bl=C
 					;EDX =>	С B  A   >16 C  dh=B dl =xxx
 					;EAX =>	>16 (CA)  ah=(BC)  al=(AB)
 		shr	EAX,16		;(AC)
 		and	al,0FFh
-	jne	@F			;A>C   v  A<C 
+	jne	@F			;A>C   v  A<C
 		mov	al,PRH		;A=C  т.к. маска (AC)=0  /\
 	jmp	CMNEXI
 @@:
-		
+
 		and	BL,AL			;после выделения маски    для C
 	jne	@F				; маскированное пересекается с А  маскированное
 JgJ5:		mov	al,PRG			 ;	 (A>C)    /\.
@@ -1398,21 +1398,21 @@ JmJ5:
 	jmp	CMNEXI
 @@:
 	mov	AX,08080h			;[10]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[11] рр 16 - 8  ;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	@F			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros 
+;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 	JMP	MISTEK
 ;************************************************************************************************************
 @@:					; OUTLOP либо bl  будет 0, то FP=1 и тогда можно   JNP  METKA  !!!!!
-	jnp	JmJ5			;FP=0  A<C    
+	jnp	JmJ5			;FP=0  A<C
 	jmp	JgJ5			;  по флагу  if FP=1, который вырабат. если bl=0, т.е. A>C
 ;*************************************************************
 ;01 A<B  01 B<C =>  0 10 1 		A<B<C	B=PRB=2		2	ST3
-;*****************************************************************************	
+;*****************************************************************************
 STTT3:
 	mov	al,PRE
 	jmp	CMNEXI
@@ -1448,7 +1448,7 @@ CMNEXI:				;нормальное завершение
 		pop	EAX
 		pop	EBX
 		push	EBX			;?
-		push	EAX			;? [SP] 
+		push	EAX			;? [SP]
 ;Блок 3
 	shr	EAX,24				;старший байт в регистре 1 опеанда
 	shr	EBX,24				;старший байт в регистре 2 опеанда
@@ -1457,14 +1457,14 @@ CMNEXI:				;нормальное завершение
 		and	bl,0FFh
 	jne	JmJ				;A=0 B#0 => A<B закончили
 	jmp	NBloc2				;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bl,0FFh
 	je	JgJ				;A#0 B=0 A>B
 ;****************************************
 		mov	BH,BL  			;2 чтобы B  A были в одной строке
 		mov	BL,AL			;1
 		mov	CL,BL			;3
-		xor	CL,BH			;[4]в CL маска 
+		xor	CL,BH			;[4]в CL маска
 	je	NBloc2				;	[5*]оба операнда A=B ==>
 		and	BL,CL			;[6]после выделения маски
 	jne	@F				;[7]A маскированное пересекается с B  маскированное
@@ -1474,24 +1474,24 @@ CMNEXI:				;нормальное завершение
 		and	BH,CL		;[8 ]	bl
 	je	JgJ			;	[9*]	;A>B
 	mov	AX,08080h			;[7]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-			test	BX,AX		;12 
-	jne	OUTLOP1			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+			test	BX,AX		;12
+	jne	OUTLOP1			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
-;**************************************************************************************** 
+;****************************************************************************************
 	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP1:
-	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B 
-	jmp	JmJ		
+	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
+	jmp	JmJ
 ;**************************
 NBloc2:
 		pop	EAX
 		pop	EBX
 		push	EBX			;
-		push	EAX			; 
+		push	EAX			;
 	shr	EAX,16
 	shr	EBX,16
 		and	al,0FFh
@@ -1499,14 +1499,14 @@ NBloc2:
 		and	bl,0FFh
 	jne	JmJ				;A=0 B#0 => A<B закончили
 	jmp	NBloc1				;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bl,0FFh
 	je	JgJ				;A#0 B=0 A>B
 ;*******
 		mov	BH,BL  			;2 чтобы B  A были в одной строке
 		mov	BL,AL			;1
 		mov	CL,BL			;3
-		xor	CL,BH			;[4]в CL маска 
+		xor	CL,BH			;[4]в CL маска
 	je	NBloc1				;	[5*]оба операнда A=B ==>
 		and	BL,CL			;[6]после выделения маски
 	jne	@F				;[7]A маскированное пересекается с B  маскированное
@@ -1516,24 +1516,24 @@ NBloc2:
 		and	BH,CL		;[8 ]	bl
 	je	JgJ			;	[9*]	;A>B
 	mov	AX,08080h			;[7]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	OUTLOP2			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	OUTLOP2			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
-	loop	@B			;15     [max 4*7=28-2     15+26=41] 
-;**************************************************************************************** 
+	loop	@B			;15     [max 4*7=28-2     15+26=41]
+;****************************************************************************************
 	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP2:
-	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B 
-	jmp	JmJ		
+	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
+	jmp	JmJ
 ;**************************
 NBloc1:
 		pop	EAX
 		pop	EBX
 		push	EBX			;?
-		push	EAX			;? [SP] 
+		push	EAX			;? [SP]
 	shr	EAX,8
 	shr	EBX,8
 		and	al,0FFh
@@ -1541,14 +1541,14 @@ NBloc1:
 		and	bl,0FFh
 	jne	JmJ				;A=0 B#0 => A<B закончили
 	jmp	NBloc0				;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bl,0FFh
 	je	JgJ				;A#0 B=0 A>B
 ;*******************************
 		mov	BH,BL  			;2 чтобы B  A были в одной строке
 		mov	BL,AL			;1
 		mov	CL,BL			;3
-		xor	CL,BH			;[4]в CL маска 
+		xor	CL,BH			;[4]в CL маска
 	je	NBloc0				;	[5*]оба операнда A=B ==>
 		and	BL,CL			;[6]после выделения маски
 	jne	@F				;[7]A маскированное пересекается с B  маскированное
@@ -1558,36 +1558,36 @@ NBloc1:
 		and	BH,CL		;[8 ]	bl
 	je	JgJ			;	[9*]	;A>B
 	mov	AX,08080h			;[7]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-		test	BX,AX		;12 
-	jne	OUTLOP3			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+		test	BX,AX		;12
+	jne	OUTLOP3			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
-	loop	@B			;15     [max 4*7=28-2     15+26=41] 
-;**************************************************************************************** 
+	loop	@B			;15     [max 4*7=28-2     15+26=41]
+;****************************************************************************************
 	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP3:
-	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B 
+	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
 	jmp	JmJ			;[38]
 ;************************** Блок последний
 NBloc0:
 		pop	EAX
 		pop	EBX
-						
+
 		and	al,0FFh
 	jne	@F
 		and	bl,0FFh
 	jne	JmJ				;A=0 B#0 => A<B закончили
 	jmp	JeJ				;A=0  B=0 На следующий блок из 0,1,2,3 на 2
-@@:			
+@@:
 		and	bl,0FFh
-	je	JgJ	
+	je	JgJ
 ;*********
 		mov	BH,BL  			;2 чтобы B  A были в одной строке
 		mov	BL,AL			;1
 		mov	CL,BL			;3
-		xor	CL,BH			;[4]в CL маска 
+		xor	CL,BH			;[4]в CL маска
 	je	JeJ				;	[5*]оба операнда A=B ==>
 		and	BL,CL			;[6]после выделения маски
 	jne	@F				;[7]A маскированное пересекается с B  маскированное
@@ -1597,18 +1597,18 @@ NBloc0:
 		and	BH,CL		;[8 ]	bl
 	je	JgJ			;	[9*]	;A>B
 	mov	AX,[E16E8]		;[7]  Остались операнды только с единичками в разных разрядах
-	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается 
+	mov	ECX,7			;[8]  16 - 8	;15 - 7; 14 - 6; 13 - 5; 12 -4; 11-3; 10-2; 9 - 1 -исключается
 @@:
-			test	BX,AX		;12 
-	jne	OUTLOP4			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7] 
+			test	BX,AX		;12
+	jne	OUTLOP4			; ZF=1 if 0   13*на выx  посмотреть флаг PF   XNOR разряды TEMP[0-7]
 		shr	AX,1		;14		if PF=0  		JNP  METKA
-	loop	@B			;15     [max 4*7=28-2     15+26=41] 
-;**************************************************************************************** 
+	loop	@B			;15     [max 4*7=28-2     15+26=41]
+;****************************************************************************************
 	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP4:
 				;and	BL,AL		;[43] либо bl  либо bh будет 0    JNP  METKA  ????
-	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B 
+	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
 ;************************  ВЫХОДЫ
 JmJ:
 		ВосстановилиРегистры	EAX,EBX,ECX	;[6] [40]
@@ -1616,7 +1616,7 @@ JmJ:
 	JMP	Pr2			;A>B
 			else
 		JMP	MEXI
-			end if			
+			end if
 JgJ:
 		ВосстановилиРегистры	EAX,EBX,ECX	;[7] [42]	A>B
 			if   ~Pr1 eq
@@ -1624,7 +1624,7 @@ JgJ:
 			else
 	JMP	MEXI
 			end if
-JeJ:	
+JeJ:
 		ВосстановилиРегистры	EAX,EBX,ECX	;[3]
 	if   ~Pr0 eq
 	JMP	Pr0			;Равны A=B
@@ -1648,7 +1648,7 @@ MEXI:						;Общий ВЫХОД
 ;+1 +1   +1    =3  Значение качества
 ;00 111 0  11
 ;   +1  +1 +1  =3
-;10101010    	?=8  максимум качества   начиная с 1  =7  
+;10101010    	?=8  максимум качества   начиная с 1  =7
 ;01010101 	?=7
 ;ОпределитьКачествоБайта\
 ; ?al\		;?[byt]
@@ -1666,30 +1666,30 @@ MEXI:						;Общий ВЫХОД
 ;Кd  	00 00 ЧислоЕдиницA ЧислоЕдиницB
 ;Kd+4	m1 m2     m3		 0
 ;Kd+8	[A (B	  b) 		a]
-;Ps	_Vi c учетом адреса перехода	
+;Ps	_Vi c учетом адреса перехода
 MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 {
    LOCAL	P6BA,Pr8,Pr7,Pr6,Pr5,Pr4,Pr3,Pr2,Pr1,Pr0,P8BA
 	УпряталиРегистры	EAX,EBX,ECX,EDX,EBP
 			movzx	EBX,GB		;2-й операнд
 			movzx	EAX,GA		;1-й операнд
-	;Операция: Число_единиц_в (EAX,ECX)	AL\ 		?(A)  
+	;Операция: Число_единиц_в (EAX,ECX)	AL\ 		?(A)
 		NEDinB	al,DH		;=> DH	=kA
-	; Операция:  Число_единиц_в	BL\		?(B)  
-		NEDinB	BL,DL		;=> DL	kB		
+	; Операция:  Число_единиц_в	BL\		?(B)
+		NEDinB	BL,DL		;=> DL	kB
 		mov	[Kd],EDX		;DX=kA,kB
 		and	al,0FFh			;A&E
 	jne	@F
 		and	bl,0FFh			;B&E
 	jne	Pr1				;JmJ	A=0 B#0 => A<B закончили
 	jmp	Pr0				;JeJ  	A=0  B=0   A=B
-@@:			
+@@:
 		and	bl,0FFh
 	je	Pr2				;JgJ	A#0 B=0 => A>B закончили
 ;*********
 						;mov	BH,AL  	чтобы A(bh)  B(bl) были в одной строке
-		mov	CL,AL			
-		xor	CL,BL		;в CL маска 
+		mov	CL,AL
+		xor	CL,BL		;в CL маска
 					;AxorB=>N1-получим несовпадающие б. в A,B
 	je	Pr3				;JeJ  	оба операнда A=B ==>
 ;**************Далее нетривиальные ситуации**********
@@ -1707,8 +1707,8 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 		shl	EBP,16
 		NEDinB	DL,DH		;=> DH
 		mov	BP,Dx		;m3
-		and	BP,0FF00h  
-		mov	[Kd+4],EBP		;EDX= m1, m2, m3, 0  
+		and	BP,0FF00h
+		mov	[Kd+4],EBP		;EDX= m1, m2, m3, 0
 		and	BL,CL		;после выделения маски A
 	jne	@F			;A маскир. пересекается с маскированное
 					;А либо  погружено и нет  1, либо они не зависимы
@@ -1728,13 +1728,13 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 
 		bsr	CX,AX		;A	старшие разряды
 		shl	CX,8
- 		bsr	DX,BX		; старшие	А  В 
+ 		bsr	DX,BX		; старшие	А  В
 		or	CX,DX
 		mov	DX,CX		;DX  старшие	А  В
 		shl	ECX,16
 		mov	CX,BP
 		mov	[Kd+8],ECX		;==  границы [A(B b)a]
-		cmp	dl,dh		;B  A номера старших единичек  
+		cmp	dl,dh		;B  A номера старших единичек
 	JG	P8BA			;B=1 A=0  =>A<B верхняя B больше A  (B [A
 					;B=0 A=1  =>A>B
 ;*************  Pr7
@@ -1744,7 +1744,7 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 	jmp	P11			;[A (B b) a]	A>B
 ;***  Координаты границ в Koordint
-;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a] 
+;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a]
 ;*******************  			[A     (B	 a]	 b)
 @@:
 					;[A(B b)a]
@@ -1755,7 +1755,7 @@ MACRO C!MPMalblJm  GA,GB, Kd,PS,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14
 ;*************  Pr8
 ;***************** комб.  P8BA **********
 P8BA:
-						;границы (B [A 
+						;границы (B [A
 		cmp	cl,ch			;номера младших единичек
 	jl	@F				;(B [A a] b)
 						;(B [A b)a]
@@ -1763,7 +1763,7 @@ P8BA:
 		mov	PS,_V13			;
 	jmp	P13				;(B [A b)a]	A>B
 ;***  Координаты границ в Koordint
-;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a] 
+;*** Закончили с комб. Pr6ABba и пересечение до [A , после до (B, после до b) и до a]
 ;*******************  			[A     (B	 a]	 b)
 @@:						;
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
@@ -1772,21 +1772,21 @@ P8BA:
 ;************************************
 ;******************************************************
 Pr0:				;JeJ  	;A=0  B=0   A=B
-		mov	[Kd+4],0		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],0		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],0		;[A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,V1 		;[PrSovm],V1 - признак
 	JMP	P1			;A=B
 ;*****************************
 Pr1:				;JmJ	;A=0 B#0 => A<B
-		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;+  [A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS, V2 		;[PrSovm],V2   A<B закончили		признак
 	JMP	P2			; A<B
 ;******************
 Pr2:				;JgJ	;A#0 B=0 => A>B
-		mov	[Kd+3],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+3],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;:=   [A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,_V3 		;[PrSovm],V3 - признак
@@ -1797,7 +1797,7 @@ Pr3:				;JeJ  	;оба операнда A=B ==>
 		shl	CX,8
 		bsf	DX,BX			;B
 		or	CX,DX
-		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0 
+		mov	[Kd+4],EDX		;EDX= m1, m2, m3, 0
 		mov	[Kd+8],ECX		;$$$[A(B b)a]
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
 		mov	PS,_V4		; [PrSovm],V4 -признак
@@ -1810,7 +1810,7 @@ Pr4:
 		shl	CX,8
 		bsr	DX,BX			;B
 		or	CX,DX
-		shl	ECX,16		
+		shl	ECX,16
 		bsf	CX,AX			;A
 		shl	CX,8
 		bsf	DX,BX			;B
@@ -1827,7 +1827,7 @@ Pr5:
 		shl	CX,8
 		bsr	DX,BX			;B
 		or	CX,DX
-		shl	ECX,16		
+		shl	ECX,16
 		bsf	CX,AX			;A
 		shl	CX,8
 		bsf	DX,BX			;B
@@ -1846,19 +1846,19 @@ Pr6:
 
 		bsr	CX,AX		;A	старшие разряды
 		shl	CX,8
- 		bsr	DX,BX		; старшие	А  В 
+ 		bsr	DX,BX		; старшие	А  В
 		or	CX,DX
 		mov	DX,CX		;DX  старшие	А  В
 		shl	ECX,16
 		mov	CX,BP
 		mov	[Kd+8],ECX	;]]границы [A(B b)a]
 		cmp	dl,dh		;dl=>B  dh=>A номера старших единичек
-	JG	P6BA			;B=1 A=0  =>A<B верхняя B больше A (B [A 
+	JG	P6BA			;B=1 A=0  =>A<B верхняя B больше A (B [A
 					;B=0 A=1  =>A>B
 		cmp	cl,ch		;номера младших единичек  [A (B
 	jL	@F			;номера младших единичек [(   a] b)
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP
-		mov	PS,_V7 		;	
+		mov	PS,_V7 		;
 	jmp	P7			;  	[(  b) a]
 @@:
 	ВосстановилиРегистры	EAX,EBX,ECX,EDX,EBP

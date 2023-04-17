@@ -1,9 +1,9 @@
 ;********************************************
 ;			Оглавление  переключателей
-;1 S!WITC						с проверкой на кол-во меток с индексом переключателя	
+;1 S!WITC						с проверкой на кол-во меток с индексом переключателя
 ;2 S!WITCH						самый короткий переключатель по индексу
 ;2R Перейти_по_переключателю 	Эквивалентно 2
-;3 S!WITCA 						парсинг 
+;3 S!WITCA 						парсинг
 ;		Парсинги
 ; в файле SWITCH\PARS.inc
 ;4 S!WITCL							Эквивалентно 5	переключение по любому регистру
@@ -19,24 +19,24 @@
      {      common
 	push EAX
 		mov	al,NMR
-		mov	ah,al				;ЕСЛИ 	 на AH значение для сравнения ТО сработает 
+		mov	ah,al				;ЕСЛИ 	 на AH значение для сравнения ТО сработает
 	forward						; здесь выборка string по кол-ву параметров
 		mov	ah,str1
 		xor	ah,al				;совпал символ
-	pop	EAX	
-	je	str2				
+	pop	EAX
+	je	str2
 	common
-			if   ~FEND eq		;при плохом исходе-не совпал 
-	JMP	FEND			
+			if   ~FEND eq		;при плохом исходе-не совпал
+	JMP	FEND
 			else
-			end if	
+			end if
     }
-;*********************			;конец макроса 
+;*********************			;конец макроса
 ;***************************************************************
 ;****************************5****************
 MACRO	S!WITCS	FEND,[str1,str2]		;переключение по совпадению кода символа в памяти
      {     common
-	 local	SSMB,SJMP			;label 
+	 local	SSMB,SJMP			;label
 		УпряталиРегистры	EBX,ECX
 		mov	bl,Rswtch			;		[RSWT]
 		cmp	bl,Rsimb			;Проверка на не выход за пределы меток переключения
@@ -79,7 +79,7 @@ Rswtch = Rswtch+1   	;local label В зависимости от кол-ва п�
     }
 
 ;********************************синтаксическая часть*******************************
-;Если_это_Совпадает_с_Символом_то_Перейти  
+;Если_это_Совпадает_с_Символом_то_Перейти
 ;*********************   П Р И М Е Р
 ;Если_RGb_Совпадает_(с_Si_то_POINTi)\
 ;		?:=AL \
@@ -113,16 +113,16 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 											;\display ' Pk 2',0Dh,0Ah
 
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0			;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
- 
+
 											;\Print!afall   Pstr2
 											;\display ' Pstr2 3.0',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
-			stradd	Pk,Pstr2				
+			stradd	Pk,Pstr2
 			else
 											;\Print!afall   Pk
-											;\display '  Pk 4.0 break',0Dh,0Ah	
+											;\display '  Pk 4.0 break',0Dh,0Ah
 											;\Print!afall   list
 											;\display	0Dh,0Ah
 											;\display ' 5.0',0Dh,0Ah
@@ -131,7 +131,7 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0	;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.1',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -146,11 +146,11 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 											;\display ' 6.1',0Dh,0Ah
 		break								;выход за repeat   5 или 6 парсинга
 			end if
-;*****************************************************							
+;*****************************************************
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0			;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -165,11 +165,11 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 											;\display ' 6.2',0Dh,0Ah
 		break								;выход за repeat   7 или 8 парсинга
 			end if
-;********************************************	
+;********************************************
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0	;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -183,12 +183,12 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 											;\display	0Dh,0Ah
 											;\display ' 6.2',0Dh,0Ah
 		break								;выход за repeat   9 или 10 парсинга
-			end if	
-;*****************************************************							
+			end if
+;*****************************************************
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0			;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -207,7 +207,7 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0	;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0				;занесли 1 параметр
 			\spisadd	list,Pstr1				;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -226,7 +226,7 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0	;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 												;\Print!afall   Pk
 												;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0				;занесли 1 параметр
 			\spisadd	list,Pstr1				;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -245,7 +245,7 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0	;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 											;\Print!afall   Pk
 											;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0			;занесли 1 параметр
 			\spisadd	list,Pstr1			;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -265,7 +265,7 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 	\L!EXM	Pk,Pstr2,Pstr1,Pstr0		;match P$i =) =( S$i == P$k,\Pk	match P!i =) =( S!i == P!k,\\P$k
 												;\Print!afall   Pk
 												;\display ' Pk 3.2',0Dh,0Ah
-			if	~ Pstr2	eq	
+			if	~ Pstr2	eq
 			\spisadd	list,Pstr0				;занесли 1 параметр
 			\spisadd	list,Pstr1				;занесли 1 параметр
 			stradd	Pk,Pstr2
@@ -283,18 +283,18 @@ common	match	=?=:==RG  =( S1 ==>P1 =) =( S2 ==>P2 =)  ==>PF,ARG
 							\Print!Rfall   "Выход за 19-20 параметров"
 							\display	0Dh,0Ah
 		end if
-;********************************************	
+;********************************************
 		end repeat
-		\spisadd	list,Pk						;занесли 1 параметр			
+		\spisadd	list,Pk						;занесли 1 параметр
 												;\Print!afall   list
 												;\display ' Pk 7.1',0Dh,0Ah
-	match params, list \\{ S!WITCL params \\}	;Обращение к макросу S!WITCS т.к. list единая строка	
-												;\Print!afall   list 
-												;\display ' 7.2',0Dh,0Ah				
+	match params, list \\{ S!WITCL params \\}	;Обращение к макросу S!WITCS т.к. list единая строка
+												;\Print!afall   list
+												;\display ' 7.2',0Dh,0Ah
 \}
-;*************************  7 *****************	Если_это_Символ_то_Перейти	
+;*************************  7 *****************	Если_это_Символ_то_Перейти
 	MACRO	Если_это_Символ_то_Перейти	ARG
-{common	match	=?=:==RG  =(S1 ==>P1=) =(S2 ==>P2 =)  =>>PF,ARG  	
+{common	match	=?=:==RG  =(S1 ==>P1=) =(S2 ==>P2 =)  =>>PF,ARG
 \{
 Print!afall	\P2
 display	0Dh,0Ah
@@ -302,7 +302,7 @@ display	0Dh,0Ah
 match aww==ww,\P2
 \\{	\\NMRuu	equ	0\\}
 if	\NMRuu	eq	1
-											;Print!afall   \NMRuu 
+											;Print!afall   \NMRuu
 		S!WITCS	\RG,\PF,\S1,\P1,\S2,\P2
 end if
 \}

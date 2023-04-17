@@ -173,18 +173,18 @@ struct DRAWITEMSTRUCT
 ends
 
 struct MENUITEMINFO
-  cbSize	dd ? 
-  fMask 	dd ? 
-  fType 	dd ? 
-  fState	dd ? 
-  wID		dd ?,? 
-  hSubMenu	dq ? 
-  hbmpChecked	dq ? 
-  hbmpUnchecked dq ? 
-  dwItemData	dq ? 
-  dwTypeData	dq ? 
-  cch		dd ?,? 
-  hbmpItem	dq ? 
+  cbSize	dd ?
+  fMask 	dd ?
+  fType 	dd ?
+  fState	dd ?
+  wID		dd ?,?
+  hSubMenu	dq ?
+  hbmpChecked	dq ?
+  hbmpUnchecked dq ?
+  dwItemData	dq ?
+  dwTypeData	dq ?
+  cch		dd ?,?
+  hbmpItem	dq ?
 ends
 
 struct MEASUREITEMSTRUCT

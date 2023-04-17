@@ -1,6 +1,6 @@
 
 ; WSOCK32 API calls
-	      
+
 import wsock32,\
        AcceptEx,'AcceptEx',\
        EnumProtocolsA,'EnumProtocolsA',\
@@ -81,5 +81,5 @@ api EnumProtocols,\
     GetAddressByName,\
     GetNameByType,\
     GetService,\
-    GetTypeByName,\	
+    GetTypeByName,\
     SetService

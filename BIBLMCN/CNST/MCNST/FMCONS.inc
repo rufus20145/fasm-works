@@ -1,4 +1,4 @@
-;Набор макросов для определения различных констан   Описание в файле 
+;Набор макросов для определения различных констан   Описание в файле
 ;****************************1*****D!efineConst*******
 	MACRO	ОпределитьКонстанты	SGroppa,[Spisok]
  {forward 	DefCnst1	SGroppa,Spisok}
@@ -12,7 +12,7 @@
 ;************************** одно обращение из списка De!fRcnst1 PR,(Ala=21)
 	MACRO	DefCnst1  Groppa,Spis
 {  common	match nn ( nnm == nma2 ),Groppa Spis 	; nma='PR'  nma1=f  nma2=0
-	
+
  	\{\nn\#\nnm=\nma2						;*
 	\nnm=\nma2	\}		;на выходе Ala=21		 *
 }								;*
@@ -30,7 +30,7 @@
 ;***************
 	MACRO DfEcnst1		Gropp,Spis
 {common	match  nn (nnm == nm2),Gropp Spis 		; nma='PR'  nma1=f  nma2=0
- \{ \nn\#\nnm	equ	\nm2  
+ \{ \nn\#\nnm	equ	\nm2
 	\nnm	equ	\nm2  \}
 }
 ;***************************3 **********
@@ -95,7 +95,7 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
  {forward 	DfDcnt1d	SGroppa,Spisok}
 ;*********************** 5c
 	MACRO	D!fDcntd	SGroppa,[Spisok]
- {	
+ {
 forward
 	DfDcnt1d	SGroppa,Spisok
 }
@@ -132,7 +132,7 @@ forward
 ;***************
 	MACRO 	DfDcnt1q	SGroppa,Spis
 {common
-	db	'q'		;тип данных - 64 рр слово	
+	db	'q'		;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
  \{\label	\nnm	\qword
 \nn\#\nnm\#_q	dq	\nm2
@@ -144,7 +144,7 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
 ;*******************	ОпределитьКонстантыДанные
 	MACRO	ОпределитьКонстантыДанные  	SGroppa,[Spisok]
 {common
-	db	'd'			;тип данных - 64 рр слово	
+	db	'd'			;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
  \{\label	\nnm	\dword
 \nn\#\nnm\#_d	dd	\nm2
@@ -156,7 +156,7 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
 ;************************
 	MACRO	DefineConstantData  	SGroppa,[Spisok]
 {common
-	db	'd'			;тип данных - 64 рр слово	
+	db	'd'			;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
  \{\label	\nnm	\dword
 \nn\#\nnm\#_d	dd	\nm2

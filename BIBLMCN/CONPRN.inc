@@ -57,7 +57,7 @@ Pref	db	" "
 				end if
 			end if
 		end if
-	
+
 	db	" "
 Adruk	db	10	dup	('!')	; под адрес останова 8 16-ных чисел
 	db	0
@@ -71,7 +71,7 @@ FGH:
 		N!16inASCII	EBP,Adruk,8
 	invoke	GetStdHandle, STD_OUTPUT_HANDLE
 		mov	[AK],eax
-		
+
 		mov	EAX,[AK]
 		mov	EDX,DlPref		;длина сообщения
 		\}

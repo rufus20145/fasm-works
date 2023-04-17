@@ -75,16 +75,16 @@ struc SYSTEM_SERVICE_TABLE
   .ServiceTable dd ?
   .CounterTable dd ?
   .ServiceLimit dd ?
-  .ArgumentTable dd ?  
+  .ArgumentTable dd ?
  }
 
-struc SERVICE_DESCRIPTOR_TABLE 
+struc SERVICE_DESCRIPTOR_TABLE
  {
-  .ntoskrnl SYSTEM_SERVICE_TABLE 
-  .win32k   SYSTEM_SERVICE_TABLE 
+  .ntoskrnl SYSTEM_SERVICE_TABLE
+  .win32k   SYSTEM_SERVICE_TABLE
   .unused1  SYSTEM_SERVICE_TABLE
-  .unused2  SYSTEM_SERVICE_TABLE 
- } 
+  .unused2  SYSTEM_SERVICE_TABLE
+ }
 
 struc CLIENT_ID
  {
@@ -927,7 +927,7 @@ struc KDPC
     .SystemArgument1 dd ?
     .SystemArgument2 dd ?
     .Lock	    dd ?
- } 
+ }
 
 struc KDEVICE_QUEUE
  {
@@ -1281,7 +1281,7 @@ struc IRP
     .CancelIrql db ?
 
     .ApcEnvironment db ?
-    
+
     .AllocationFlags db ?
 
     .UserIosb dd ?
@@ -1302,7 +1302,7 @@ struc IRP
     .UserBuffer dd ?
 
     ;union
-    .Tail __TAIL   
+    .Tail __TAIL
 
  }  ; IRP
 
@@ -1444,7 +1444,7 @@ struc __IO_STACK_LOCATION_PARAMS
 	; Parameters for IRP_MN_QUERY_DEVICE_TEXT
 	;
 	virtual at .__params
-	    .QueryDeviceText.DeviceTextType db ?					
+	    .QueryDeviceText.DeviceTextType db ?
 	    .QueryDeviceText.LocaleId	    dd ?
 	end virtual
 	;
@@ -1453,13 +1453,13 @@ struc __IO_STACK_LOCATION_PARAMS
 	virtual at .__params
 	    .UsageNotification.InPath	    db ?
 	    .UsageNotification.Reserved	    db 4 dup (?)
-	    .UsageNotification.Type01	    db ?					  
+	    .UsageNotification.Type01	    db ?
 	end virtual
 	;
 	; Parameters for IRP_MN_WAIT_WAKE
 	;
 	virtual at .__params
-	    .WaitWake.PowerState     db ?	
+	    .WaitWake.PowerState     db ?
 	end virtual
 	;
 	; Parameter for IRP_MN_POWER_SEQUENCE

@@ -1,6 +1,6 @@
 ;***************************************************************************
 ;	1+	L!oad_and_WriteRG_If_0_Go			'C:\FASM\BIBLMCN\L!oadStowd.inc'
-;	2*	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти 'C:\FASM\BIBLMCN\L!oadStowd.inc'    ;Использует 1				
+;	2*	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти 'C:\FASM\BIBLMCN\L!oadStowd.inc'    ;Использует 1
 ;	3*	Загрузка_по_размерности	Ad			'C:\FASM\BIBLMCN\L!oadStowd.inc'
 ;	4*	ЗагрузилиДанныеИзЯчеек				'C:\FASM\BIBLMCN\L!oadStowd.inc'		;Использует 3
 
@@ -13,7 +13,7 @@
 ;**********************  Первая выборка  ЗагрузитьбайтЕсли0УходИначеПрисвоить  =>P0\
 ;				 =AL  =BL  =CL
 ;			L!oad_and_WriteRG_If_0_Go	P1,[Rg1]
-;;	+	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти	 =>P1 = al   = bl  = CL = dl	
+;;	+	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти	 =>P1 = al   = bl  = CL = dl
 ;	+	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти	 =>P1 = al   = bl  = CL
 ;	+	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти	 =>P1 = al   = bl
 ;	+	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти	 =>P1 = dl   = bl  = CL = bh
@@ -26,7 +26,7 @@
 ;***************************************  1  *******************************
 ;Исправить для  AL и EAX
 		MACRO	L!oad_and_WriteRG_If_0_Go	P1,[Rg1]
-{				
+{
 forward
     if  Rg1   in <al,bl,cl,dl,ah,bh,ch,dh>
 						;Print!afall   "ERROR AL not use in macro L!oad_and_WriteRG_If_0_Go"
@@ -66,7 +66,7 @@ forward
 						else
 						Print!Rfall   "Нет адреса перехода"
 						end if
-		else				
+		else
 				if  Rg1	 in <EAX,EBX,ECX,EDX,EDI,ESI,EBP>
 								if  ~Rg1   in <EAX>
 								PUSH	EAX
@@ -86,14 +86,14 @@ forward
 				else
 		Print!afall   "ERROR Write not RG in macro L!oad_and_WriteRG_If_0_Go"
 				end if
-		end if		
+		end if
 	end if
 common
 }
 ;*********************************************  2  ******
 		MACRO	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти  arg
 {		common match	==>Ad  ==>As,arg
-		\{					
+		\{
 		   \MRT	equ	1
 			match aww==ww,\As			;если  MRT= 1, то это наша структура
 			\\{	\\MRT	equ	0 \\}
@@ -110,7 +110,7 @@ common
 		end if
 		\}
 		common match	==>Ad ==>As ==> Bs ==> Ct,arg			;3 аргумента
-		\{				
+		\{
 		   \MRT	equ	1
 			match aww==ww,\Ct			;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -127,7 +127,7 @@ common
 		end if
 		\}
 		common match	==>Ad  ==> As  ==> Bs ==>Cs ==>Ks ==>Hs,arg	; 5 аргументов чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs
 		   \MRT	equ	1
 			match aww==ww,\Hs			;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -197,7 +197,7 @@ common
 			\\{	\\MRT	equ	0 \\}
 										;\Print!afall   "MRT2="				;
 										;\Print!afall   \MRT
-										;display 10	
+										;display 10
 		if	\MRT	eq	1
 	Загрузка_по_размерности	\Ad
 	Загрузка_по_размерности	\As
@@ -208,7 +208,7 @@ common
 		common match	=^=-Ad =^=-As  =^=-Bs=^=-Cs, arg
 		\{								;\arg1	equ	\`As#\`Bs\`Cs
 										;\Print!afall   \arg
-										;display 10				
+										;display 10
 		   \MRT	equ	1
 			match aww=^=-ww,\Cs			;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -222,7 +222,7 @@ common
 		\}
 ;****************************  ПЯТЬ ОПЕРАНДОВ
 		common match  =^=-Ad  =^=-As  =^=- Bs =^=-Cs =^=-Ks,arg	;4 аргумента
-		\{					
+		\{
 		\MRT	equ	1
 			match aww=^=-ww,\Ks		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}
@@ -399,7 +399,7 @@ common match	=^=-Ad =^=-As =^=-Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns\
 										;\Print!afall   arg
 										;display 10
 		if	\MRT	eq	1
-		
+
 	Загрузка_по_размерности	\Ad
 	Загрузка_по_размерности	\As
 	Загрузка_по_размерности	\Bs
@@ -495,7 +495,7 @@ common match	=^=-Ad =^=-As =^=-Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns\
 			else
 			end if
 		else
-		Print!afall   "ERROR now only 16 argument Write in macro S!tosData_From"	
+		Print!afall   "ERROR now only 16 argument Write in macro S!tosData_From"
 		end if
 		\}
 		POP	EAX

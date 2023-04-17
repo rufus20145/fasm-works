@@ -6,7 +6,7 @@
 ;**************1.5***Продвинули    [FlSizN]<=[FlSizN]<=[FlDli]
 	MACRO	Продвинули arg
 {	common match	T@1 =<== T@2,arg
-		\{	\arg1	equ	\`T@1#\`T@2	
+		\{	\arg1	equ	\`T@1#\`T@2
 		   \MRT	equ	1
 			match aww=<==ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -15,7 +15,7 @@
 		end if
 		\}
 		common match	T@1 =<== T@2=<== T@3,arg
-		\{	\arg1	equ	\`T@1#\`T@2\`T@3	
+		\{	\arg1	equ	\`T@1#\`T@2\`T@3
 		   \MRT	equ	1
 			match aww=<==ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -25,7 +25,7 @@
 		end if
 		\}
 		common match	T@1 =<== T@2=<==T@3  =<==T@4,arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4
 		   \MRT	equ	1
 							;\Print!afall   \arg1
 			match aww=<==ww,\arg1		;если есть хотя бы 1 +, то это не та структура
@@ -43,7 +43,7 @@
 		end if
 		\}
 		common match	T@1=<== T@2=<==T@3=<==T@4=<==T@5,arg
-		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5	
+		\{\arg1	equ	\`T@1#\`T@2\`T@3\`T@4\`T@5
 		   \MRT	equ	1
 			match aww=<==ww,\arg1		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0\\}
@@ -53,7 +53,7 @@
 			\Двигал   \T@3,\T@4
 			\Двигал   \T@4,\T@5
 		else
-				Print!afall   "ERROR now only 5 expresion in macro REMOVING" 
+				Print!afall   "ERROR now only 5 expresion in macro REMOVING"
 		end if
 		\}
 	}
@@ -82,10 +82,10 @@
 			Print!afall   "L"
 		else
 			Print!afall   "K"
-			mov	[dest],src	
+			mov	[dest],src
 		Print!afall   "NERROR"
 		display 10
-		end if				
+		end if
 	end if
   end if
 }

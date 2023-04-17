@@ -1,7 +1,7 @@
 
 ;***************************************************************************
 ;	1+	L!oad_and_WriteRG_If_0_Go			'C:\FASM\BIBLMCN\L!oadStowd.inc'
-;	2*	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти 'C:\FASM\BIBLMCN\L!oadStowd.inc'    ;Использует 1				
+;	2*	Bыгрузить_и_ЗаписатьРег_Если_0_Перейти 'C:\FASM\BIBLMCN\L!oadStowd.inc'    ;Использует 1
 ;	3*	Загрузка_по_размерности	Ad			'C:\FASM\BIBLMCN\L!oadStowd.inc'
 ;	4*	ЗагрузилиДанныеИзЯчеек				'C:\FASM\BIBLMCN\L!oadStowd.inc'		;Использует 3
 
@@ -24,7 +24,7 @@ forward
 common
 		xor	al,al			; Нулевое значение массив кончился
 		stosb
-			pop	EAX	
+			pop	EAX
     else
 		if  Rg1	 in <AX,BX,CX,DX,SI,DI,BP>
 				if  Rg1   in <ax>
@@ -36,7 +36,7 @@ common
 common
 		xor	ax,ax			; Нулевое значение массив кончился
 		stosw
-			pop	EAX	
+			pop	EAX
 		else
 		if  Rg1	 in <EAX,EBX,ECX,EDX,EEDI,EBP>
 			if  Rg1   in <EAX>
@@ -48,7 +48,7 @@ common
 common
 		xor	al,al			; Нулевое значение массив кончился
 		stosd
-			pop	EAX	
+			pop	EAX
 		else
 		Print!afall   "ERROR Write not RG in macro L!oad_and_WriteRG_If_0_Go"
 		end if
@@ -58,7 +58,7 @@ common
 ;*********************************************  6   ************
 	MACRO	ПрочитатьРег_и_Загрузить_0
 {common match	==>Ad  ==>As,arg
-		\{					
+		\{
 		   \MRT	equ	1
 			match aww==ww,\As			;если  MRT= 1, то это наша структура
 			\\{	\\MRT	equ	0 \\}
@@ -75,7 +75,7 @@ common
 		end if
 		\}
 		common match	==>Ad ==>As ==> Bs ==> Ct,arg			;3 аргумента
-		\{				
+		\{
 		   \MRT	equ	1
 			match aww==ww,\Ct			;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -92,7 +92,7 @@ common
 		end if
 		\}
 		common match	==>Ad  ==> As  ==> Bs ==>Cs ==>Ks ==>Hs,arg	; 5 аргументов чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs
 		   \MRT	equ	1
 			match aww==ww,\Hs			;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -134,7 +134,7 @@ common
 			\\{	\\MRT	equ	0 \\}
 			Print!afall   "MRT2="				;
 			\Print!afall   \MRT
-			display 10	
+			display 10
 		if	\MRT	eq	1
 			mov	al,\Ad
 			stosb
@@ -148,7 +148,7 @@ common
 		common match	=^=-Ad =^=-As  =^=-Bs=^=-Cs, arg
 		\{				;\arg1	equ	\`As#\`Bs\`Cs
 			\Print!afall   \arg
-			;display 10				
+			;display 10
 		   \MRT	equ	1
 			match aww=^=-ww,\Cs		;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -165,7 +165,7 @@ common
 		\}
 ;****************************  ПЯТЬ ОПЕРАНДОВ
 		common match  =^=-Ad  =^=-As  =^=- Bs =^=-Cs =^=-Ks,arg	;4 аргумента
-		\{					;\arg1	equ	\`As#\`Bs\`Cs\`Ds	
+		\{					;\arg1	equ	\`As#\`Bs\`Cs\`Ds
 							; \Print!afall   \Ks
 		\MRT	equ	1
 			match aww=^=-ww,\Ks		;если естьхотя бы 1 +, то это не та структура
@@ -185,7 +185,7 @@ common
 		\}
 ;****************************  ШЕСТЬ ОПЕРАНДОВ
 		common match	=^=-Ad =^=-As=^=- Bs =^=-Cs =^=-Ks=^=-Hs,arg	; 6 аргументов чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs
 		   \MRT	equ	1
 			match aww=^=-ww,\Hs		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -207,7 +207,7 @@ common
 		\}
 ;****************************  СЕМЬ ОПЕРАНДОВ
 		common match	=^=-Ad =^=-As =^=- Bs =^=-Cs=^=-Ks=^=-Hs =^=-Ls,arg	; 7 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls
 		   \MRT	equ	1
 			match aww=^=-ww,\Ls		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -231,7 +231,7 @@ common
 		\}
 ;****************************  восемЬ ОПЕРАНДОВ
 	common match	=^=-Ad =^=-As =^=- Bs=^=-Cs =^=-Ks=^=-Hs =^=-Ls =^=-Ms,arg	; 8 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms
 		   \MRT	equ	1
 			match aww=^=-ww,\Ms		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -257,7 +257,7 @@ common
 		\}
 ;****************************  девять ОПЕРАНДОВ
 common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,arg	; 9 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms\`Ns	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms\`Ns
 		   \MRT	equ	1
 			match aww=^=-ww,\Ns		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -298,7 +298,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 	common match	=^=-Ad  =^=-As,arg
 	\{					\arg1	equ	\`Ad#\`As
 							\Print!afall   \arg1
-							display 10		
+							display 10
 		   \MRT	equ	1
 			match aww=^=-ww,\As		;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -331,7 +331,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		common match	=^=-Ad =^=-As  =^=-Bs=^=-Cs, arg
 		\{				;\arg1	equ	\`As#\`Bs\`Cs
 						;\Print!afall   \arg
-						;display 10				
+						;display 10
 		   \MRT	equ	1
 			match aww=^=-ww,\Cs		;если есть хотя бы 1 =, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -348,7 +348,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		\}
 ;****************************  ПЯТЬ ОПЕРАНДОВ
 		common match  =^=-Ad  =^=-As  =^=- Bs =^=-Cs =^=-Ks,arg	;4 аргумента
-		\{					;\arg1	equ	\`As#\`Bs\`Cs\`Ds	
+		\{					;\arg1	equ	\`As#\`Bs\`Cs\`Ds
 							; \Print!afall   \Ks
 		\MRT	equ	1
 			match aww=^=-ww,\Ks		;если естьхотя бы 1 +, то это не та структура
@@ -368,7 +368,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		\}
 ;****************************  ШЕСТЬ ОПЕРАНДОВ
 		common match	=^=-Ad =^=-As=^=- Bs =^=-Cs =^=-Ks=^=-Hs,arg	; 6 аргументов чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs
 		   \MRT	equ	1
 			match aww=^=-ww,\Hs		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -390,7 +390,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		\}
 ;****************************  СЕМЬ ОПЕРАНДОВ
 		common match	=^=-Ad =^=-As =^=- Bs =^=-Cs=^=-Ks=^=-Hs =^=-Ls,arg	; 7 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls
 		   \MRT	equ	1
 			match aww=^=-ww,\Ls		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -414,7 +414,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		\}
 ;****************************  восемЬ ОПЕРАНДОВ
 	common match	=^=-Ad =^=-As =^=- Bs=^=-Cs =^=-Ks=^=-Hs =^=-Ls =^=-Ms,arg	; 8 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms
 		   \MRT	equ	1
 			match aww=^=-ww,\Ms		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
@@ -440,7 +440,7 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 		\}
 ;****************************  девять ОПЕРАНДОВ
 common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,arg	; 9 аргум чтения
-		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms\`Ns	
+		\{\arg1	equ	\`As#\`Bs\`Cs\`Ks\`Hs\`Ls\`Ms\`Ns
 		   \MRT	equ	1
 			match aww=^=-ww,\Ns		;если есть хотя бы 1 +, то это не та структура
 			\\{	\\MRT	equ	0 \\}
