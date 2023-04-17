@@ -4,17 +4,16 @@ format PE CONSOLE
 entry @start
 
 section '.data' data readable writeable
-    fileName db '.\\data\\amplitudes\\ST1.uni',0
+    fileName db '.\data\amplitudes\ST1.uni',0
     fileHandle dd ?
     source dd ?
     sourceSize dd ?
     resultPtr dd ?
     resultSize dd ?
 
-macro readFileData source, sourceSize
+macro readFileData fileName, sourcePtr, sourceSize
 {
-
-invoke CreateFile, fileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
+    invoke CreateFile, fileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
     cmp eax, INVALID_HANDLE_VALUE
 je @error
     mov [fileHandle], eax
@@ -27,12 +26,11 @@ je @error
     invoke VirtualAlloc, 0, [sourceSize], MEM_COMMIT, PAGE_READWRITE
     cmp eax, 0
 je @error
-    mov [source], eax
+    mov [sourcePtr], eax
 
-    invoke ReadFile, [fileHandle], [source], [sourceSize], 0, 0
+    invoke ReadFile, [fileHandle], [sourcePtr], [sourceSize], 0, 0
     cmp eax, 0
 je @error
-
 }
 
 ; список аргументов:
@@ -116,7 +114,7 @@ section '.code' code readable writeable executable
 @start:
     mov ebx, @countLoop
 
-    readFileData source, sourceSize
+    readFileData fileName, source, sourceSize
 
     !getCountOfAmps source sourceSize resultPtr resultSize
     printResult resultPtr, resultSize
