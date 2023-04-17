@@ -112,8 +112,6 @@ je @error
 section '.code' code readable writeable executable
 
 @start:
-    mov ebx, @countLoop
-
     readFileData fileName, source, sourceSize
 
     !getCountOfAmps source sourceSize resultPtr resultSize
