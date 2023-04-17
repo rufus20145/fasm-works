@@ -28,7 +28,7 @@
 ;***************************************************************************
 ;  						�������? � ��?�
 ;*********************************************************************????**
-;1  �?�?_��_����?_?�?�(bt~&Ei) (bts~&Ei=1) (btr~&E=0) (btc~&Ei=notEi) 
+;1  �?�?_��_����?_?�?�(bt~&Ei) (bts~&Ei=1) (btr~&E=0) (btc~&Ei=notEi)
 ;2	����� ?�?� shl(r) shl(r)d ror(l) rcl(r)
 ;3	����� ����? �����?	(bsr=minEi)
 ;4	����� ���? �����?	(bsf=maxEi)
@@ -46,7 +46,7 @@
 MACRO	NEDinB	BYTE,KO
 {
 		local	CKL
-	����?��������	EAX,ECX	
+	����?��������	EAX,ECX
 		movzx 	eax,BYTE		;��������� ���? ?���
 		mov	ECX,9
 CKL:
@@ -61,7 +61,7 @@ CKL:
 ;***************			6.	������: ��?_������_�  WORD
 	MACRO	NEDinW	WORD,KO
 {		local	CKL
-		����?������	EAX,EBX,ECX			
+		����?������	EAX,EBX,ECX
 		mov	ECX,17
 		xor	EBX,EBX
 		mov	AX,WORD
@@ -78,7 +78,7 @@ CKL:
 	MACRO	NEDinD	DWORD,KO
 {
 		local	CKL
-	����?��������	EAX,EBX,ECX	
+	����?��������	EAX,EBX,ECX
 		mov	ECX,33
 		xor	EBX,EBX
 		mov	EAX,DWORD
@@ -115,11 +115,11 @@ CKL:
 		NEDinD	���,�����
 \}
 }
-;*****************			9. ������: ��?_�?��?� _������_�	BYTE	
+;*****************			9. ������: ��?_�?��?� _������_�	BYTE
 	MACRO	K!LKACHinB	BYTE,KOL,KACH		;KOL - ������? �  KACH - ����?
 {
 		local	CKL,FF,FF1
-	����?��������	EAX,EBX,ECX	
+	����?��������	EAX,EBX,ECX
 		mov	ECX,8
 ���?�?������ EAX,EBX	;K!LKACHinB
 		mov	al,BYTE
@@ -148,7 +148,7 @@ FF1:
 ;**************************************************
 	MACRO	K!ACHinB		BYTE,KACH		;KOL - ������? �  KACH - ����?
 {		local	CKL,FF1
-����?��������	EAX,EBX,ECX	
+����?��������	EAX,EBX,ECX
 		mov	ECX,8			;?� �� 8
 		xor	EBX,EBX
 		xor	EAX,EAX

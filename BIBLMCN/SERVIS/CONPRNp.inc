@@ -1,11 +1,11 @@
-;  �������� CONPRN   
+;  �������� CONPRN
 ;****************************  3    ****************
 	macro	P!rTXTNUMBER	TEXT
 {	local	Adruk,spsim,Pref,DlPref,FGH,Writed,Hconsl_d
 @@:
-	���������������	EBP,EAX,ECX,EDX	
+	���������������	EBP,EAX,ECX,EDX
 ;		mov	EBP,@B
-	jmp	FGH		;�� ��������� �� ������ � EBP:  ������ ��������� � ����. ������ ����� 
+	jmp	FGH		;�� ��������� �� ������ � EBP:  ������ ��������� � ����. ������ �����
 Pref 	db	" "
 	PRZN	equ	0
 	common match  ==TXT TXT1 TXT2 TXT3,TEXT
@@ -61,7 +61,7 @@ FGH:
 	macro	P!rAdr	Hconsl,BufPrint,TEXT,adr		;TEXT="NE:A"
 {			local	FGH,Pref
 @@:
-	���������������   EBP,EAX,ECX,ESI,EDI 
+	���������������   EBP,EAX,ECX,ESI,EDI
 		if ~adrDll eq
 		mov	EBP,@B			;���� �� ������ �����
 		else
@@ -85,6 +85,6 @@ DlPref=FGH-Pref
 		mov	EDX,DlPref+10		;8 �����+2(LF,CR)
 		mov	eax,[Hconsl]		;handle console
 	invoke	WriteConsole, eax,BufPrint, edx, Writed, 0
-	�������������������   EBP,EAX,ECX,ESI,EDI 
+	�������������������   EBP,EAX,ECX,ESI,EDI
 }
 ;**********************************<-<-<-P!rAdrInDll
