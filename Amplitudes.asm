@@ -11,26 +11,32 @@ section '.data' data readable writeable
     resultPtr dd ?
     resultSize dd ?
 
-macro readFileData fileName, sourcePtr, sourceSize
+macro openFileForRead srcFileName, out_fileHandle
 {
-    invoke CreateFile, fileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
-    cmp eax, INVALID_HANDLE_VALUE
-je @error
-    mov [fileHandle], eax
+        invoke CreateFile, srcFileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
+        cmp eax, INVALID_HANDLE_VALUE
+    je @error
+        mov [out_fileHandle], eax
+}
 
-    invoke GetFileSize, [fileHandle], 0
-    cmp eax, 0xffffffff ; это INVALID_FILE_SIZE, который у нас отсутствует в виде константы
-je @error
-    mov [sourceSize], eax
+macro allocMemoryForFileData fileHandle, out_arrPtr, out_arrSize
+{
+        invoke GetFileSize, [fileHandle], 0
+        cmp eax, 0xffffffff ; это INVALID_FILE_SIZE, который у нас отсутствует в виде константы
+    je @error
+        mov [out_arrSize], eax
 
-    invoke VirtualAlloc, 0, [sourceSize], MEM_COMMIT, PAGE_READWRITE
-    cmp eax, 0
-je @error
-    mov [sourcePtr], eax
+        invoke VirtualAlloc, 0, eax, MEM_COMMIT, PAGE_READWRITE
+        cmp eax, 0
+    je @error
+        mov [out_arrPtr], eax
+    }
 
-    invoke ReadFile, [fileHandle], [sourcePtr], [sourceSize], 0, 0
-    cmp eax, 0
-je @error
+macro readDataFromFile fileHandle, sourcePtr, sourceSize
+{
+        invoke ReadFile, [fileHandle], [sourcePtr], [sourceSize], 0, 0
+        cmp eax, 0
+    je @error
 }
 
 ; список аргументов:
@@ -92,27 +98,29 @@ macro getCountOfAmps srcArr, srcSize, resArr, resSize
 
 macro printResult res, size
 {
-    xor edi, edi
-    mov edx, [res]
+        xor edi, edi
+        mov edx, [res]
 
-@prepareDataLoop: ; цикл для преобразования бинарных данных в числовые
-        cmp edi, [size]
-    je @print
-        add byte [edx + edi], 30h
-        inc edi
-    jmp @prepareDataLoop
+    @prepareDataLoop: ; цикл для преобразования бинарных данных в числовые
+            cmp edi, [size]
+        je @print
+            add byte [edx + edi], 30h
+            inc edi
+        jmp @prepareDataLoop
 
-@print:
-    invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
-    cmp eax, INVALID_HANDLE_VALUE
-je @error
-    invoke WriteConsole, eax, [res], [size], 0, 0
+    @print:
+        invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
+        cmp eax, INVALID_HANDLE_VALUE
+    je @error
+        invoke WriteConsole, eax, [res], [size], 0, 0
 }
 
 section '.code' code readable writeable executable
 
 @start:
-    readFileData fileName, source, sourceSize
+    openFileForRead fileName, fileHandle
+    allocMemoryForFileData fileHandle, source, sourceSize
+    readDataFromFile fileHandle, source, sourceSize
 
     !getCountOfAmps source sourceSize resultPtr resultSize
     printResult resultPtr, resultSize
