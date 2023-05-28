@@ -1,10 +1,10 @@
 ;*******************1***********
 ;    R!inc [ADR],5    можно и ячейку в памяти Нельзя R!inc ADR,5
-MACRO    R!inc    Reg,Number
+MACRO R!inc    Reg,Number
     {times    Number: INC    Reg     }
 ;*******************1
 ;*******************2***********
-MACRO    R!dec    Reg,Number
+MACRO R!dec    Reg,Number
     {times    Number: DEC    Reg     }
 ;*******************2
 ;*******************3

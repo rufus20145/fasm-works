@@ -19,7 +19,7 @@
 
 ; 0 = | 1 > | 2<
 ;***************** 10  N!CMPabPrJm  ****************  для AL  и  BL укороченный
-	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
+MACRO N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA  in  <al,bl>
 				if  GB  in  <al,bl>
@@ -136,7 +136,7 @@ MEXI:									;продолжение после блока
 ;			==Pr0 =>Pr1  =< Pr2\
 ;			ѕри—бое=>M!ISTEK
 ;*****************************
-	MACRO	СучетомОтношенийb_ДатьПризнаки_Перейти	arg
+MACRO СучетомОтношенийb_ДатьПризнаки_Перейти	arg
 {common match PUSTO==:PRi OP1 =? OP2 PRi=:==P0 PRi=:==P1 PRi=:==P2 ==Pr0 =>Pr1 =< Pr2 ==>Er,arg
 		\{N!CMPabPRiJm  \OP1,\OP2,\PRi,\P0,\P1,\P2,\Pr0,\Pr1,\Pr2,\Er
  		\}
@@ -171,7 +171,7 @@ common  	match	OP1 =?  OP2 Pusto==:PRi  == =>  =<  ==Er,arg			;0 0 0
  }
 ;*******************************************************
 ;***********  12 N!CMPabPRiJm  ****************  для AL  и  BL укороченный
-	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
+MACRO N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA  in  <al,bl>
 				if  GB  in  <al,bl>
@@ -285,7 +285,7 @@ MEXI:									;продолжение после блока
 ;												ѕри—бое=>M!ISTEK
 ;********************************************************
 ;*****************************
-	MACRO	СучетомОтношенийb_ДатьПризнаки_Перейти	arg
+MACRO СучетомОтношенийb_ДатьПризнаки_Перейти	arg
 {common match PUSTO==:PRi OP1 =? OP2 PRi=:==P0 PRi=:==P1 PRi=:==P2 ==Pr0 =>Pr1 =< Pr2 ==>Er,arg
 		\{N!CMPabPRiJm  \OP1,\OP2,\PRi,\P0,\P1,\P2,\Pr0,\Pr1,\Pr2,\Er
  		\}

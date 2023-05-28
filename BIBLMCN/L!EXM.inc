@@ -3,7 +3,7 @@
 ;stradd
 ;L!!EXM
 ;*******************************************
- macro spisadd	list,item
+MACRO spisadd	list,item
      {	match ane,item
 \{
        match any, list \\{ list equ list,item \\}
@@ -11,7 +11,7 @@
 \}
      }
 ;*********************************************************
-	macro stradd	list,item
+MACRO stradd	list,item
      {	match ane,item
 \{
        match any, list \\{ list equ  \\}		;�������� list
@@ -19,7 +19,7 @@
 \}
      }
 ;*********************************************************
-	MACRO	 L!!EXM	PP_1,P_2,P_1,P_0			;\Pk,P$k
+MACRO L!!EXM	PP_1,P_2,P_1,P_0			;\Pk,P$k
 {	P_0	equ
 	P_1	equ
 	P_2	equ

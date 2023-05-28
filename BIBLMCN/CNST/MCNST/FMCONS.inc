@@ -1,16 +1,16 @@
 ;Набор макросов для определения различных констан   Описание в файле
 ;****************************1*****D!efineConst*******
-	MACRO	ОпределитьКонстанты	SGroppa,[Spisok]
+MACRO ОпределитьКонстанты	SGroppa,[Spisok]
  {forward 	DefCnst1	SGroppa,Spisok}
 ;****************************
-	MACRO	D!efineConst	SGroppa,[Spisok]
+MACRO D!efineConst	SGroppa,[Spisok]
  {forward 	DefCnst1	SGroppa,Spisok}
 ;****************************
-	MACRO	D!efCnst		Groppa,[Spisok]
+MACRO D!efCnst		Groppa,[Spisok]
  { forward
 	DefCnst1	Groppa,Spisok }
 ;************************** одно обращение из списка De!fRcnst1 PR,(Ala=21)
-	MACRO	DefCnst1  Groppa,Spis
+MACRO DefCnst1  Groppa,Spis
 {  common	match nn ( nnm == nma2 ),Groppa Spis 	; nma='PR'  nma1=f  nma2=0
 
  	\{\nn\#\nnm=\nma2						;*
@@ -18,38 +18,38 @@
 }								;*
 ;*******************************************D!efineConst**********************
 ;****************************2*********
-	MACRO	ОпределитьЭквивалентности	SGroppa,[Spisok]
+MACRO ОпределитьЭквивалентности	SGroppa,[Spisok]
  {forward 	DefEnst1	SGroppa,Spisok}
-	MACRO	D!efineEqualConst	SGroppa,[Spisok]
+MACRO D!efineEqualConst	SGroppa,[Spisok]
  {forward 	DefEnst1	SGroppa,Spisok}
 ;****************************
-	MACRO	D!efEcnst		Groppa,[Spisok]
+MACRO D!efEcnst		Groppa,[Spisok]
  {forward
 	DfEcnst1	Groppa,Spisok
 }
 ;***************
-	MACRO DfEcnst1		Gropp,Spis
+MACRO DfEcnst1		Gropp,Spis
 {common	match  nn (nnm == nm2),Gropp Spis 		; nma='PR'  nma1=f  nma2=0
  \{ \nn\#\nnm	equ	\nm2
 	\nnm	equ	\nm2  \}
 }
 ;***************************3 **********
 ;*******************Определение данных в виде байта и имя метки без _b в виде константы**********
-	MACRO	ОпределитьДанныеБайтные	SGroppa,[Spisok]
+MACRO ОпределитьДанныеБайтные	SGroppa,[Spisok]
  {forward 	DfDcnt1b	SGroppa,Spisok}
 ;****************************
-	MACRO	D!efineDataConsb	SGroppa,[Spisok]
+MACRO D!efineDataConsb	SGroppa,[Spisok]
  {forward 	DfDcnt1b	SGroppa,Spisok}
 ;************************************
-MACRO	D!efineDataConstb	SGroppa,[Spisok]
+macro D!efineDataConstb	SGroppa,[Spisok]
  {forward 	DfDcnt1b	SGroppa,Spisok}
 ;************************************
-	MACRO	D!fDcntb	SGroppa,[Spisok]
+MACRO D!fDcntb	SGroppa,[Spisok]
  {forward
 	DfDcnt1b	SGroppa,Spisok
 }
 ;***************
-	MACRO 	DfDcnt1b	SGroppa,Spis
+MACRO 	DfDcnt1b	SGroppa,Spis
 {common
 		db	'b'		;тип данных байт
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
@@ -62,18 +62,18 @@ label	\nnm	byte			;короткое имя константы	\nnm
 }
 ;***************************4**********
 ;***************************Определение данных в виде слова и имя метки без _w в виде константы**********
-	MACRO	ОпределитьДанныеСловные	SGroppa,[Spisok]
+MACRO ОпределитьДанныеСловные	SGroppa,[Spisok]
  {forward 	DfDcnt1w	SGroppa,Spisok}
 ;****************************
-	MACRO	D!efineDataConsw	SGroppa,[Spisok]
+MACRO D!efineDataConsw	SGroppa,[Spisok]
  {forward 	DfDcnt1w	SGroppa,Spisok}
 ;************************************
-	MACRO	D!fDcntw	SGroppa,[Spisok]
+MACRO D!fDcntw	SGroppa,[Spisok]
  {forward
 	DfDcnt1w	SGroppa,Spisok
 }
 ;***************
-	MACRO 	DfDcnt1w	SGroppa,Spis
+MACRO 	DfDcnt1w	SGroppa,Spis
 {common
 		db	'w'		;тип данных  слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
@@ -87,20 +87,20 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
 }
 ;****************************5*********
 ;************************Определение данных в виде слова и имя метки без _d (двойное) в виде константы**********
-	MACRO	ОпределитьДанныеДвухсловные	SGroppa,[Spisok]
+MACRO ОпределитьДанныеДвухсловные	SGroppa,[Spisok]
  {forward 	DfDcnt1d	SGroppa,Spisok}
 ;****************************
 ;***********************5b
-	MACRO	D!efineDataConstd	SGroppa,[Spisok]
+MACRO D!efineDataConstd	SGroppa,[Spisok]
  {forward 	DfDcnt1d	SGroppa,Spisok}
 ;*********************** 5c
-	MACRO	D!fDcntd	SGroppa,[Spisok]
+MACRO D!fDcntd	SGroppa,[Spisok]
  {
 forward
 	DfDcnt1d	SGroppa,Spisok
 }
 ;***************
-	MACRO 	DfDcnt1d	SGroppa,Spis
+MACRO 	DfDcnt1d	SGroppa,Spis
 {common
 		db	'd'		;тип данных - двойное слово
 	match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
@@ -118,19 +118,19 @@ forward
 ;D!efineDataConsq	Prefics,(имя константы1=значение1),(имя константы2=значение2),(имя константы3=значение3)
 ;D!fDcntq	Prefics,(имя константы1=значение1),(имя константы2=значение2),(имя константы3=значение3)
 ;************************6a************
-	MACRO	ОпределитьДанныеЧетырехсловные	SGroppa,[Spisok]
+MACRO ОпределитьДанныеЧетырехсловные	SGroppa,[Spisok]
  {forward 	DfDcnt1q	SGroppa,Spisok}
 ;***********************6b
-	MACRO	D!efineDataConstq	SGroppa,[Spisok]
+MACRO D!efineDataConstq	SGroppa,[Spisok]
  {forward 	DfDcnt1q	SGroppa,Spisok}
 ;************************6c************
-	MACRO	D!efineDataConsq	SGroppa,[Spisok]
+MACRO D!efineDataConsq	SGroppa,[Spisok]
  {forward 	DfDcnt1q	SGroppa,Spisok}
 ;************************6d***Определение данных в виде слова и имя метки без _q  в виде константы**********
-	MACRO	DfDcntq	SGroppa,[Spisok]
+MACRO DfDcntq	SGroppa,[Spisok]
  {forward 	DfDcnt1q	SGroppa,Spisok}
 ;***************
-	MACRO 	DfDcnt1q	SGroppa,Spis
+MACRO 	DfDcnt1q	SGroppa,Spis
 {common
 	db	'q'		;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
@@ -142,7 +142,7 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
 }
 ;**********************
 ;*******************	ОпределитьКонстантыДанные
-	MACRO	ОпределитьКонстантыДанные  	SGroppa,[Spisok]
+MACRO ОпределитьКонстантыДанные  	SGroppa,[Spisok]
 {common
 	db	'd'			;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
@@ -154,7 +154,7 @@ match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0
  \}
 }
 ;************************
-	MACRO	DefineConstantData  	SGroppa,[Spisok]
+MACRO DefineConstantData  	SGroppa,[Spisok]
 {common
 	db	'd'			;тип данных - 64 рр слово
 match  nn (nnm == nm2),SGroppa Spis 		; nma='PR'  nma1=f  nma2=0

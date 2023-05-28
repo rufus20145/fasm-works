@@ -1,10 +1,10 @@
 ;
-	MACRO	M!ov_In_From arg		;[FlSizN]<=[FlSizN]<=[FlDli]
+MACRO M!ov_In_From arg		;[FlSizN]<=[FlSizN]<=[FlDli]
 {
 	Продвинули arg
 }
 ;**************1.5***Продвинули    [FlSizN]<=[FlSizN]<=[FlDli]
-	MACRO	Продвинули arg
+MACRO Продвинули arg
 {	common match	T@1 =<== T@2,arg
 		\{	\arg1	equ	\`T@1#\`T@2
 		   \MRT	equ	1
@@ -58,7 +58,7 @@
 		\}
 	}
 ;*******************1.6*********************
-	MACRO	Двигал   dest,src
+MACRO Двигал   dest,src
 {
   if  dest  src eqtype [0] [0]		;[FlSizN]=[FlDli]
     push	src

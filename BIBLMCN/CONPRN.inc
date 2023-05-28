@@ -16,7 +16,7 @@
 ;		WriteConsole,eax,Pref,edx,Writed,0
 ;		invoke	ExitProcess, 1
 ;***************************************************************************
-MACRO	P!rAdrStop	 TEX
+macro P!rAdrStop	 TEX
 {	local	Adruk,Pref,Writed,FGH
 @@:
 	УпряталиРегистры	EBP,EAX,ECX,EDX	;++
@@ -83,7 +83,7 @@ FGH:
 ;******************************  2  ********************************************
 ;+++++++++++++++++++++++++++++++++    Получение ASCII кода  символов  16-ых чисел для регистра 32 разрядного
 ; 		[Обращение  N16inASCII	EAX,buffer,8] из регистра EAX   строка символов buffer 16-ого числа
-MACRO	N!16inASCII	P0,P1,P2			;новый макрос перевода
+macro N!16inASCII	P0,P1,P2			;новый макрос перевода
 	{		local	spisim
  УпряталиРегистры EAX,EBX,ECX,EDI
 		mov	EDI,P1				;SPSTR  куда пишем символы
@@ -119,7 +119,7 @@ spisim:
 ;		WriteConsole,eax,Pref,edx,Writed,0
 ;		invoke	ExitProcess, 1
 ;***************************************************************************
-macro	P!rTxtAdr		TEX
+macro P!rTxtAdr		TEX
 {
 	local	Adruk,s_psi,P_ref,FGH,Writed
 @@:

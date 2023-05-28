@@ -5,22 +5,22 @@
 ;3.Z!eroMas	[Список]
 ;ZeroReg	        ОбнулитьРегистры O!bnulR Z!eroReg
 ;*****************************
-	MACRO	ОбнулитьРегистры [Reg]
+MACRO ОбнулитьРегистры [Reg]
 	{forward
 		XOR	Reg,Reg
 	}
 ;************			Макро для обнуления списка регистров ZiroReg
-MACRO	O!bnulR	[Reg]
+macro O!bnulR	[Reg]
 	{forward
 		XOR	Reg,Reg
 	}
 ;*******************
-MACRO	Z!eroReg	[Reg]
+macro Z!eroReg	[Reg]
 	{forward
 		XOR	Reg,Reg
 	}
 ;*************  Рбнуление массива
-	MACRO	Z!eroMas	P1,P2
+MACRO Z!eroMas	P1,P2
 	{
 					push	ECX
 		mov 	ECX,[P2]			;[FlSizeW]

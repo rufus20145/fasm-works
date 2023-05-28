@@ -183,7 +183,7 @@ macro PARSECOND parsed,cond
 
 macro define_JNCONDEXPR
 {
- macro JNCONDEXPR elabel,[mod,cond,op]
+MACRO JNCONDEXPR elabel,[mod,cond,op]
  \{
   \common
    \local ..t,..f
@@ -223,7 +223,7 @@ macro define_JNCONDEXPR
 
 macro define_JCONDEXPR
 {
- macro JCONDEXPR elabel,[mod,cond,op]
+MACRO JCONDEXPR elabel,[mod,cond,op]
  \{
   \common
    \local ..t,..f
@@ -263,7 +263,7 @@ macro define_JCONDEXPR
 
 macro define_JNCONDEL
 {
- macro JNCONDEL label,cond
+MACRO JNCONDEL label,cond
  \{
    \local COND
    match car=,cdr,:cond
@@ -383,7 +383,7 @@ macro define_JNCONDEL
 
 macro define_JCONDEL
 {
- macro JCONDEL label,cond
+MACRO JCONDEL label,cond
  \{
    \local COND
    match car=,cdr,:cond

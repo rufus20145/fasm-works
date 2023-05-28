@@ -321,7 +321,7 @@ metms#.dlinm=metms#.pole-metms	;длина матрицы
 ;NICK.kon	db	'D'	скобка  закрывающая
 ;NICK.dlina=1(0 байт)+N+1(NICK.pole)+1(K)+2(JJ)+1(NICK.kon)
 ;***********************************
-	MACRO	ТреугольнаяМатрица	[arg]
+MACRO ТреугольнаяМатрица	[arg]
 {m!sd2 metms,[arg]}
 ;**************************
 macro m!sd2 metms,[arg]		;получение массива с меткой

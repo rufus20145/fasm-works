@@ -32,7 +32,7 @@
 ;		$OutНачало_аплитуд$=pMemS\
 ;		$OutДлина_файла_записи$=ECX
 ;+++++++++++++++++++++++++
-	MACRO	ВыделиАмплитуды	arg
+MACRO ВыделиАмплитуды	arg
 {common match A1==P1 B_1==P2 C1==P3 D1==P4 E1==P5 F1==P6 G1===> ADR1 G2===>,arg
 	\{
 		Print!Rfall   'ВыделиАмплитуды вошли'
@@ -112,7 +112,7 @@ end if
 ;		OutНачало_выходного=pMem OutНачало_входного=pMemz OutДлина_файла_записиREG=ECX\
 ;			КО_ХорошоECX=>WRITZm1		КО_ПлохоECX_0FFFFFFFF=>
 ;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	MACRO	Собери_WAV	arg
+MACRO Собери_WAV	arg
 {common match A1==P1 B_1==P2 C1==P3 D1==P4 E1==P5 F1==P6 G1===> ADR1 G2===>,arg
 	\{
 		Print!Rfall		"Собери_WAV вошли "
@@ -197,7 +197,7 @@ end if
 ;РазделСтроки	АдрСод_строки=EAX	СчетчикКолваСлов=S_JMP	АдресСпискаСлов=P_word\
 ;				Делитель1=Sim_TAB Делитель2=020h Количество2n=5
 ;++++++++++++++++++++++++++++++++++++
-	MACRO	РазделСтроки	arg
+MACRO РазделСтроки	arg
 {	local	C_word,PRbuff,rtOut
 	УпряталиРегистры  	EAX,ECX,EDX,ESI,EDI
 	common match A1==P1 B_1==P_2 C1==P3 D1==P4 E1==P5 F1==P6,arg
@@ -283,7 +283,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ;		ДайКлючНаПечать	Hconsl
 ;	STD_OUTPUT_HANDLE   ==>	[GetStdHandle]  ==>Hconsl
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	ДайКлючНаПечать	P1
+MACRO ДайКлючНаПечать	P1
 {
 	invoke	GetStdHandle, STD_OUTPUT_HANDLE
 		mov	[P1],eax				;handle консоли
@@ -292,7 +292,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ;***************************************
 ;	ДайКлючНаПрием	Hin
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	ДайКлючНаПрием	P1
+MACRO ДайКлючНаПрием	P1
 {
 	invoke 	GetStdHandle, STD_INPUT_HANDLE
 		mov [P1], eax					;handle  приема с консоли
@@ -308,7 +308,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ;							Ответ_В_EAX=RNsim\
 ;			ПереходХорошо=>ADR1		УходПлохо=>ADR2
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	ЗапросПутиК_каталогу	arg
+MACRO ЗапросПутиК_каталогу	arg
 {
 	common match A1==P1 B_1==P_2 C1==P3 D1== =>ADR1 E1== =>ADR2,arg
 	\{
@@ -336,7 +336,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ; 				$InПо_Указателю_на_конец_строки$=RNsim
 ;				$OutФиксируем_Новый_Указатель_в$=RNsim
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO ДописалСлеш	arg
+MACRO ДописалСлеш	arg
 {common match A1==P1 B_1==P2 C1==P3,arg
 	\{
 	push	EDI
@@ -357,7 +357,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ;				$InСимвол$=Type_T
 ;				$OutФиксируем_Новый_Указатель_в$=RNsim
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO ДописалСимвол	arg
+MACRO ДописалСимвол	arg
 {common match A1==P1 B_1==P2  C1==P3 D1==P4,arg
 	\{
 	push	EDI
@@ -395,7 +395,7 @@ rtOut:			        			; increment counter счетчик символов								;
 ;						$Если_Одно_СловоУходим$ =>NOcline\
 ;						$ЕслиДваСлова_Уходим$	=>(пусто дальше) МЕТКА
 ;+++++++++++++++++++++++++++++++++++++++
-MACRO  	Запрос_Командной_строки  arg
+MACRO 	Запрос_Командной_строки  arg
 {    		common match D1 == =>ADR1	D2 == =>ADR2,arg
 	\{
 	invoke GetCommandLine			;Запрос командной  строки при запуске программы MMN T1.txt
@@ -420,7 +420,7 @@ MACRO  	Запрос_Командной_строки  arg
 ;								OutАдрес_начала_строки=AdrN\
 ;						 		OutКол_воCимволов_в_ней=AdrN_L\
 ;							ЕслиКолвоНоль => EXITER
-	MACRO	ПоТекущему_Установить	arg
+MACRO ПоТекущему_Установить	arg
 {
 		common match A1==P1 B_1==P2 C1==P3 E1==P4 S1==P5 D1== =>ADR ,arg
 	\{	УпряталиРегистры	EAX,EDX,ESI
@@ -453,7 +453,7 @@ MACRO  	Запрос_Командной_строки  arg
 ;							$InДлинаИмениФайла$=NBUF\
 ;							$ИтоговаяДлинаПути$=Cdlina
 ;++++++++++++++++++++++
-	MACRO	ДополниПутьИменемФла	arg
+MACRO ДополниПутьИменемФла	arg
 {					УпряталиРегистры 		ECX,ESI,EDI
 			common match A0==P1 A1==P2 B_1==P3 C1==P4 D1==P5,arg
 	\{
@@ -484,7 +484,7 @@ MACRO  	Запрос_Командной_строки  arg
 ;					$OutФиксируемДлинуИмениФайла$=RNsim
 ;**************************************Добавляется в структуру(V_Name -(V_File) -	U_Name_r)
 ;---
-	MACRO	Дублировать	arg
+MACRO Дублировать	arg
 {
 NMRuu	equ	1
 	common match A1==P1	A2==P2	 A3== =[ P3 =] A4==P4,arg
@@ -555,7 +555,7 @@ end if
 ;L=65536 & MEM_COMMIT &PAGE_EXECUTE_READWRITE ==>    [VirtualAlloc]
 ;  ==>[pMem] =EAX (начало выделенной памяти)
 ;++++++++++++++++++++++++++++++++++++++
-	MACRO	ДайВиртПамять	arg
+MACRO ДайВиртПамять	arg
 {			common match A1==P1 B_1==P2 C1==P3 D_1==P4 Ad===>EXITERR,arg
 	\{
 		mov	eax,[\P1]						;[FlSizeL]
@@ -579,7 +579,7 @@ end if
 ;						OutМладшиеВ=FlSizeL\
 ;						OutСтаршиеРазрядыВ=FlSizeH\
 ;						ПриFlSizeH_не_0 => EXITER
-	MACRO	D_ДайДлинуФайла	arg
+MACRO D_ДайДлинуФайла	arg
 {			common match A1==P1 B_1==P2 C1==P3 Ad===>EXITERR,arg
 	\{
      invoke	GetFileSize,[\P1],[\P2]
@@ -638,7 +638,7 @@ end if
 ;	$Если_не_прошло$=NoHANDLE
 ;+++++++++++++++				Открытие (Образование) файла чтения
 ;ESI=Bufcat &GENERIC_READ& OPEN_EXISTING ==> [ CreateFile]  ==> [haRead_T]=EAX (handle файла чтения)
-MACRO	Дай_файла_Ключ	arg
+macro Дай_файла_Ключ	arg
 {
 common match A1==P1 A2==P2 A3==P3 A4==P4 A5==P5 A6==P6 A7==P7 A8==P8 A9==P9,arg
 	\{
@@ -656,13 +656,13 @@ common match A1==P1 A2==P2 A3==P3 A4==P4 A5==P5 A6==P6 A7==P7 A8==P8 A9==P9,arg
 	\}
 }
 ;-----------------------------------
-								;MACRO	VUV
+								;macro VUV
 								;{	and ECX,0FFFFh	}
 ;************************** 16
 ;					УстановиУказФайла\
 ;КлючФайла=haRead_T	ВеличинаСдвига=0	СдвигВверх=0 МетодСдвига=0
 ;+++++++++++++++
-MACRO	УстановиУказФайла	arg
+macro УстановиУказФайла	arg
 {			common match A1==P1 A2==P2 A3==P3 A4==P4,arg
 	\{
 										;КлючФайла=haRead_T
@@ -683,7 +683,7 @@ MACRO	УстановиУказФайла	arg
 ;					$РазмерБуфера$=UKPOS_r\
 ;					$РеальнаяДлина$=Writed		;Writed	dd	21
 ;++++++
-MACRO	ВыдайСообщение arg
+macro ВыдайСообщение arg
 {
 												;Print!afall	arg
 												;display 13,10
@@ -700,7 +700,7 @@ common match A1==P1	A2==P2	 A3==P3 A4==P4,arg
 }
 ;***********************************
 ;Используется свойство определения констант, которым присваивается ПОСТФиКС _t 1' это тип целая константа
-MACRO	ВыдайСообщениеА arg
+macro ВыдайСообщениеА arg
 {
 common match A1==P1	A2==P2	 A3==P3 A4==P4,arg
 	\{
@@ -735,7 +735,7 @@ common match A1==P1	A2==P2	 A3==P3 A4==P4,arg
 ;					$РазмерБуфера$=BUFpos_r\
 ;					$РеальнаяДлинаПринятогоПоАдресу$=NBUF
 ;	invoke ReadConsole,[Hin],BUFpos,BUFpos.Dlina,NBUF,0
-MACRO	ПрочтиИнформацию arg
+macro ПрочтиИнформацию arg
 {
 												;Print!afall	arg
 												;display 13,10
@@ -756,7 +756,7 @@ common match A1==P1	A2==P2	 A3==P3 A4==P4,arg
 ;					$OutФиксируемДлинуИмениФайла$=RNsim
 								;Добавляется в структуру(V_Name -(V_File) -	U_Name_r)
 ;---
-MACRO	Перенести	arg
+macro Перенести	arg
 {
 	local	NMMU									;Print!afall	arg
 												;display 13,10
@@ -812,7 +812,7 @@ MACRO ЧтениеФайла arg				;ЧтениеФайла
 ;		$InДлина_файлаЧт$=DlFileN\
 ;		$OutРеальная_длинаЧт$=NmBytR
 ;+++++++++++++++++++++++++++++++++++++
-MACRO	ЗаписьФайла 	arg			;ЗаписьФайла
+macro ЗаписьФайла 	arg			;ЗаписьФайла
 {
 common match A1==P1	A2==P2 A3==P3 A4==P4,arg
 	\{

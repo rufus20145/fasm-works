@@ -10,7 +10,7 @@
 ;9 	Dfn_one_D_D_I			Опрделить одну переменную Размерность=4 и Тип=1
 ;******************1*********************
 ;		DfCntAdD	Т1=2		T1 equ 2
-MACRO	DfCntAdD  ARG
+macro DfCntAdD  ARG
 {  common	match nm1 == nm2,ARG 		;
  	\{ \nm1 dd \nm2 \}					;на выходе Tl=2
 	common	match  == nm2,ARG 		;
@@ -18,18 +18,18 @@ MACRO	DfCntAdD  ARG
 }
 ;**************************************
 ;******************2********************
-	MACRO	DfCntAdDM		[Spisok]	;Т1=2,Т2=4,Т3=7
+MACRO DfCntAdDM		[Spisok]	;Т1=2,Т2=4,Т3=7
  { forward
 	DfCntD	Spisok }
 ;**************************************
 ;******************3*********************
-	MACRO	ОпределитьКонстантыDПод_Именем	[Spisok]
+MACRO ОпределитьКонстантыDПод_Именем	[Spisok]
  {forward 	DfCntAdDM	Spisok}
 ;***************************************
 ;******************4********************
 ;Пример:		DfCntAdDGr	Groppa,Т1=2	Определить групповую константу
 ;++++++++++++++++++++++++++++++++++++++
-MACRO	DfCntAdDGr  Groppa,Spis
+macro DfCntAdDGr  Groppa,Spis
 {   common	match nn ( nnm == nma2 ),Groppa Spis 		; nma='PR'  nma1=f  nma2=0
  	\{\nn#_\#\nnm dd \nma2								;Groppa_T1=1
 	\}
@@ -39,18 +39,18 @@ MACRO	DfCntAdDGr  Groppa,Spis
 ;Назначение: Определить множество групповых констант
 ;Пример:		DfEqCntDGrM	Groppa,Т1=2,Т2=4,Т3=7
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	DfCntAdDGrM	SGroppa,[Spisok]
+MACRO DfCntAdDGrM	SGroppa,[Spisok]
  {forward 	DfCntAdDGr	SGroppa,Spisok}
 ;***************************************
 ;********************6*******************
 ;ОпределитьГрупповыеКонстантыDПод_Именем	SGroppa,[Spisok]
 ;
 ;****************************
-	MACRO	ОпределитьГрупповыеКонстантыDПод_Именем	SGroppa,[Spisok]
+MACRO ОпределитьГрупповыеКонстантыDПод_Именем	SGroppa,[Spisok]
  {forward 	DfCntAdDGr	SGroppa,Spisok}
 ;**************************** одно обращение из списка De!fRcnst1 PR,(Ala=21)
 ;*******		РУССКИЙ  ВАРИАНТ  ЗадатьДанныеБайтЦелое
-	MACRO	ЗадалиДвуСловныеЦелые	Groppa,[Spisok]
+MACRO ЗадалиДвуСловныеЦелые	Groppa,[Spisok]
 {
 common
 if ~Groppa eq
@@ -62,7 +62,7 @@ forward
 }
 ;+++++++
 ;*********	Английский вариант
-MACRO	D!ef_D_D_I		Groppa,[Spisok]
+macro D!ef_D_D_I		Groppa,[Spisok]
 {
 label	Groppa	word
  forward

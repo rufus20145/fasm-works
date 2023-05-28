@@ -1,3 +1,4 @@
+; TODO разобраться с кодировкой
 ;					����? ��� ������?� ��? � ��?�.
 ;    bt  ax,15        ; ������ ��� � ?����
 ;    bts word [bx],15 ; ������ � �?�� ��� � �����
@@ -43,7 +44,7 @@
 ;13								���?��?� ��? ������ 11
 ;14								���?��?� ��? ������ 12
 ;***************			5.	������: ��?_������_� ����
-MACRO	NEDinB	BYTE,KO
+macro NEDinB	BYTE,KO
 {
 		local	CKL
 	����?��������	EAX,ECX
@@ -59,7 +60,7 @@ CKL:
 	����?�������������	EAX,ECX
 }
 ;***************			6.	������: ��?_������_�  WORD
-	MACRO	NEDinW	WORD,KO
+MACRO NEDinW	WORD,KO
 {		local	CKL
 		����?������	EAX,EBX,ECX
 		mov	ECX,17
@@ -75,7 +76,7 @@ CKL:
 	����?�������������	EAX,EBX,ECX
 }
 ;****************			7.	������: ��?_������_�  DWORD
-	MACRO	NEDinD	DWORD,KO
+MACRO NEDinD	DWORD,KO
 {
 		local	CKL
 	����?��������	EAX,EBX,ECX
@@ -93,7 +94,7 @@ CKL:
 }
 ;**************************8.	�����   	��?�����?��  ��� =>�����
 ;			��?�����?��  ��� =>�����
-	MACRO ��?�����?��  arg
+MACRO ��?�����?��  arg
 {	common match  ��� ==�����,arg
 \{
 		NEDinB	���,�����
@@ -101,7 +102,7 @@ CKL:
 }
 ;**************************
 ;	��?�����?���	��� =>�����
-	MACRO	��?�����?��� arg
+MACRO ��?�����?��� arg
 {	common match  ��� ==�����,arg
 \{
 		NEDinW	���,�����
@@ -109,14 +110,14 @@ CKL:
 }
 ;**************************
 ;	��?�����?�����	��� =>�����
-	MACRO	��?�����?����� arg
+MACRO ��?�����?����� arg
 {	common match  ��� ==�����,arg
 \{
 		NEDinD	���,�����
 \}
 }
 ;*****************			9. ������: ��?_�?��?� _������_�	BYTE
-	MACRO	K!LKACHinB	BYTE,KOL,KACH		;KOL - ������? �  KACH - ����?
+MACRO K!LKACHinB	BYTE,KOL,KACH		;KOL - ������? �  KACH - ����?
 {
 		local	CKL,FF,FF1
 	����?��������	EAX,EBX,ECX
@@ -146,7 +147,7 @@ FF1:
 	����?�������������	EAX,EBX,ECX
 }
 ;**************************************************
-	MACRO	K!ACHinB		BYTE,KACH		;KOL - ������? �  KACH - ����?
+MACRO K!ACHinB		BYTE,KACH		;KOL - ������? �  KACH - ����?
 {		local	CKL,FF1
 ����?��������	EAX,EBX,ECX
 		mov	ECX,8			;?� �� 8

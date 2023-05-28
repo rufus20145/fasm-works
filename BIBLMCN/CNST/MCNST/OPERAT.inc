@@ -53,13 +53,13 @@
 
 ;Отладочные инструменты
 ;20. Cdisplay		name		;- во время трансляции
-	macro .. [.] {match .,. }
+MACRO .. [.] {match .,. }
 
-	macro COMMENT [.] {match .,. }
+MACRO COMMENT [.] {match .,. }
 
 ;macro ..[.]{.}  ----???????????????
 ;**********************1.2*****Упрятывание с контролем во время трансляции**********
-MACRO	CrPUSHs	[string]			;A C D B   нумерация регистров
+macro CrPUSHs	[string]			;A C D B   нумерация регистров
      {
      common
 	forward
@@ -78,7 +78,7 @@ macro PutSpisok  Spisok,registr
 ;					           Появляется константа EBP1
 ;				Можно PUSHе  EBP,one  ==> константа EBPone
 ;SpisokSteka	equ
- 	MACRO	CrPUSHе	prefix,[RE]	;упрятывание регистра и формирование константы под именем REt_t1
+ 	macro CrPUSHе	prefix,[RE]	;упрятывание регистра и формирование константы под именем REt_t1
 {
 common
  	PutSpisok	SpisokSteka,prefix#RE	;Запись упрятывающая уникальное имя регистра
@@ -90,7 +90,7 @@ Rpushpop = Rpushpop+1  		;local label
 ;*******************1******
 ;**********************18**POPe	 RE,t_t1
 ;				Маркировочное восстановление из стека
- 	MACRO	CrPOPe	t_t1, [RE]			;упрятали указатель на стек под именем t_t1
+ 	macro CrPOPe	t_t1, [RE]			;упрятали указатель на стек под именем t_t1
 {
 
 	if  ~ defined	SpisokSteka#t_t1		;если упрятывание с такой маркировкой не проходило
@@ -105,20 +105,20 @@ Rpushpop = Rpushpop+1  		;local label
 
 
 ;*******************5.1***********
-	MACRO	ОбнулитьРегистры	[Reg]		;XOR	Reg,Reg
+MACRO ОбнулитьРегистры	[Reg]		;XOR	Reg,Reg
 {
 forward
 		XOR	Reg,Reg
 }
 ;*************
 
-	MACRO	ОбнулилиРегистры	[Reg]		;XOR	Reg,Reg
+MACRO ОбнулилиРегистры	[Reg]		;XOR	Reg,Reg
 {
 forward
 		XOR	Reg,Reg
 }
 ;*********************5.2*****	Макро для обнуления списка регистров
-	MACRO	ObnulR	[Reg]			;XOR	Reg,Reg
+MACRO ObnulR	[Reg]			;XOR	Reg,Reg
 	{
 forward
 		XOR	Reg,Reg
@@ -126,14 +126,14 @@ forward
 ;*******************___________________
 
 ;*******************6.3
-	MACRO	Инкрименты [arg]			;  !	EAX++2	ECX++4
+MACRO Инкрименты [arg]			;  !	EAX++2	ECX++4
 {	match	(Reg =++ Number),arg
 	\{ Rinc	\Reg,\Number\}
 }
 
 ;******************7.3   *
 ;		ECX--4
-	MACRO	Декрименты	[arg]		;DECRIMENT
+MACRO Декрименты	[arg]		;DECRIMENT
 {	match	(Reg=--Number),arg
 	\{ Rdec	\Reg,\Number\}
 }
@@ -150,10 +150,10 @@ forward
 ;Загрузил!Присвоил	EBX =AX  слово
 ;Загрузил!Присвоил	EBX =al	байт
 ;***************8.1**
-MACRO	Загрузили!Присвоили arg		;Load!WriteMany	arg
+macro Загрузили!Присвоили arg		;Load!WriteMany	arg
 {	Load!WriteMany	arg }
 ;****************
-MACRO	Load!WriteMany	arg
+macro Load!WriteMany	arg
 {
 	common  	match	P1 =& P2 ,arg
  	\{\arg1	equ	\`P1#\`P2
@@ -243,13 +243,13 @@ end if
 	\}
 }
 ;*********************8.2*****
-	MACRO	Load!Write	[arg]		;Load!Write
+MACRO Load!Write	[arg]		;Load!Write
 {forward		Load!WriteOne  arg }
 ;**************       8.3
-	MACRO	Загрузил!Присвоил	arg		;Load!WriteOne
+MACRO Загрузил!Присвоил	arg		;Load!WriteOne
 {common	Load!WriteOne	arg}
 ;*****************
-	MACRO	Load!WriteOne	arg
+MACRO Load!WriteOne	arg
 {
 
 	common  	match	OPER == REAX,arg		;
@@ -295,7 +295,7 @@ end if
 ;9.2 Realize!Stowe
 ;*************************** 9 ________________
 ;***************************10.1 ****************
-	MACRO	Продвинул!поЦепочке	arg		;mov	P1,P2
+MACRO Продвинул!поЦепочке	arg		;mov	P1,P2
 {
 	common  	match	P1 =<- P2 ,arg		;!!!!
  	\{	\arg1	equ	\`P1#\`P2
@@ -310,10 +310,10 @@ end if
 	\}
 }
 ;**********************10.2
-	;MACRO	MovingChain  arg
+	;macro MovingChain  arg
 ;{ Продвинули!поЦепочке  arg }
 ;*******
-	MACRO	Продвинули!поЦепочке  arg		;D <= C <= B<=A
+MACRO Продвинули!поЦепочке  arg		;D <= C <= B<=A
 {						;WHERE
 		Print!afall  arg
 		display 13,10
@@ -375,7 +375,7 @@ if	NMRuu	eq	0
 }
 ;***********************
 ;			Присвоили!Значения		EAX=[ARG] & [MEM]=EDX
-	MACRO	Присвоили!Значения   arg			;ArBvAp
+MACRO Присвоили!Значения   arg			;ArBvAp
 {
 		common match a,arg
 \{		\arg1	equ	\`a
@@ -471,7 +471,7 @@ end if
 ;***********************
 ;	 ArBvAp	AX=[RAB]    |    ESI++4        | 	ESI++
 ;********************
-	MACRO	ArBvAp	arg
+MACRO ArBvAp	arg
 {
 	common match pr1===pr2,arg
 \{	B!A	\pr1,\pr2  \}
@@ -484,7 +484,7 @@ end if
 	inc	\pr1  \}
 }
 ;***********************
-	MACRO	Присвоил!Значение	arg			;B!A	\pr1,\pr2
+MACRO Присвоил!Значение	arg			;B!A	\pr1,\pr2
 {
 	common match pr1===pr2,arg
 \{	B!A	\pr1,\pr2 \}
@@ -502,18 +502,18 @@ list equ		;пусто
 ;*******************************
 ;	макровызов list			;НЕ ПРОХОДИТ, т.к. не развернуться параметры
 ;match params, list { макровызов params }		;выход использование match
-	MACRO  Процедуры макровызов,[list]	;Процедуры ВызовС++ [list]
+MACRO Процедуры макровызов,[list]	;Процедуры ВызовС++ [list]
 {match params, list { макровызов params }
 
 ;*****************************************
-	MACRO	Инкриментнул!вСтруктуру	Имяструктуры,arg
+MACRO Инкриментнул!вСтруктуру	Имяструктуры,arg
 {
 	inc	arg
 }
 
 ;************************11**************([Str@.Dr_d@]=Zn|EAX-EBX|EBX-EAX)
 ;					A?expresion  (pr20=pr21)  pr21=EAX-EBX
-MACRO	A?expresion	arg
+macro A?expresion	arg
 {
 	display "EXPRES?"
 	 display 13,10
@@ -576,7 +576,7 @@ MACRO	A?expresion	arg
 ;***********************10
 ;***********************11***
 ;		******** макро по записи полей структуры часть 2: C2stosd	ParDr,ParDl,N
-MACRO	C2stosd	ParDr,ParDl,N
+macro C2stosd	ParDr,ParDl,N
 {					;s
 			LOCAL	SHA1,SHA2,SHA3,SHA4,FINICH
 
@@ -596,7 +596,7 @@ FINICH:
 
 
 ;***********************1****  WriteC
-	MACRO	WriteMany 	[parav1]		;([FlSizN]=ECX),([pMm]=ESI),([pMmz]=EDI),([NOTCH]=0)
+MACRO WriteMany 	[parav1]		;([FlSizN]=ECX),([pMm]=ESI),([pMmz]=EDI),([NOTCH]=0)
 {
 forward
 	WriteOne 	parav1
@@ -613,7 +613,7 @@ forward
 ;8									[MEM]=25
 ;9									      DLINA=SHIRINA
 ;10			 ([FlSizN=ECX)    нет закрывающей  Error
-	MACRO	WriteOne 	parav1
+MACRO WriteOne 	parav1
 {
       common     match ( parav ) ,parav1
       \{
@@ -731,7 +731,7 @@ forward
 	 			end if
 				 \\\}
 				end repeat
-			else					;[ ] скобок не было  в para  ? = MEM
+			else					;[] скобок не было  в para  ? = MEM
 					;display \\`para		;1.2.2
 				repeat 1
 				 common  irps tokn,prut		;4
@@ -774,7 +774,7 @@ forward
 ;Обращение  1)PLOXO JMPERROR,Nploxo??  2)PLOXO EXITERROR	3)PLOXO ,11
 ;************************************
 ; МАКРОС   прежде всего для DLL,так как они должны дать ответ, вызвавшей программе
-	macro	PLOXO Uslov,Nploxo
+MACRO PLOXO Uslov,Nploxo
 {
 if ~ Uslov eq
 	if  defined Uslov
@@ -790,7 +790,7 @@ end if
 	 end if
  }
 ;**********************EXITERROR***********??????********* Выход по ошибке
-	MACRO	EXITERROR	JADR
+MACRO EXITERROR	JADR
 	{
 @@:
 		mov	EBP,@b		;Фиксируем адрес останова
@@ -821,12 +821,12 @@ common  	match	 	P1 P2 ,arg
 \}
 }
 ;***********************************
-	MACRO	A_   arg			;*
+MACRO A_   arg			;*
 {
 	db	" "#`arg
 }
 ;***************************
-	MACRO	@   arg			;*
+MACRO @   arg			;*
 {
 	db	"@"
 	common  match  aru  ara,arg
@@ -882,7 +882,7 @@ common  	match	 	P1  =<=== P2 P3  =<=== P4 P5  =<=== P6 P7  =<=== P8 P9  =<=== P
 ;**********************************
 ; ПересылкаИзAвВ	[B],[A]
 ;	!	EAX <= [Number]
-	MACRO  B!A	dest,src		;B!A	любая пересылка
+MACRO B!A	dest,src		;B!A	любая пересылка
 {
   if dest src eqtype [0] [0]
     push    src
@@ -907,7 +907,7 @@ macro Tokenu [sequence]
 display 13,10
 }
 ;***********************15-----
-MACRO	Cdisplay	name
+macro Cdisplay	name
      {
 	display "NE: Current  "
 common	display `name # " is "
@@ -920,7 +920,7 @@ common	display `name # " is "
 ;			Подвал
 ;Записали!вСтруктуру	Имяструктуры+ESI  [[ИмяПоля+ESI]=Значение] [[ИмяПоля+ESI]++
 ;Записал!вСтруктуру	Имяструктуры:   [[ИмяПоля]++    [[ИмяПоля]=Значение] [ИмяПоля]++
-.. {	MACRO	Записали!вСтруктуру
+.. {	macro Записали!вСтруктуру
 {	common match pr1++pr2,arg
 \{		common match pr21++pr22,pr2
 	\\{		common match pr221++pr222,pr22

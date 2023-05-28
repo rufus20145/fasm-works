@@ -5,7 +5,7 @@
 ;***********************************************************
 
 ;*****************A?BPr ****************  дл¤ AL  и  BL
-	MACRO	N!CMPabPr  GA,GB,Pr,SBOY		;=,<  ,  >
+MACRO N!CMPabPr  GA,GB,Pr,SBOY		;=,<  ,  >
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -83,7 +83,7 @@ MEXI:								;продолжение после блока
 }
 ;*****************************************************************
 ;*****************N!CMPabJm****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
+MACRO N!CMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -170,7 +170,7 @@ MEXI:									;продолжение после блока
 }
 ;*****************************************************************
 ;*****************  N!CMPabPrJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
+MACRO N!CMPabPrJm  GA,GB,Pr,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -268,7 +268,7 @@ MEXI:									;продолжение после блока
 ;	~	N!CMPabPr	cl,dl,T1,T2,T3,SBOY
 
 ;+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-MACRO	СравнитьA_B_b_Дать_признак	arg
+macro СравнитьA_B_b_Дать_признак	arg
 {common  	match	OP1 =?  OP2  PUST==:Pr PUSTO==>Er,arg
 \{
 		if   ~\Er eq
@@ -287,7 +287,7 @@ MACRO	СравнитьA_B_b_Дать_признак	arg
 ;		N!CMPabJm	al,bl,ah,0		самый короткий вариант
 ;		N!CMPabJm	cl,dl,[Priznak],SBOY
 ;+++++++++++++++++++++++++++++++++++++++++++++++
-	MACRO	СучетомОтношений_A?B_Перейти	arg
+MACRO СучетомОтношений_A?B_Перейти	arg
 {common  	match	OP1 =?  OP2   ==Pr0 =>Pr1  =< Pr2 ==>Er,arg
 		\{\N!CMPabJm  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er
  		\}
@@ -328,7 +328,7 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 ;			ѕри—бое=>M!ISTEK
 
 ;*****************  N!CMPabPrJm  ****************  дл¤ AL  и  BL укороченный
-	MACRO	N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
+MACRO N!CMPabPRiJm  GA,GB,Pr,T1,T2,T3,P0,P1,P2,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  GA & GB  in  <al,bl>
 else
@@ -426,7 +426,7 @@ MEXI:									;продолжение после блока
 ;												ѕри—бое=>M!ISTEK
 ;********************************************************
 ;*****************************
-	MACRO	СучетомОтношенийb_ДатьПризнак_Перейти	arg
+MACRO СучетомОтношенийb_ДатьПризнак_Перейти	arg
 {common match PUSTO==:PRi OP1 =? OP2 PRi=:==P0 PRi=:==P1 PRi=:==P2 ==Pr0 =>Pr1 =< Pr2 ==>Er,arg
 		\{N!CMPabPRiJm  \OP1,\OP2,\PRi,\P0,\P1,\P2,\Pr0,\Pr1,\Pr2,\Er
  		\}
@@ -462,7 +462,7 @@ common  	match	OP1 =?  OP2 PRi=:==P0 PRi=:==P1 PRi=:==P2  == =>  =<  ==Er,arg			
 ;*******************************************************
 
 ;M!ISTEK:
-;	P!rAdrStop	=BalarirevNE	MACRO	C!abcPr	ERROR
+;	P!rAdrStop	=BalarirevNE	macro C!abcPr	ERROR
 if   ~\Pr0 eq
 		if   ~\Pr1 eq
 				if   ~\Pr2 eq

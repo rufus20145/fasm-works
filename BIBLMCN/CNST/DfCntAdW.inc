@@ -21,13 +21,13 @@
 ;++++++++++++++++++++++++++++++++++++++++
 ;******************************
 ; ОзначилMW Dlina:=5
-	MACRO	ОзначилW ARG
+MACRO ОзначилW ARG
 {
 common	match nm1 =:== nm2,ARG 					;
  	\{ \nm1 dw \nm2 \}
 }
 ;******************************
-MACRO	ОзначилW ARG
+macro ОзначилW ARG
 {
 common	match nm1 =:== nm1,ARG 					;
  	\{ dw \nm1 \}
@@ -36,7 +36,7 @@ common	match nm1 =:== nm1,ARG 					;
 ;************* ОзначилW *******
 
 
-MACRO	DfCntAdW  ARG
+macro DfCntAdW  ARG
 {  common	match nm1 == nm2,ARG 					;
  	\{ \nm1 dw \nm2 \}								;на выходе Tl=2
 					common	match  == nm2,ARG 		;
@@ -44,18 +44,18 @@ MACRO	DfCntAdW  ARG
 }
 ;**************************************
 ;******************2********************
-	MACRO	DfCntAdWM		[Spisok]	;Т1=2,Т2=4,Т3=7
+MACRO DfCntAdWM		[Spisok]	;Т1=2,Т2=4,Т3=7
  { forward
 	DfCntAdW	Spisok }
 ;**************************************
 ;******************3*********************
-	MACRO	ОпределитьКонстантыWПод_Именем	[Spisok]
+MACRO ОпределитьКонстантыWПод_Именем	[Spisok]
  {forward 	DfCntAdWM	Spisok}
 ;***************************************
 ;******************4********************
 ;Пример:		DfCntAdWGr	Groppa,Т1=2	Определить групповую константу
 ;++++++++++++++++++++++++++++++++++++++
-MACRO	DfCntAdWGr  Groppa,Spis
+macro DfCntAdWGr  Groppa,Spis
 {   common	match nn ( nnm == nma2 ),Groppa Spis 		; nma='PR'  nma1=f  nma2=0
  	\{\nn#_\#\nnm dw \nma2								;Groppa_T1=1
 	\}
@@ -65,20 +65,20 @@ MACRO	DfCntAdWGr  Groppa,Spis
 ;Назначение: Определить множество групповых констант
 ;Пример:		DfCntAdWGrM	Groppa,Т1=2,Т2=4,Т3=7
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	DfCntAdWGrM	SGroppa,[Spisok]
+MACRO DfCntAdWGrM	SGroppa,[Spisok]
  {forward 	DfCntAdWGr	SGroppa,Spisok}
 ;***************************************
 ;********************6*******************
 ;ОпределитьГрупповыеКонстантыWПод_Именем	SGroppa,[Spisok]
 ;
 ;****************************
-	MACRO	ОпределитьГрупповыеКонстантыWПод_Именем	SGroppa,[Spisok]
+MACRO ОпределитьГрупповыеКонстантыWПод_Именем	SGroppa,[Spisok]
  {forward 	DfCntAdWGr	SGroppa,Spisok}
 ;**************************** одно обращение из списка De!fRcnst1 PR,(Ala=21)
 ;*********************************************************************
 ;
 ;*********************************************************************
-MACRO	ЗадалСловоЦелое	Groppa,Spisok
+macro ЗадалСловоЦелое	Groppa,Spisok
 {
 common
 if ~Groppa eq
@@ -88,7 +88,7 @@ end if
  	Dfn_one_D_W_I	Spisok
 }
 ;*******		РУССКИЙ  ВАРИАНТ  ЗадатьДанныеБайтЦелое
-	MACRO	ЗадалиСловныеЦелые	Groppa,[Spisok]
+MACRO ЗадалиСловныеЦелые	Groppa,[Spisok]
 {
 common
 if ~Groppa eq
@@ -100,7 +100,7 @@ forward
 }
 ;+++++++
 ;*********	Английский вариант
-MACRO	D!ef_D_W_I		Groppa,[Spisok]
+macro D!ef_D_W_I		Groppa,[Spisok]
 {
 label	Groppa	word
  forward

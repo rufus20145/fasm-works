@@ -2,7 +2,7 @@
 ;	УстановитьДлинуСтроки	2*	'C:\FASM\BIBLMCN\lstrlen.inc'
 ;****************************************************************************************
 ;	Синтаксическая конструкция
-MACRO		УстановитьДлинуСтроки	arg
+macro 	УстановитьДлинуСтроки	arg
 {	common match	!adr==MAS  !len==CALC,arg
 	\{
 			l!strlen	MAS,CALC
@@ -17,7 +17,7 @@ MACRO		УстановитьДлинуСтроки	arg
 		\}
 }
 ;*********************************************
-MACRO	l!strlen	arg1, arg2	; D!LString
+macro l!strlen	arg1, arg2	; D!LString
 {
 if	~arg2	in 	<EAX>		;Если это не EAX то ничего не делаем
 				push	EAX

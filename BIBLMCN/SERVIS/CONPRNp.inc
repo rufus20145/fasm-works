@@ -1,6 +1,6 @@
 ;  �������� CONPRN
 ;****************************  3    ****************
-	macro	P!rTXTNUMBER	TEXT
+MACRO P!rTXTNUMBER	TEXT
 {	local	Adruk,spsim,Pref,DlPref,FGH,Writed,Hconsl_d
 @@:
 	���������������	EBP,EAX,ECX,EDX
@@ -58,7 +58,7 @@ FGH:
 	�������������������   EBP,EAX,ECX,EDX
 }
 ;**********************************  4     *******************
-	macro	P!rAdr	Hconsl,BufPrint,TEXT,adr		;TEXT="NE:A"
+MACRO P!rAdr	Hconsl,BufPrint,TEXT,adr		;TEXT="NE:A"
 {			local	FGH,Pref
 @@:
 	���������������   EBP,EAX,ECX,ESI,EDI

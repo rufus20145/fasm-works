@@ -1,7 +1,7 @@
 ;Формирование матрицы отношений, где значение отношения занимает 2 разряда
 ;	MTR
 ;
-	MACRO MTR	mmm,[ar]
+MACRO MTR	mmm,[ar]
 {common
 mmm:
 	FORWARD

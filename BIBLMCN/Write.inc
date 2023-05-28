@@ -13,7 +13,7 @@
 ;1  Записал		[FlDli]=cl         -- пример только байтовые регистры
 ; 				[FlDli]:+3	это	[FlDli]:=[FlDli]+3	inc [FlDli]  3 раза
 ;**************************************************************
-	MACRO	Записал	arg
+MACRO Записал	arg
 {
 repeat 1
 	common match dest == =$ src,arg			 ;Пустой оператор
@@ -92,7 +92,7 @@ END IF
 end repeat
 }
 ;******************************************
-	MACRO T!YPEM dest,src,adr			;T!YPEM Определение для [0] и [0]
+MACRO T!YPEM dest,src,adr			;T!YPEM Определение для [0] и [0]
 {	If adr#_r=1
 				PUSH	EAX
 				mov	AL,src
@@ -123,7 +123,7 @@ end repeat
 ;adr#_r=2	слово
 ;adr#_r=4	двойное слово
 ;++++++++++++++++++++++++++
-	MACRO T!YPE dest,src,adr
+MACRO T!YPE dest,src,adr
 {	If adr#_r=1
 				mov  byte dest,src
 		else
@@ -152,7 +152,7 @@ end repeat
 ;				([MEM_b]=[MEM_b])
 ;				([MEM1_d]=[MEM2_d])
 ;+++++++++++++++++++++++++++++++++++++++++++++
-MACRO	Записали arg
+macro Записали arg
 {
 		common match	=(T@1=)  =(T@2=),arg
 		\{	\arg1	equ	\`T@1#\`T@2
@@ -251,7 +251,7 @@ MACRO	Записали arg
 ;************************************* 3 ***********************************
 ;Считал из ОП				Считали	ECX=:[ADRMEM] 	ECX=:[ADRMEM]
 ;++++++++++++++++++++++++++++++
-	MACRO	Считал	arg
+MACRO Считал	arg
 {
 repeat 1
 	common match dest == =$ src,arg			 ;Пустой оператор
@@ -315,7 +315,7 @@ end repeat
 }
 ;************************************************
 ;************************************* 4 ***********************************
-	MACRO	Считали  arg
+MACRO Считали  arg
 {		common match	=(T@1=)  =(T@2=),arg
 		\{	\arg1	equ	\`T@1#\`T@2
 		   \MRT	equ	1
@@ -411,13 +411,13 @@ end repeat
 		\}
 }
 ;************************************* 5 ***********************************
-	MACRO	WriteOne	arg
+MACRO WriteOne	arg
 	{ Записал	arg	}
 ;************************************* 6 ***********************************
-	MACRO	WriteMany	arg
+MACRO WriteMany	arg
 	{ Записали	arg	}
 ;***********************	7  ****************
-	MACRO	WriteOne	ar
+MACRO WriteOne	ar
 {	local parsed
   parsed equ 0
 	common match =0 =( arg =),parsed	ar
@@ -432,7 +432,7 @@ common match =0  arg ,parsed	ar
 \}
 }
 ;********************************* 8
-	MACRO	ReadOne	ar
+MACRO ReadOne	ar
 {	local parsed
   parsed equ 0
 	common match =0 =( arg =),parsed	ar

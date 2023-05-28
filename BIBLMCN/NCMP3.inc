@@ -8,7 +8,7 @@
 ;11 C!MPabcKo  RGa,RGb,RGc,Ko
 ;12 J!mA?B  RGA,RGB,Pr0,Pr1,Pr2
 ;*МАКРОС Команды C!abcJmp RGa,RGb,RGc,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
-	MACRO	C!abcJmp  P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,Sboy
+MACRO C!abcJmp  P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,Sboy
 {
 ;*** 1
  УпряталиРегистры	EBX,ECX,EDX
@@ -84,7 +84,7 @@ Pmax:
 ;		ВостановилиРегистры	EAX,EBX,ECX.....
 ;		C!abcJm  RGa,RGb,RGc,Ko
 ;***************Установление отношения (A?B?C) с кодом ответа Ko  и переход по 13 направлениям******************
-	MACRO	C!abcKoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
+MACRO C!abcKoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
 {
 	ОпределитьКонстанты   PR@,(a=1),(e=2),(o=3),(x=4),(y=5),(i=6),(j=7),(h=9),(g=10),(k=11),(c=12),(s=13),(z=14)
 LOCAL	MISTEK,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,PRxj,PRch,RE@F,CMNE
@@ -425,7 +425,7 @@ PRch:						; A=C	\/	/\
 
 ;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
-	P!rAdrStop	=BalarirevNE	MACRO	C!MPabcJm	ERROR
+	P!rAdrStop	=BalarirevNE	macro C!MPabcJm	ERROR
 ;******************		Общий ВЫХОД
 ;************************************************************************************************************
 ;***********************************************
@@ -446,7 +446,7 @@ CMNE:
 					;include 'C:\FASM\BIBLMC\C!abcPr.inc'
 					;include 'C:\FASM\BIBLMC\P!rTxtAdr.inc'
 ;*********************************************************************
-	MACRO	C!abcPr  RGa,RGb,RGc,Ko		;Pr0,Pr1,Pr2	;=, >, <
+MACRO C!abcPr  RGa,RGb,RGc,Ko		;Pr0,Pr1,Pr2	;=, >, <
 {
 	ОпределитьКонстанты   PR@,(a=1),(e=2),(o=3),(x=4),(y=5),(i=6),(j=7),(h=9),(g=10),(k=11),(c=12),(s=13),(z=14)
 LOCAL	MISTEK,CMNEXI,CeBe010,CeBe101,AeBe011, AeBe100,maxCeAe001,minCeAe110,PRyi,PRxj,PRch,RE@F
@@ -762,7 +762,7 @@ PRch:						; A=C	\/	/\
 
 ;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
-	P!rAdrStop	=BalarirevNE	MACRO	C!abcPr	ERROR
+	P!rAdrStop	=BalarirevNE	macro C!abcPr	ERROR
 ;******************		Общий ВЫХОД
 ;************************************************************************************************************
 ;***********************************************
@@ -778,7 +778,7 @@ CMNEXI:				;нормальное завершение
 ;(rg=PRA=>P1) (rg=PRE=>P2)  (rg=PRO =>P3)   (rg=PRX =>P4)  (rg=PRY=>P5) (rg=PRI =>P6) (rg=PRJ=>P7) (rg=PRH=>P8)\
 ; (rg=PRG=>P9) (rg=PRK=>P10)   (rg=PRC=>P11)  (rg=PRS=>P12)   (rg=PRZ=>P13)
 ;*************************СучетомОтношений!Получить!Перейти ************************************************
-	MACRO СучетомОтношений!Получить!Перейти arg
+MACRO СучетомОтношений!Получить!Перейти arg
 {
 		Relation!Write!Go	arg
 }
@@ -798,7 +798,7 @@ CMNEXI:				;нормальное завершение
 }
 ;*********C!abcRoJmp ****Cравнение трех байт с минимальным кол-вом операций -  **********************
 ;***************Установление отношения (A?B?C) с кодом ответа Ko  и переход по 13 направлениям******************
-MACRO	C!abcRoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,PR1,PR2,PR3,PR4,PR5,PR6,PR7,PR8,PR9,PR10,PR11,PR12,	PR13
+macro C!abcRoJmp  RGa,RGb,RGc,Ko,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,PR1,PR2,PR3,PR4,PR5,PR6,PR7,PR8,PR9,PR10,PR11,PR12,	PR13
 {
 	;Print!afall   RGc
 	ОпределитьКонстанты   PR@,(a=1),(e=2),(o=3),(x=4),(y=5),(i=6),(j=7),(h=9),(g=10),(k=11),(c=12),(s=13),(z=14)
@@ -1139,7 +1139,7 @@ PRch:						; A=C	\/	/\
 ;***********************************
 ;***** ПЛОХАЯ СИТУАЦИЯ : ПЕЧАТЬ через P!rAdrStop   СООБЩЕНИЯ:  =BalarirevNE inusemacro C!MPabJm	macros
 MISTEK:
-	P!rAdrStop	=BalarirevNE	MACRO	C!MPabcJm	ERROR
+	P!rAdrStop	=BalarirevNE	macro C!MPabcJm	ERROR
 ;******************		Общий ВЫХОД
 ;************************************************************************************************************
 ;***********************************************
@@ -1150,7 +1150,7 @@ CMNE:				;результат сравнения
 ;*********************************
 }
 ;************************************************* C!MPabcKo********************
-	MACRO	C!MPabcKo  RGa,RGb,RGc,Ko		;Pr0,Pr1,Pr2	;=, >, <
+MACRO C!MPabcKo  RGa,RGb,RGc,Ko		;Pr0,Pr1,Pr2	;=, >, <
 {
 	ОпределитьКонстанты   PR,(a=1),(e=2),(o=3),(x=4),(y=5),(i=6),(j=7),(h=9),(g=10),(k=11),(c=12),(s=13),(z=14) ;подправить на маленькие
 	LOCAL	JmJ,JgJ,JeJ,OUTLOP
@@ -1418,7 +1418,7 @@ STTT3:
 	jmp	CMNEXI
 ;***********************
 MISTEK:
-	P!rAdrStop	=BalarirevNE	MACRO	C!MPabcJm	ERROR
+	P!rAdrStop	=BalarirevNE	macro C!MPabcJm	ERROR
 ;******************		Общий ВЫХОД
 CMNEXI:				;нормальное завершение
 
@@ -1439,7 +1439,7 @@ CMNEXI:				;нормальное завершение
 ;*************Cравнение двух байт с минимальным кол-вом операций    *******
 ; 1.J!mA?B  	RGA,RGB,Pr0,Pr1,Pr2		-Сравнения любых данных в пределах 32 рр и Переход
 ;*************************************************************
-		MACRO	J!mA?B  RGA,RGB,Pr0,Pr1,Pr2		;=, >, <
+		macro J!mA?B  RGA,RGB,Pr0,Pr1,Pr2		;=, >, <
 {
 	LOCAL	JmJ,JgJ,JeJ,OUTLOP4,OUTLOP3,OUTLOP2,OUTLOP1,NBloc2,NBloc1,NBloc0,MEXI
 		УпряталиРегистры	EAX,EBX,ECX
@@ -1481,7 +1481,7 @@ CMNEXI:				;нормальное завершение
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
 ;****************************************************************************************
-	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
+	P!rAdrStop	=BalarirevNE	inusemacro J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP1:
 	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
@@ -1523,7 +1523,7 @@ NBloc2:
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
 ;****************************************************************************************
-	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
+	P!rAdrStop	=BalarirevNE	inusemacro J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP2:
 	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
@@ -1565,7 +1565,7 @@ NBloc1:
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
 ;****************************************************************************************
-	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
+	P!rAdrStop	=BalarirevNE	inusemacro J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP3:
 	JNP	JgJ			;FP=0  A>B   [44]  по флагу  FP=1, который вырабат. если bl=0, т.е. A<B
@@ -1604,7 +1604,7 @@ NBloc0:
 		shr	AX,1		;14		if PF=0  		JNP  METKA
 	loop	@B			;15     [max 4*7=28-2     15+26=41]
 ;****************************************************************************************
-	P!rAdrStop	=BalarirevNE	inusemacro	J!mA?B	error 	;==>
+	P!rAdrStop	=BalarirevNE	inusemacro J!mA?B	error 	;==>
 ;****************************************************************************************
 OUTLOP4:
 				;and	BL,AL		;[43] либо bl  либо bh будет 0    JNP  METKA  ????

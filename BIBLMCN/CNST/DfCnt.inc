@@ -7,7 +7,7 @@
 ;6	ОпределилиГрупповыеКонстанты ~5
 ;******************1*********************
 ;		DfCnt	Т1=2
-MACRO	DfCnt  ARG
+macro DfCnt  ARG
 {  common	match nm1 == nm2,ARG 	;
  	\{ \nm1=\nm2
 	\M!ET_t0 	\nm1		;Тип литеральной константы 0
@@ -15,18 +15,18 @@ MACRO	DfCnt  ARG
 }
 ;**************************************
 ;******************2********************
-	MACRO	DfCntM		[Spisok]	;Т1=2,Т2=4,Т3=7
+MACRO DfCntM		[Spisok]	;Т1=2,Т2=4,Т3=7
  { forward
 	DfCnt	Spisok }
 ;**************************************
 ;******************3*********************
-	MACRO	ОпределилиКонстанты	[Spisok]
+MACRO ОпределилиКонстанты	[Spisok]
  {forward 	DfCnt	Spisok}
 ;***************************************
 ;******************4********************
 ;Пример:		DfCntGr	Groppa,Т1=2	Определить групповую константу
 ;++++++++++++++++++++++++++++++++++++++
-MACRO	DfCntGr  Groppa,Spis
+macro DfCntGr  Groppa,Spis
 {   common	match nn ( nnm == nma2 ),Groppa Spis 	; nma='PR'  nma1=f  nma2=0
  	\{\nn#_\#\nnm=\nma2								;Groppa_T1=1
 	\}
@@ -36,14 +36,14 @@ MACRO	DfCntGr  Groppa,Spis
 ;Назначение: Определить множество групповых констант
 ;Пример:		DfCntGrM	Groppa,Т1=2,Т2=4,Т3=7
 ;+++++++++++++++++++++++++++++++++++++++
-	MACRO	DfCntGrM	SGroppa,[Spisok]
+MACRO DfCntGrM	SGroppa,[Spisok]
  {forward 	DfCntGr	SGroppa,Spisok}
 ;***************************************
 ;********************6*******************
 ;ОпределилиГрупповыеКонстанты	SGroppa,[Spisok]
 ;
 ;****************************
-	MACRO	ОпределитьГрупповыеКонстанты	SGroppa,[Spisok]
+MACRO ОпределитьГрупповыеКонстанты	SGroppa,[Spisok]
  {forward 	DfCntGr	SGroppa,Spisok}
 ;**************************** одно обращение из списка De!fRcnst1 PR,(Ala=21)
 

@@ -2,7 +2,7 @@
 ;	2 SDfCntAdBM
 ;	3 ОтладочныеГрупповыеКонстантыBПод_Именем
 ;************************ Специальные константы для отладки
-	MACRO	SDfCntAdB  	SGroppa,Spis
+MACRO SDfCntAdB  	SGroppa,Spis
 {common
 		db	'b'						;тип данных байт
 match  nn (nnm == nm2),SGroppa Spis ; nma='PR'  nma1=f  nma2=0
@@ -15,13 +15,13 @@ match  nn (nnm == nm2),SGroppa Spis ; nma='PR'  nma1=f  nma2=0
  \}
 }
 ;************************************
-	MACRO	SDfCntAdBM	SGroppa,[Spisok]
+MACRO SDfCntAdBM	SGroppa,[Spisok]
  {forward
 	SDfCntAdB	SGroppa,Spisok
 }
 ;************************************
 ;*******************	Специальные отладочные константы для отладки
-	MACRO	ОтладочныеГрупповыеКонстантыBПод_Именем  	SGroppa,[Spisok]
+MACRO ОтладочныеГрупповыеКонстантыBПод_Именем  	SGroppa,[Spisok]
 {forward
 	SDfCntAdB	SGroppa,Spisok
 }

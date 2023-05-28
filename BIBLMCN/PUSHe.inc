@@ -14,7 +14,7 @@
 ;12    CrPOPe
 ;Находится                                'C:\FASM\BIBLMCN\PUSHREG\CrPUSHs.inc'
 ;******************************************************************
-MACRO    УпряталиРегистры     [string]        ;PUSH    string
+MACRO УпряталиРегистры     [string]        ;PUSH    string
 {   common
     forward
     PUSH string

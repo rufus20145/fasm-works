@@ -8,7 +8,7 @@
 				;Структурное преобразование ECX, PMem ==> PMemz, ECX длина
 				;invoke	MOM,EDI,ESI,ECX
 ;*********************************
-MACRO	E!ntryDll	[arg]			;ВХОДНЫЕ ПАРАМЕТРЫ С++(pMmz,pMm,RSize)
+macro E!ntryDll	[arg]			;ВХОДНЫЕ ПАРАМЕТРЫ С++(pMmz,pMm,RSize)
 	{		common					;EntryDLL
 		PUSH	EBP
 		mov	EBP,ESP
@@ -20,7 +20,7 @@ forward
 ;Обращение:E!xDllC	EAX,([EBP+16]=ECX),([EBP+12]=[pMm]), ([EBP+8]=[pMmz])  ;(EAX -значение - длина для C++)
 ;						               ExitDLL соответствует EntryDLL
 ;********************1*********************
-	MACRO	ExDll	[arg]
+MACRO ExDll	[arg]
 	{
 	forward
 	WriteOne	arg
@@ -32,7 +32,7 @@ common
 ;*******************2**  конец ExDLL	для procDLL   pMmz,pMm,FlSizpMmz
 ;Обращение:Ex!DllC	EAX,([EBP+16]=ECX),([EBP+12]=[pMm]), ([EBP+8]=[pMmz])  ;(EAX -значение - длина для C++)
 ;						               ExitDLL соответствует EntryDLL
-	MACRO	Ex!DllC	SRC,REAX,[arg]
+MACRO Ex!DllC	SRC,REAX,[arg]
 	{
 	forward
 	WriteOne	arg
@@ -45,7 +45,7 @@ common
 ;**********************************
 ;4	E!ntCDLL
 ;++++++++++++++
-	MACRO	E!ntCDLL	[arg]		;ВХОДНЫЕ ПАРАМЕТРЫ как С++(pMmz,pMm,RSize)
+MACRO E!ntCDLL	[arg]		;ВХОДНЫЕ ПАРАМЕТРЫ как С++(pMmz,pMm,RSize)
 	{		common					;EntryDLL
 		PUSH	EBP
 		mov	EBP,ESP
@@ -56,7 +56,7 @@ forward
 ;**********************************
 ;5	Ex!СDll
 ;++++++++++++++
-	MACRO	Ex!CDll	[arg]
+MACRO Ex!CDll	[arg]
 	{
 forward
 	WriteOne	arg

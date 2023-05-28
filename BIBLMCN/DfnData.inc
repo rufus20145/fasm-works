@@ -11,7 +11,7 @@
 ;	D!efM_D_W_I			11*
 ;	D!efM_D_D_I			12*
 ;******************************* 1
-	MACRO	D_fb	Ar,Br,tp,up,np		;t-тип u-верхний предел  n-нижний предел
+MACRO D_fb	Ar,Br,tp,up,np		;t-тип u-верхний предел  n-нижний предел
 {
 Ar	db	Br							;;имя = константа
 Ar#_r=1								;Размерность данных байт
@@ -32,7 +32,7 @@ Ar#_n=0
 			end if
 }
 ;*******************************  2
-	MACRO	D_fw	Ar,Br,tp,up,np
+MACRO D_fw	Ar,Br,tp,up,np
 {
 ;1.Длинное слово с атрибутами для отладки сначало имя,затем значение
 Ar	dw	Br							;имя = константа
@@ -59,7 +59,7 @@ Ar#_n=0								;n=0 min
 }
 ;*********************************
 ;*******************************  3
-	MACRO	D_fd	Ar,Br,tp,up,np
+MACRO D_fd	Ar,Br,tp,up,np
 {
 Ar	dd	Br							;имя = константа
 Ar#_r=4								;Размерность данных слово
@@ -81,7 +81,7 @@ Ar#_n=0
 }
 ;********************************  3   *
 ;****************************  4
-	MACRO 	Dfn_one_D_B_I	Spis	;Определение одиночной константы
+MACRO 	Dfn_one_D_B_I	Spis	;Определение одиночной константы
 {
 common
 	match  nnm == ,Spis 		; nma='PR'  nma1=f  nma2=0
@@ -217,7 +217,7 @@ common
 }
 ;******************************* 6
 ;******************************* 7
-	MACRO	ЗадалиБайтныеЦелые	Groppa,[Spisok]
+MACRO ЗадалиБайтныеЦелые	Groppa,[Spisok]
 {
 common
 if ~Groppa eq
@@ -230,7 +230,7 @@ forward
 ;******************************  7
 ;******************************  8
 ;*******		РУССКИЙ  ВАРИАНТ  ЗадатьСловныеЦелое
-	MACRO	ЗадалиСловныеЦелые	Groppa,[Spisok]
+MACRO ЗадалиСловныеЦелые	Groppa,[Spisok]
 {
 common
 if ~Groppa eq
@@ -244,7 +244,7 @@ forward
 ;********************************  8
 ;******************************  9
 ;*******		РУССКИЙ  ВАРИАНТ  ЗадатьСловныеЦелое
-	MACRO	ЗадалиДвухСловныеЦелые	Groppa,[Spisok]
+MACRO ЗадалиДвухСловныеЦелые	Groppa,[Spisok]
 {
 common
 if ~Groppa eq
@@ -258,7 +258,7 @@ forward
 ;********************************  9
 
 ;*********	Английский вариант		10
-MACRO	D!efM_D_B_I		Groppa,[Spisok]
+macro D!efM_D_B_I		Groppa,[Spisok]
 {
 label	Groppa	dword
  forward
@@ -266,7 +266,7 @@ label	Groppa	dword
 }
 ;********************************  10
 ;*********	Английский вариант		11
-MACRO	D!efM_D_W_I		Groppa,[Spisok]
+macro D!efM_D_W_I		Groppa,[Spisok]
 {
 label	Groppa	word
  forward
@@ -274,7 +274,7 @@ label	Groppa	word
 }
 ;********************************  11
 ;*********	Английский вариант		12
-MACRO	D!efM_D_D_I		Groppa,[Spisok]
+macro D!efM_D_D_I		Groppa,[Spisok]
 {
 label	Groppa	word
  forward

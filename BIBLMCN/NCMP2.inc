@@ -31,7 +31,7 @@
 ;4.C!MPabJm	al,bl,,,Pr2		if A=B then MEXI  v	if A<B 		 then MEXI
 ;5.C!MPabJm	al,bl,Pr0,,		if A=B then Pr0   v	if A<B v A<B then MEXI     равно не равно 0
 ;*****************  1 ******* N!CMPabJm****************  для AL  и  BL укороченный
-	MACRO	N!bCMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
+MACRO N!bCMPabJm  GA,GB,T1,T2,T3,SBOY		;=,>, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 		УпряталиРегистры	EAX,EBX
 			mov	BL,GB				;2-й операнд
@@ -121,7 +121,7 @@ MEXI:									;продолжение после блока
 ;		N!CMPabJm	al,bl,ah,0		самый короткий вариант
 ;		N!CMPabJm	cl,dl,[Priznak],SBOY
 ;+++++++++++++++++++++++++++++++++++++++++++++++
-	MACRO	СучетомОтношенийПерейти arg
+MACRO СучетомОтношенийПерейти arg
 {		Print!afall "No ERROR   here   all   Pr0 & Pr1 & Pr2"
 common  	match	OP1 =?  OP2   ==Pr0 =>Pr1  =< Pr2 PUS==>Er,arg
 		\{\N!bCMPabJm  \OP1,\OP2,\Pr0,\Pr1,\Pr2,\Er
@@ -157,7 +157,7 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
  		\}
  }
  ;******************** 3 **МАКРОС определения размерности операндов al v AX v EAX в пределах 32 рр
-	MACRO	C!MPABop  RGA,RGB,Pr0,Pr1,Pr2,MISTEK	;=, >, <
+MACRO C!MPABop  RGA,RGB,Pr0,Pr1,Pr2,MISTEK	;=, >, <
 {
 	 if  RGA   in  <al,ah,bl,bh,cl,ch,dl,dh>
 		N!bCMPabJm RGA,RGB,Pr0,Pr1,Pr2,MISTEK
@@ -195,7 +195,7 @@ common  	match	OP1 =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 ;
 ;************************** 4    **************************************СучетомОтношений_A?B_Перейти
 ;	common  	match	OP1=? OP2   ==Pr0 =>Pr1  =<Pr2 PUS==>Er,arg
-	MACRO	СучетомОтношений_RА?RВ_Перейти	arg
+MACRO СучетомОтношений_RА?RВ_Перейти	arg
 {Print!afall   arg
 common  	match	OP1 =? OP2   ==Pr0 =>Pr1  =<Pr2 PUS==>Er,arg
 		\{
@@ -227,7 +227,7 @@ common  	match	OP1  =?  OP2   == =>  =<  ==Er,arg			;0 0 0
 		;Print!afall	arg
  }
 ;***************** 5  xA?xBJmp****************  для AX  и  BX
-	MACRO	xA?xBJmp  GA,GB,Pr0,Pr1,Pr2			;=, >, <
+MACRO xA?xBJmp  GA,GB,Pr0,Pr1,Pr2			;=, >, <
 {	LOCAL	MEXI,JmJ,JgJ,JeJ,NBloc0,NBl
 	УпряталиРегистры	EAX,EBX
 		mov AX,GA						;1-й операнд
@@ -327,7 +327,7 @@ MEXI:									;продолжение после блока
 ;1.C!MPAB  	RGA,RGB,Pr0,Pr1,Pr2    Сравнения любых данных в пределах 32 рр и Переход
 ;2.		J!mA?B  RGA,RGB,Pr0,Pr1,Pr2,MISTEK
 ;**********       6        eA?eBJmp*****xA?xBJmp******N!bCMPabJm***************EDX  EAX***********************************
-		MACRO	eA?eBJmp  EGA,EGB,Pr0,Pr1,Pr2	;=, >, <
+		macro eA?eBJmp  EGA,EGB,Pr0,Pr1,Pr2	;=, >, <
 {
 	LOCAL	MEXI,JmJ,JgJ,JeJ
 	if  EGA  in  <EAX,EBX>
@@ -387,7 +387,7 @@ MEXI:											;продолжение после блока
 ;N!CMPabPr	DL,BL,[Priznak],   длинный вариант вызова,при сбое цикл Упрятываем EAX
 ;	35 команд но в среднем < 20 команд
 ;***************** 7 ******** **N!CMPabPr ****************  для AL  и  BL
-	MACRO	N!CMPabPr  GA,GB,Pr,SBOY		;= 0  > =1 < =2
+MACRO N!CMPabPr  GA,GB,Pr,SBOY		;= 0  > =1 < =2
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 	push	EBX
 if  ~GA  in  <al>
@@ -475,7 +475,7 @@ MEXI:								;продолжение после блока
 ;+++++++++++++++++++++++++++++++++++++ использует
 
 ;+++++++++++++++++++++++++   8    ++++++++++++++++++++++++++++++++
-MACRO	СравнитьA_B_Дать_признак	arg
+macro СравнитьA_B_Дать_признак	arg
 {	common  	match	OP1 =?  OP2  PUST==:Pr PUSTO==>Er,arg
 \{
 		if   ~\Er eq
@@ -491,7 +491,7 @@ MACRO	СравнитьA_B_Дать_признак	arg
 ;							$Признак_0_1_2_в=:dl\
 ;											$ПриСбое=>Sboy					;Sboy
 ;++++++++++++++++++++++++++++  9  +++++++++++++++++++++++++++++
-MACRO	Сравнил_Байты_Выдал		arg
+macro Сравнил_Байты_Выдал		arg
 {common  	match	OP1 =?  OP2  PUST==:Pr PUSTO==>Er,arg
 \{
 		if   ~\Er eq
@@ -504,7 +504,7 @@ MACRO	Сравнил_Байты_Выдал		arg
 ;*****************************************************************
 ;  			СРАВНЕНИЕ  СЛОВ
 ;***************** 10   N!CMPaxbxPr ****************  для AL  и  BL
-	MACRO	N!CMPaxbxPr  GA,GB,Pr,SBOY		;= 0  > =1 < =2
+MACRO N!CMPaxbxPr  GA,GB,Pr,SBOY		;= 0  > =1 < =2
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 if  ~GA  in  <AX>
 		PUSH	EAX
@@ -644,7 +644,7 @@ MEXI:								;продолжение после блока
 
 ;*******************************************************
 ;********************************* 11     ****************
-	MACRO	N!CMPABwPr  GBx,GCx,Pr	;= 0  > =1 < =2
+MACRO N!CMPABwPr  GBx,GCx,Pr	;= 0  > =1 < =2
 {	LOCAL	MEXI,JmJ,JgJ,JeJ
 			УпряталиРегистры	EBX,ECX
 if  ~GA  in  <BX>
@@ -724,7 +724,7 @@ MEXI:								;продолжение после блока
 ;+++++++++++++++++++++++++++++++++++++
 ;			Словное сравнение
 ;+++++++++++++++++++++++++++++  12    ++++++++++++++++++++++++++++
-MACRO	Сравнил_Слова_Выдал		arg
+macro Сравнил_Слова_Выдал		arg
 {	common  	match	OP1 =?  OP2  PUST==:Pr,arg
 \{
 		if   ~\Er eq

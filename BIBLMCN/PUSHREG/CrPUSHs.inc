@@ -3,14 +3,14 @@
 ;				Маркировочное упрятывание. ПРИМЕР:  PUSHе  EBP,1
 ;					           Появляется константа EBP1
 ;				Можно PUSHе  EBP,one  ==> константа EBPone
- 	MACRO	PUSHе	 RE,t_t1	;упрятывание регистра и формирование константы под именем REt_t1
+ 	macro PUSHе	 RE,t_t1	;упрятывание регистра и формирование константы под именем REt_t1
 {	push	RE
 RE#t_t1	equ	t_t1				;Появление константы
 }
 ;********************************************
 ;**********************8**POPe	 RE,t_t1
 ;				Маркировочное восстановление из стека
- 	MACRO	POPe	 RE,t_t1	;упрятали указатель на стек под именем t_t1
+ 	macro POPe	 RE,t_t1	;упрятали указатель на стек под именем t_t1
 {	if  ~ defined	RE#t_t1			;если упрятывание с такой маркировкой не проходило
 		display	"NE:  REG " # `RE
 		display	`t_t1 # " not push"		;регистр не упрятывался
@@ -22,7 +22,7 @@ RE#t_t1	equ	t_t1				;Появление константы
   }
 ;************************3********************
 ;**********************  9 *****Упрятывание с контролем во время трансляции**********
-MACRO	CrPUSHs	[string]			;A C D B   нумерация регистров
+macro CrPUSHs	[string]			;A C D B   нумерация регистров
      {
      common
 	forward
@@ -31,7 +31,7 @@ Rpushpop = Rpushpop+1  			;local label
     common					; label db string,0
 }
 ;***********************   10  ***************
-MACRO	CrPOPs	[string]
+macro CrPOPs	[string]
      {
      common
 	reverse
@@ -45,7 +45,7 @@ Rpushpop = Rpushpop-1
 ;				Можно CrPUSHе  one,EBP  ==> константа oneEBP
 ;SpisokSteka	equ
 ;**********************************************************
- 	MACRO	CrPUSHе	prefix,[RE]	;упрятывание регистра и формирование константы под именем REt_t1
+ 	macro CrPUSHе	prefix,[RE]	;упрятывание регистра и формирование константы под именем REt_t1
 {common
  	PutSpisok	SpisokSteka,prefix#RE	;Запись упрятывающая уникальное имя регистра
 forward
@@ -55,7 +55,7 @@ Rpushpop = Rpushpop+1  		;local label
 ;*****************************************
 ;********************** 12  **	CrPOPe	 t_t1,EAX  t_t1EAX
 ;				Маркировочное восстановление из стека
- 	MACRO	CrPOPe	prefix, [RE]			;упрятали указатель на стек под именем t_t1
+ 	macro CrPOPe	prefix, [RE]			;упрятали указатель на стек под именем t_t1
 {
 reverse
 	if  ~ defined	prefix#RE		;если упрятывание с такой маркировкой не проходило

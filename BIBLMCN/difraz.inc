@@ -246,7 +246,7 @@ macro СчиталПоРазмеру REG,Par
 	\}
 }
 ;************************************* 3 ***************************
-	macro	RRAZM	adr,REG
+MACRO RRAZM	adr,REG
 {
 If adr#_r=1 & REG eq EAX			;Одновременная проверка на размерностьи правой и левой частей
 		mov	al,[adr]
@@ -290,7 +290,7 @@ end if
 }
 ;************************************* 4 ***************************
 ;Пример ЗаписалПоРазмеру ar1,EBX
-	macro ЗаписалПоРазмеру Par,REG
+MACRO ЗаписалПоРазмеру Par,REG
 {	local pars
   pars equ 0
 	common  match =0	=[ adr =],pars	Par
@@ -312,7 +312,7 @@ end if
 }
 
 ;************************************* 5 ***************************
-	macro	WRAZM	adr,REG
+MACRO WRAZM	adr,REG
 {
 If adr#_r=1 & REG eq EAX
 		mov	[adr],al
@@ -415,7 +415,7 @@ macro Разность Param&
 ;З_ОПИСЬ	[Tek_UNI],[Tek_UNI],[T_ip],[N_topol],[L_UPRIM],[DlMnMxMxMn],[DlMxMxMnMn],\
 ;[L_b_f_max],[L_f_j_max],[MX_MX],[MN_MX],[Del_MAX],[L_a_d_min],[L_d_h_min],[MX_MN],[MN_MN],[Del_MIN]
 ;*****************************************************
-	MACRO З_ОПИСЬ	P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16
+MACRO З_ОПИСЬ	P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16
 {	local	NTek_AdO
 
 			mov		EAX,[Tek_AdO]
@@ -503,7 +503,7 @@ NTek_AdO:
 ;************************************** пара(Ai,Zi) Ai - адрес записи, Zi - записываемое значение
 ;
 ;************************************
-	MACRO	УчитываяОтношенияЗаписать	arg
+MACRO УчитываяОтношенияЗаписать	arg
 {  common match A =? B =? C =? F_1 ==> P1==Z1  F_2==> P2==Z2  F_3==> P3==Z3  F_4==> P4==Z4 F_5==>P5==Z5 F_6==>P6==Z6\
    F_7==>P7==Z7  F_8==>P8==Z8  F_9==>P9==Z9  F_10==>P10==Z10 F_11==>P11==Z11  F_12==> P12==Z12  F_13==> P13==Z13\
    F_14=>M_x F_15=>M_n	F16==>Sboy,arg
@@ -523,7 +523,7 @@ NTek_AdO:
 }
 ;************************************* 9 ***************************
 ;**************************************MX_MN MX_MN  	MX_MN MN_MN
-MACRO	UC!ABC_W  Ga,Gb,Gc,A1,Z1,A2,Z2,A3,Z3,A4,Z4,A5,Z5,A6,Z6,A7,Z7,A8,Z8,A9,Z9,A10,Z10,A11,Z11,A12,Z12,A13,Z13,PMX,PMN,Sboy
+macro UC!ABC_W  Ga,Gb,Gc,A1,Z1,A2,Z2,A3,Z3,A4,Z4,A5,Z5,A6,Z6,A7,Z7,A8,Z8,A9,Z9,A10,Z10,A11,Z11,A12,Z12,A13,Z13,PMX,PMN,Sboy
 {	local  HGK,CSZ,JmJ1,JgJ1,MEXI,MEXI1,JmJ2,JeJ2,JgJ2,JmJ3,JeJ3,JgJ3,\
 			SJMP,NBl,NBl1,P1,P2,P3,P4,P5,P6,P7,GEXI
 			;Print!Rfall   Z13
@@ -931,7 +931,7 @@ GEXI:						;Общий выход
 ;		ИзОтношенийПолучи	[Si0],[Sd],[Si]\
 ;				bl,[MX_MN],[MN_MN]			;[TpolMN]
 ;+++++++++++++++++++++++++++++++++++++++++
-	MACRO	ИзОтношенийПолучи	A,B,C,Tpol,MX,MN
+MACRO ИзОтношенийПолучи	A,B,C,Tpol,MX,MN
 	{
 			УчитываяОтношенияЗаписать\
 				[Sj0] ? [Sf] ? [Sj] ?\
@@ -955,7 +955,7 @@ GEXI:						;Общий выход
 ;*******************************
 ;	ИзДвухОдин	REZ=P1 ^ -4 v P2		"^" - сдвиг  "-" влево "+" вправо "v"  операция or
 ;Пример			ИзДвухПолучиОдин	[TpolMX],4,[TpolMN],[N_topol]
-	MACRO   ИзДвухПолучиОдин	P1,Sd,P2,REZ
+MACRO ИзДвухПолучиОдин	P1,Sd,P2,REZ
 {
 				mov		al,P1
 				shl		al,Sd
@@ -971,7 +971,7 @@ GEXI:						;Общий выход
 ; 	outMX_MN=MX_MN outMN_MN=MN_MN\
 ;	outНомерТопологии=N_topol
 ;*************************** Получение топологии
-			macro	ПолучениеТопологии	arg
+			macro ПолучениеТопологии	arg
 {	push	EAX
 	push	EBX
 common match P0$==Sj0 P01$==Sf P02$==Sj P03$==Si0 P04$==Sd P05$==Si\

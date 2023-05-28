@@ -11,7 +11,7 @@
 ;	8*	S!tosByte_From	ARG					'C:\FASM\BIBLMCN\LoaStoad\L!oaStoad.inc'
 ;	9*	ЗагрузитьСловаИзЯчеек				'C:\FASM\BIBLMCN\LoaStoad\L!oaStoad.inc'
 ;****************************************   5   ******
-	MACRO	R!eadRG_and_Stowd_0	[Rg1]
+MACRO R!eadRG_and_Stowd_0	[Rg1]
 {			push	EAX
 forward
     if  Rg1   in <al,bl,cl,dl,ah,bh,ch.dh>
@@ -56,7 +56,7 @@ common
     end if
 }
 ;*********************************************  6   ************
-	MACRO	ПрочитатьРег_и_Загрузить_0
+MACRO ПрочитатьРег_и_Загрузить_0
 {common match	==>Ad  ==>As,arg
 		\{
 		   \MRT	equ	1
@@ -109,7 +109,7 @@ common
 ;ЗагрузитьБайтыИзЯчеек
 ;S!tosByte_From
 ;*************************************************  7  ****
-	MACRO	ЗагрузитьБайтыИзЯчеек		arg
+MACRO ЗагрузитьБайтыИзЯчеек		arg
 {	push	EAX
 	common match	=^=-Ad  =^=-As,arg
 	\{					\arg1	equ	\`Ad#\`As
@@ -287,13 +287,13 @@ common match	=^=-Ad =^=-As =^=- Bs =^=-Cs =^=-Ks =^=-Hs  =^=-Ls =^=-Ms =^=-Ns,ar
 }
 ;************************************** конец		7
 ;**************************************             8
-	MACRO	S!tosByte_From	ARG
+MACRO S!tosByte_From	ARG
 {
 ЗагрузитьБайтыИзЯчеек ARG
 }
 ;************************************************    8
 ;************************************************    9
-	MACRO	ЗагрузитьСловаИзЯчеек		arg
+MACRO ЗагрузитьСловаИзЯчеек		arg
 {	push	EAX
 	common match	=^=-Ad  =^=-As,arg
 	\{					\arg1	equ	\`Ad#\`As
