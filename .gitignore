@@ -3,4 +3,6 @@
 !td32.exe
 
 *.tr2
+*.dll
+*.bin
 tdconfig.td2
