@@ -27,7 +27,7 @@ MACRO ВосстановилиРегистры [string]
 }
 ;*************************4***********
 ;********************** 5  ***************
-    MACRO УпрятатьРегистры [string]        ;PUSH    string
+MACRO УпрятатьРегистры [string]        ;PUSH    string
 {   common
     forward
     PUSH string
