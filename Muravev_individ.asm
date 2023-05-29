@@ -7,6 +7,9 @@ section '.import' import readable
 
 include '.\BIBLMCN\DLLALL.inc'
 
+section '.data' data readable writeable
+    arrPtr dd ?
+    arrSize dd ?
 
 section '.code' code readable writeable executable
 
@@ -15,8 +18,10 @@ proc dll_start
     cmp eax, TRUE
 endp
 
-proc myProc
-    cmp eax, 1
+proc myProc, arrPtr, arrSize
+    mov eax, [arrPtr]
+    mov ebx, [arrSize]
+
     ret
 endp
 
