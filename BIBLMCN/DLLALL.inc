@@ -52,4 +52,3 @@ import	UPAK,\
 	import	UNPAK,\
 			UNPAK,		'UNPAK',\
 			NHASCII,		'NHASCII'
-
