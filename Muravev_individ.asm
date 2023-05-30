@@ -28,13 +28,50 @@ endp
         mov byte [edx+esi+3], al
 ret
 
+
+@localMinFirstIter:
+        mov ax, word [edx+esi]
+        mov bx, word [edx+esi+4]
+        cmp ax, bx
+    jae @f
+        sub ax, 2
+        mov word [edx+esi], ax
+@@:
+ret
+
+
+@localMinUsualIter:
+        mov ax, word [edx+esi-4]
+        mov bx, word [edx+esi]
+        mov cx, word [edx+esi+4]
+        cmp bx, ax
+    jae @f
+        cmp bx, cx
+    jae @f
+        sub bx, 2
+        mov word [edx+esi], bx
+@@:
+ret
+
+
+@localMinLastIter:
+        mov bx, word [edx+esi-4]
+        mov cx, word [edx+esi]
+        cmp cx, bx
+    jae @f
+        sub cx, 2
+        mov word [edx+esi], cx
+@@:
+ret
+
+
 proc myProc, arrPtr, arrSize
         mov esi, 0
         mov edx, [arrPtr]
 
-@consolidateLoopStart:
+@loopStart:
         cmp esi, [arrSize]
-    je @consolidateLoopEnd
+    je @loopEnd
         mov eax, 0
         mov ebx, 0
         mov al, [edx+esi+2]
@@ -44,13 +81,33 @@ proc myProc, arrPtr, arrSize
         cmp bl, 0
     je @f
         call @consolidate ; два байта отсчётов != 0, т.е. уменьшаем амплитуду на 2 и кладем отсчёты в одну ячейку
+    jmp @loopNextIter
+
 @@:
         ; TODO делать проверку на два нуля?
-        add esi, 4
-    jmp @consolidateLoopStart
+        cmp esi, 0x0
+    jne @f
+        call @localMinFirstIter
+    jmp @loopNextIter
 
-@consolidateLoopEnd:
-        mov esi,4
+@@:
+        mov eax, [arrSize]
+        sub eax, 4
+        cmp esi, eax
+    jne @f
+        call @localMinLastIter
+    jmp @loopNextIter
+
+@@:
+        call @localMinUsualIter
+    jmp @loopNextIter
+
+@loopNextIter:
+        add esi, 4
+    jmp @loopStart
+
+@loopEnd:
+    jmp @success
 
 @success:
         mov eax, SUCCESS
