@@ -5,7 +5,7 @@ format PE CONSOLE
 entry @start
 
 section '.import' import readable
-library kernel, 'KERNEL32.DLL',\
+    library kernel, 'KERNEL32.DLL',\
         Muravev_individ, 'Muravev_individ.dll'
 
     import Muravev_individ, \
