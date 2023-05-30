@@ -1,4 +1,5 @@
 include '.\MZERO.inc'
+include '.\error_codes.inc'
 
 format PE CONSOLE
 entry @start
@@ -30,14 +31,19 @@ library kernel, 'KERNEL32.DLL',\
         GlobalAlloc,    'GlobalAlloc'
 
 section '.data' data readable writeable
-    fileName db '.\data\amplitudes\ST2.uni',0
+    fileName db '.\data\amplitudes\ST3.uni',0
     fileHandle dd ?
     source dd ?
     sourceSize dd ?
 
+    successMsg db 'Process successfully finished',0
+    amplOverflowMsg db 'Overflow of amplitudes number',0
+    zeroSamplesMsg db 'Sum of samples is zero',0
+    unknownErrorMsg db 'Unknown error',0
+
 section '.text' code readable executable
 
-; НАЧАЛО МАКРОСОВ
+; НАЧАЛО МАКРОСОВ =================================================================================
 
 macro openFileForRead srcFileName, out_fileHandle
 {
@@ -66,24 +72,53 @@ macro readDataFromFile fileHandle, sourcePtr, sourceSize
         cmp eax, 0
     je @error
 }
-; КОНЕЦ МАКРОСОВ
+
+macro printText res, size
+{
+        invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
+        cmp eax, INVALID_HANDLE_VALUE
+    je @error
+        invoke WriteConsole, eax, res, size, 0, 0
+}
+; КОНЕЦ МАКРОСОВ ==================================================================================
 
 @start:
-    ; Get the address of my_variable
-    ; lea eax, [my_variable]
+        ; Get the address of var
+        ; lea eax, [var]
 
-    mov eax, @myProc
+        mov eax, @myProc
 
-    openFileForRead fileName, fileHandle
-    allocMemoryForFileData fileHandle, source, sourceSize
-    readDataFromFile fileHandle, source, sourceSize
+        openFileForRead fileName, fileHandle
+        allocMemoryForFileData fileHandle, source, sourceSize
+        readDataFromFile fileHandle, source, sourceSize
 
 @myProc:
-    invoke myProc, [source], [sourceSize]
+        invoke myProc, [source], [sourceSize]
+        cmp eax, SUCCESS
+    jne @myErrorHandle
+        printText successMsg, 30
 
-    invoke ExitProcess, 0
+        invoke ExitProcess, 0
 
 
 @error:
-    invoke GetLastError
-    invoke ExitProcess, eax
+        invoke GetLastError
+        invoke ExitProcess, eax
+
+@myErrorHandle:
+        cmp eax, NUMBER_OF_SAMPLES_OVERFLOW
+    jne @f
+        printText amplOverflowMsg, 30
+    jmp @myErrEnd
+@@:
+;         cmp eax, ZERO_SAMPLES
+;     jne @f
+;         printText zeroSamplesMsg, 23
+;     jmp @myErrEnd
+; @@:
+; при появлении новых кодов ошибок добавлять тут сравнение с ними, jne @f, вывод сообщения и прыжок на выход и метку @@: после
+        printText unknownErrorMsg, 14
+    jmp @myErrEnd
+
+@myErrEnd:
+        invoke ExitProcess, eax

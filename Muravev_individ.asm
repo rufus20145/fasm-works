@@ -1,4 +1,5 @@
 include '.\MZERO.inc'
+include '.\error_codes.inc'
 
 format PE DLL
 entry dll_start
@@ -14,15 +15,54 @@ section '.data' data readable writeable
 section '.code' code readable writeable executable
 
 proc dll_start
-    mov eax, TRUE
-    cmp eax, TRUE
+        mov eax, TRUE
+        cmp eax, TRUE
+        ret
 endp
 
-proc myProc, arrPtr, arrSize
-    mov eax, [arrPtr]
-    mov ebx, [arrSize]
+@consolidate:
+        add al, bl
+    jb @amplOverflow ; флаговый регистр CF = 1, т.е. случилось переполнение
+        sub byte [edx+esi], 2
+        mov byte [edx+esi+2], 0
+        mov byte [edx+esi+3], al
+ret
 
-    ret
+proc myProc, arrPtr, arrSize
+        mov esi, 0
+        mov edx, [arrPtr]
+
+@consolidateLoopStart:
+        cmp esi, [arrSize]
+    je @consolidateLoopEnd
+        mov eax, 0
+        mov ebx, 0
+        mov al, [edx+esi+2]
+        mov bl, [edx+esi+3]
+        cmp al, 0
+    je @f
+        cmp bl, 0
+    je @f
+        call @consolidate ; два байта отсчётов != 0, т.е. уменьшаем амплитуду на 2 и кладем отсчёты в одну ячейку
+@@:
+        ; TODO делать проверку на два нуля?
+        add esi, 4
+    jmp @consolidateLoopStart
+
+@consolidateLoopEnd:
+        mov esi,4
+
+@success:
+        mov eax, SUCCESS
+ret
+
+@zeroSamples:
+        mov eax, ZERO_SAMPLES
+ret
+
+@amplOverflow:
+        mov eax, NUMBER_OF_SAMPLES_OVERFLOW
+ret
 endp
 
 section '.edata' export data readable
@@ -32,6 +72,6 @@ section '.edata' export data readable
 
 section '.reloc' data readable discardable fixups
 
-  if $=$$
-    dd 0,8              ; if there are no fixups, generate dummy entry
-  end if
+    if $=$$
+        dd 0,8
+    end if
