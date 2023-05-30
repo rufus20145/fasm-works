@@ -1,4 +1,4 @@
-; ПРИМЕР ИМПОРТА ВРУЧНУЮ
+; ПРИМЕР ИМПОРТА DLL ВРУЧНУЮ
 format PE DLL
 
 entry DllEntryPoint

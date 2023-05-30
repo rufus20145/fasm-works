@@ -31,8 +31,10 @@ library kernel, 'KERNEL32.DLL',\
         GlobalAlloc,    'GlobalAlloc'
 
 section '.data' data readable writeable
-    fileName db '.\data\amplitudes\ST3.uni',0
+    inputFileName db '.\data\amplitudes\ST3.uni',0
+    resultFilename db '.\data\amplitudes\res.uni',0
     fileHandle dd ?
+    resultFileHandle dd ?
     source dd ?
     sourceSize dd ?
 
@@ -73,6 +75,17 @@ macro readDataFromFile fileHandle, sourcePtr, sourceSize
     je @error
 }
 
+macro writeDataToFile resultFilename, resultFileHandle, resArrPtr, resSize {
+        invoke CreateFile, resultFilename, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL
+        cmp eax, INVALID_HANDLE_VALUE
+    je @error
+        mov [resultFileHandle], eax
+        invoke WriteFile, [resultFileHandle], [resArrPtr], [resSize] , 0, 0
+        cmp eax, 0
+    je @error
+        invoke CloseHandle, [resultFileHandle]
+}
+
 macro printText res, size
 {
         invoke GetStdHandle, STD_OUTPUT_HANDLE ; STD_OUTPUT возвращается в eax
@@ -83,20 +96,17 @@ macro printText res, size
 ; КОНЕЦ МАКРОСОВ ==================================================================================
 
 @start:
-        ; Get the address of var
-        ; lea eax, [var]
-
-        mov eax, @myProc
-
-        openFileForRead fileName, fileHandle
+        openFileForRead inputFileName, fileHandle
         allocMemoryForFileData fileHandle, source, sourceSize
         readDataFromFile fileHandle, source, sourceSize
+        invoke CloseHandle, fileHandle
 
-@myProc:
         invoke myProc, [source], [sourceSize]
         cmp eax, SUCCESS
     jne @myErrorHandle
         printText successMsg, 30
+
+        writeDataToFile resultFilename, resultFileHandle, source, sourceSize
 
         invoke ExitProcess, 0
 
@@ -104,6 +114,7 @@ macro printText res, size
 @error:
         invoke GetLastError
         invoke ExitProcess, eax
+
 
 @myErrorHandle:
         cmp eax, NUMBER_OF_SAMPLES_OVERFLOW
