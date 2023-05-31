@@ -70,8 +70,10 @@ proc myProc, arrPtr, arrSize
         mov edx, [arrPtr]
 
 @loopStart:
+        add [arrSize], 4
         cmp esi, [arrSize]
-    je @loopEnd
+    ja @loopEnd
+        sub [arrSize], 4
         mov eax, 0
         mov ebx, 0
         mov al, [edx+esi+2]
