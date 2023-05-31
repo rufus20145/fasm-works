@@ -64,8 +64,17 @@ ret
 @@:
 ret
 
+; процедура удаляет повторения в заданном массиве,
+; а также уменьшает значения локальных минимумов
+; передаваемые аргументы:
+; arrPtr - dword указатель на исходный массив (он будет изменен)
+; arrSize - размер передаваемого массива
+;
+; результат работы будет передан через регистр eax
+; 0x0 - успешное завершение
+; 0x1 - переполнение количества отсчётов (при сложении двух значений)
 
-proc myProc, arrPtr, arrSize
+proc processArray, arrPtr, arrSize
         mov esi, 0
         mov edx, [arrPtr]
 
@@ -127,7 +136,7 @@ endp
 section '.edata' export data readable
 
     export 'Muravev_individ.DLL',\
-        myProc, 'myProc'
+        processArray, 'processArray'
 
 section '.reloc' data readable discardable fixups
 

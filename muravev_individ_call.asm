@@ -9,7 +9,7 @@ section '.import' import readable
         Muravev_individ, 'Muravev_individ.dll'
 
     import Muravev_individ, \
-        myProc, 'myProc'
+        processArray, 'processArray'
     import	kernel,\
         ExitProcess,	'ExitProcess',\
         GetStdHandle,	'GetStdHandle',\
@@ -31,7 +31,7 @@ section '.import' import readable
         GlobalAlloc,    'GlobalAlloc'
 
 section '.data' data readable writeable
-    inputFileName db '.\data\amplitudes\ST3.uni',0
+    inputFileName db '.\data\amplitudes\ST1.uni',0
     resultFilename db '.\data\amplitudes\res.uni',0
     fileHandle dd ?
     resultFileHandle dd ?
@@ -101,7 +101,7 @@ macro printText res, size
         readDataFromFile fileHandle, source, sourceSize
         invoke CloseHandle, fileHandle
 
-        invoke myProc, [source], [sourceSize]
+        invoke processArray, [source], [sourceSize]
         cmp eax, SUCCESS
     jne @myErrorHandle
         printText successMsg, 30
