@@ -1,16 +1,30 @@
-include '.\MZERO.inc'
-include '.\error_codes.inc'
+include 'INCLUDE\WIN32A.INC'
+
+include 'error_codes.inc'
 
 format PE DLL
 entry dll_start
 
 section '.import' import readable
 
-include '.\BIBLMCN\DLLALL.inc'
+include 'BIBLMCN\DLLALL.inc'
 
 section '.data' data readable writeable
     arrPtr dd ?
     arrSize dd ?
+
+; НАЧАЛО МАКРОСОВ =================================================================================
+MACRO УпрятатьРегистры [string]
+{   common
+    forward
+    PUSH string
+}
+MACRO ВостановитьРегистры [string]
+{   common
+    reverse
+    POP string
+}
+; КОНЕЦ МАКРОСОВ ==================================================================================
 
 section '.code' code readable writeable executable
 
@@ -20,115 +34,74 @@ proc dll_start
         ret
 endp
 
-@consolidate:
-        add al, bl
-    jb @amplOverflow ; флаговый регистр CF = 1, т.е. случилось переполнение
-        sub byte [edx+esi], 2
-        mov byte [edx+esi+2], 0
-        mov byte [edx+esi+3], al
-ret
-
-
-@localMinFirstIter:
-        mov ax, word [edx+esi]
-        mov bx, word [edx+esi+4]
-        cmp ax, bx
-    jae @f
-        sub ax, 2
-        mov word [edx+esi], ax
-@@:
-ret
-
-
-@localMinUsualIter:
-        mov ax, word [edx+esi-4]
-        mov bx, word [edx+esi]
-        mov cx, word [edx+esi+4]
-        cmp bx, ax
-    jae @f
-        cmp bx, cx
-    jae @f
-        sub bx, 2
-        mov word [edx+esi], bx
-@@:
-ret
-
-
-@localMinLastIter:
-        mov bx, word [edx+esi-4]
-        mov cx, word [edx+esi]
-        cmp cx, bx
-    jae @f
-        sub cx, 2
-        mov word [edx+esi], cx
-@@:
-ret
-
 ; процедура удаляет повторения в заданном массиве,
-; а также уменьшает значения локальных минимумов
+; а также соответствующе уменьшает значения локальных минимумов
+; для этого определяется максимальное количество повторов амплитуды ("длина полочки"),
+; а затем вычитается найденное значение из всех значений амплитуд локальных минимумов и 
+; и переносится количество отсчётов из ячейки "горизонтали" в ячейку "наклонной"
 ; передаваемые аргументы:
 ; arrPtr - dword указатель на исходный массив (он будет изменен)
 ; arrSize - размер передаваемого массива
 ;
-; результат работы будет передан через регистр eax
+; результат работы или код ошибки будет передан через регистр eax
 ; 0x0 - успешное завершение
 ; 0x1 - переполнение количества отсчётов (при сложении двух значений)
 
 proc processArray, arrPtr, arrSize
+        УпрятатьРегистры eax, ebx, ecx, edx, esi
         mov esi, 0
         mov edx, [arrPtr]
+        mov eax, 0
+        mov ecx, 0
 
-@loopStart:
+@findMinLoopStart:
+        ; более правильная проверка за выход за границы массива, чем просто равенство
         add [arrSize], 4
         cmp esi, [arrSize]
-    ja @loopEnd
+    ja @findMinLoopEnd
         sub [arrSize], 4
+        mov al, [edx+esi+2]
+        cmp al, cl
+    jbe @findMinLoopNextIter
+        mov cl, al
+@findMinLoopNextIter:
+        add esi, 8
+    jmp @findMinLoopStart
+
+@findMinLoopEnd:
+        xor esi, esi
+
+@processLoopStart:
+
+        ; более правильная проверка за выход за границы массива, чем просто равенство
+        add [arrSize], 4
+        cmp esi, [arrSize]
+    ja @processLoopEnd
+        sub [arrSize], 4
+
+        sub [edx+esi], cl
         mov eax, 0
         mov ebx, 0
         mov al, [edx+esi+2]
-        mov bl, [edx+esi+3]
         cmp al, 0
     je @f
-        cmp bl, 0
-    je @f
-        call @consolidate ; два байта отсчётов != 0, т.е. уменьшаем амплитуду на 2 и кладем отсчёты в одну ячейку
-    jmp @loopNextIter
-
+        add al, [edx+esi+3]
+    jb @amplOverflow ; флаговый регистр CF = 1, т.е. случилось переполнение
+        mov byte [edx+esi+2], 0
+        mov byte [edx+esi+3], al
 @@:
-        ; TODO делать проверку на два нуля?
-        cmp esi, 0x0
-    jne @f
-        call @localMinFirstIter
-    jmp @loopNextIter
+        add esi, 8
+    jmp @processLoopStart
 
-@@:
-        mov eax, [arrSize]
-        sub eax, 4
-        cmp esi, eax
-    jne @f
-        call @localMinLastIter
-    jmp @loopNextIter
-
-@@:
-        call @localMinUsualIter
-    jmp @loopNextIter
-
-@loopNextIter:
-        add esi, 4
-    jmp @loopStart
-
-@loopEnd:
-    jmp @success
+@processLoopEnd:
 
 @success:
+        ВостановитьРегистры eax, ebx, ecx, edx, esi
         mov eax, SUCCESS
 ret
 
-@zeroSamples:
-        mov eax, ZERO_SAMPLES
-ret
-
 @amplOverflow:
+        ВостановитьРегистры eax, ebx, ecx, edx, esi
         mov eax, NUMBER_OF_SAMPLES_OVERFLOW
 ret
 endp
