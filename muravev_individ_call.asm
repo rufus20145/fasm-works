@@ -6,29 +6,21 @@ entry @start
 
 section '.import' import readable
     library kernel, 'KERNEL32.DLL',\
-        Muravev_individ, 'Muravev_individ.dll'
+        my_dll, 'Muravev_individ.dll'
 
-    import Muravev_individ, \
+    import my_dll, \
         processArray, 'processArray'
     import	kernel,\
         ExitProcess,	'ExitProcess',\
         GetStdHandle,	'GetStdHandle',\
         GetLastError,	'GetLastError',\
-        WriteConsole,	'WriteConsoleA',\
-        ReadConsole,	'ReadConsoleA',\
-        GetCurrentDirectory,	'GetCurrentDirectoryA',\
+        WriteConsole,	'WriteConsole',\
         CloseHandle,	'CloseHandle',\
-        CreateFile,		'CreateFileA',\
-        CreateDirectory,'CreateDirectoryA',\
+        CreateFile,		'CreateFile',\
         ReadFile,		'ReadFile',\
         WriteFile,		'WriteFile',\
-        GetCommandLine,	'GetCommandLineA',\
-        VirtualFree,	'VirtualFree',\
         VirtualAlloc,	'VirtualAlloc',\
-        SetFilePointer,	'SetFilePointer',\
-        SetCurrentDirectory,'SetCurrentDirectoryA',\
-        GetFileSize,	'GetFileSize',\
-        GlobalAlloc,    'GlobalAlloc'
+        GetFileSize,	'GetFileSize'
 
 section '.data' data readable writeable
     inputFileName db '.\data\amplitudes\ST1.uni',0
@@ -99,7 +91,7 @@ macro printText res, size
         openFileForRead inputFileName, fileHandle
         allocMemoryForFileData fileHandle, source, sourceSize
         readDataFromFile fileHandle, source, sourceSize
-        invoke CloseHandle, fileHandle
+        ; invoke CloseHandle, fileHandle ; выбрасывает непоятное исклюние, TODO потом разобраться
 
         invoke processArray, [source], [sourceSize]
         cmp eax, SUCCESS
