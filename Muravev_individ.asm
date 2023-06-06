@@ -3,7 +3,7 @@ include 'INCLUDE\WIN32A.INC'
 include 'error_codes.inc'
 
 format PE DLL
-entry dll_start
+entry DllEntryPoint
 
 section '.import' import readable
 
@@ -28,7 +28,7 @@ MACRO ВостановитьРегистры [string]
 
 section '.code' code readable writeable executable
 
-proc dll_start
+proc DllEntryPoint
         mov eax, TRUE
         cmp eax, TRUE
         ret
@@ -84,12 +84,12 @@ proc processArray, arrPtr, arrSize
         mov ebx, 0
         mov al, [edx+esi+2]
         cmp al, 0
-    je @f
+    je @processLoopNextIter
         add al, [edx+esi+3]
     jb @amplOverflow ; флаговый регистр CF = 1, т.е. случилось переполнение
         mov byte [edx+esi+2], 0
         mov byte [edx+esi+3], al
-@@:
+@processLoopNextIter:
         add esi, 8
     jmp @processLoopStart
 

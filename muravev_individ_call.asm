@@ -14,9 +14,9 @@ section '.import' import readable
         ExitProcess,	'ExitProcess',\
         GetStdHandle,	'GetStdHandle',\
         GetLastError,	'GetLastError',\
-        WriteConsole,	'WriteConsole',\
+        WriteConsole,	'WriteConsoleA',\
         CloseHandle,	'CloseHandle',\
-        CreateFile,		'CreateFile',\
+        CreateFile,		'CreateFileA',\
         ReadFile,		'ReadFile',\
         WriteFile,		'WriteFile',\
         VirtualAlloc,	'VirtualAlloc',\
