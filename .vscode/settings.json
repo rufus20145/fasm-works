@@ -1,0 +1,39 @@
+{
+    "editor.renderWhitespace": "trailing",
+    "editor.renderControlCharacters": true,
+    // выкл подсветку русских букв как ошибок
+    "editor.unicodeHighlight.allowedLocales": {
+        "ru": true
+    },
+    "[plaintext]": {
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "editor.wordWrap": "on",
+        "editor.wordWrapColumn": 120,
+        "editor.wrappingIndent": "indent",
+    },
+    "[fasm-intel-x86_64]": {
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "editor.wordWrapColumn": 140,
+    },
+    "cSpell.words": [
+        "брейкпоинт"
+    ],
+    "filewatcher.commands": [
+        {
+            // "autoClearConsole" : true,
+            "match": "\\.asm*",
+            // "cmd": "echo '${file} file content Changed'",
+            "cmd": "C:\\projects\\fasm-works\\FASM.EXE ${file}",
+            "event": "onFileChange",
+            "isClearStatusBar": true,
+            "statusBarDelay": 4
+        }
+    ],
+    "editor.suggest.showColors": true,
+    "color-highlight.enable": false,
+    "workbench.editorAssociations": {
+        "*.uni": "hexEditor.hexedit"
+    },
+}
